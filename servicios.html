@@ -1,0 +1,3139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jotady — Catálogo de Servicios</title>
+<link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wdth,wght@125,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple-deep: #2E0854;
+  --purple-vivid: #8B00FF;
+  --purple-soft: #F0E6FF;
+  --white: #FAFAFA;
+  --gray-light: #E8E8E8;
+  --gray-mid: #636363;
+  --bg: #0E0118;
+  --card-bg: rgba(255,255,255,0.04);
+  --card-border: rgba(139,0,255,0.18);
+  --green: #25D366;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.bg-glow {
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(139,0,255,0.15) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 36px 0 0;
+  position: relative;
+  z-index: 10;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(139,0,255,0.2);
+}
+
+.logo-wrap { display: flex; align-items: center; gap: 14px; }
+
+.logo-icon {
+  width: 42px; height: 42px;
+  filter: drop-shadow(0 0 8px rgba(139,0,255,0.6));
+}
+
+.logo-text {
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  color: var(--white);
+}
+
+.header-tag {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 99px;
+}
+
+/* HERO */
+.hero {
+  padding: 64px 0 48px;
+  position: relative;
+  overflow: visible;
+}
+
+.hero-blob-wrap {
+  position: fixed;
+  top: -80px;
+  right: -100px;
+  width: 700px;
+  height: 700px;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.hero-blob {
+  width: 100%;
+  height: 100%;
+  filter: blur(40px);
+}
+
+.parallax-layer {
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+}
+
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--purple-vivid);
+  margin-bottom: 20px;
+}
+
+.hero-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 1px;
+  background: var(--purple-vivid);
+}
+
+.hero h1 {
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(36px, 6vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  max-width: 700px;
+  font-variation-settings: 'wdth' 125, 'wght' 800;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(139,0,255,0.7);
+}
+
+.hero-sub {
+  margin-top: 20px;
+  color: var(--gray-mid);
+  font-size: 15px;
+  max-width: 420px;
+  font-weight: 300;
+}
+
+.behance-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 28px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  padding: 11px 20px;
+  border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  transition: color 0.22s, border-color 0.22s, background 0.22s, box-shadow 0.22s;
+  letter-spacing: 0.02em;
+}
+
+.behance-btn:hover {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* STATS */
+.stats-bar {
+  display: flex;
+  margin: 48px 0;
+  border: 1px solid rgba(139,0,255,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+}
+
+.stat {
+  flex: 1;
+  padding: 24px 28px;
+  border-right: 1px solid rgba(139,0,255,0.15);
+}
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--purple-vivid);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--gray-mid);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* ── SERVICIOS ESTRELLA ── */
+.featured-section {
+  margin: 56px 0 64px;
+}
+
+.featured-header {
+  margin-bottom: 28px;
+}
+
+.featured-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--purple-vivid);
+  margin-bottom: 10px;
+}
+
+.featured-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 1px;
+  background: var(--purple-vivid);
+}
+
+.featured-sub {
+  font-size: 14px;
+  color: var(--gray-mid);
+  font-weight: 300;
+  max-width: 480px;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.featured-card {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-opacity: 0.3;
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 16px;
+  padding: 28px 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s;
+}
+
+.featured-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.7;
+}
+
+.featured-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -40px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.featured-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px color-mix(in srgb, var(--accent) 20%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.featured-num {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.featured-body { flex: 1; }
+
+.featured-name {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.25;
+  margin-bottom: 10px;
+  font-variation-settings: 'wdth' 125, 'wght' 700;
+}
+
+.featured-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  font-weight: 300;
+}
+
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.featured-price {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 50%, transparent);
+  font-variation-settings: 'wdth' 125, 'wght' 800;
+}
+
+.featured-time {
+  font-size: 11px;
+  color: var(--gray-mid);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.featured-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.featured-cart-btn {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: color-mix(in srgb, var(--accent) 80%, white);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.featured-cart-btn:hover {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  border-color: var(--accent);
+  color: var(--white);
+}
+
+.featured-cart-btn.in-cart {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
+  color: var(--white);
+}
+
+.featured-explore-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  color: var(--gray-mid);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.featured-explore-btn:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .featured-grid { grid-template-columns: 1fr; }
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(139,0,255,0.15);
+  border-radius: 10px;
+  padding: 4px;
+  width: fit-content;
+  margin-bottom: 40px;
+}
+
+.tab-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--gray-mid);
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.tab-btn.active {
+  background: var(--purple-vivid);
+  color: white;
+  box-shadow: 0 0 20px rgba(139,0,255,0.4);
+}
+
+.tab-btn:hover:not(.active) {
+  color: var(--white);
+  background: rgba(139,0,255,0.1);
+}
+
+/* CONTROLS */
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search-wrap { position: relative; flex: 0 0 260px; }
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-mid);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(139,0,255,0.2);
+  border-radius: 8px;
+  padding: 11px 14px 11px 40px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input::placeholder { color: var(--gray-mid); }
+.search-input:focus {
+  border-color: var(--purple-vivid);
+  box-shadow: 0 0 0 3px rgba(139,0,255,0.12);
+}
+
+/* SORT */
+.sort-select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(139,0,255,0.2);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23636363' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.sort-select option { background: #1a002e; color: var(--white); }
+
+/* FILTERS */
+.filters-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.filter-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: var(--gray-mid);
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+}
+
+.filter-btn:hover { border-color: rgba(139,0,255,0.4); color: var(--white); }
+.filter-btn.active { background: var(--purple-deep); border-color: var(--purple-vivid); color: var(--white); }
+
+.clear-filters-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 99px;
+  border: 1px dashed rgba(255,100,100,0.35);
+  background: transparent;
+  color: rgba(255,120,120,0.7);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: none;
+}
+
+.clear-filters-btn.visible { display: inline-flex; align-items: center; gap: 5px; }
+.clear-filters-btn:hover { border-color: rgba(255,100,100,0.7); color: #ff8888; }
+
+/* RESULTS INFO */
+.results-info {
+  font-size: 12px;
+  color: var(--gray-mid);
+  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.results-info span { color: var(--purple-vivid); font-weight: 600; }
+
+/* GRID */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+  padding-bottom: 120px;
+}
+
+/* CARD */
+.service-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: all 0.22s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,0,255,0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.22s;
+}
+
+.service-card:hover {
+  background: rgba(139,0,255,0.07);
+  border-color: rgba(139,0,255,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(139,0,255,0.12);
+}
+
+.service-card:hover::before { opacity: 1; }
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.card-name {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.35;
+  flex: 1;
+}
+
+.card-price {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--purple-vivid);
+  white-space: nowrap;
+  text-shadow: 0 0 12px rgba(139,0,255,0.4);
+  flex-shrink: 0;
+}
+
+.card-price.evaluation {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gray-mid);
+  text-shadow: none;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-badge {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.card-time {
+  font-size: 11px;
+  color: var(--gray-mid);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* GASTOS ASOCIADOS */
+.card-costs {
+  font-size: 11px;
+  color: rgba(255,210,100,0.65);
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  background: rgba(255,180,0,0.06);
+  border: 1px solid rgba(255,180,0,0.12);
+  border-radius: 6px;
+  padding: 6px 9px;
+  line-height: 1.4;
+}
+
+.card-costs svg { flex-shrink: 0; margin-top: 1px; }
+
+.card-costs-label {
+  font-weight: 600;
+  color: rgba(255,210,100,0.8);
+}
+
+/* CARD ACTIONS */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.btn-add-cart {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(139,0,255,0.35);
+  background: rgba(139,0,255,0.08);
+  color: rgba(180,100,255,0.9);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: 0.02em;
+}
+
+.btn-add-cart:hover {
+  background: rgba(139,0,255,0.2);
+  border-color: var(--purple-vivid);
+  color: var(--white);
+}
+
+.btn-add-cart.in-cart {
+  background: rgba(139,0,255,0.25);
+  border-color: var(--purple-vivid);
+  color: var(--white);
+}
+
+.btn-brief {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: var(--gray-mid);
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-brief:hover {
+  border-color: rgba(255,255,255,0.3);
+  color: var(--white);
+}
+
+/* BADGE COLORS */
+.cat-identidad { background: rgba(139,0,255,0.15); color: #CF88FF; border: 1px solid rgba(139,0,255,0.25); }
+.cat-rrss { background: rgba(255,0,180,0.12); color: #FF77D4; border: 1px solid rgba(255,0,180,0.2); }
+.cat-merchandising { background: rgba(255,140,0,0.12); color: #FFAA55; border: 1px solid rgba(255,140,0,0.2); }
+.cat-editorial { background: rgba(0,180,255,0.12); color: #66CCFF; border: 1px solid rgba(0,180,255,0.2); }
+.cat-papeleria { background: rgba(0,200,120,0.12); color: #55DDaa; border: 1px solid rgba(0,200,120,0.2); }
+.cat-graficos { background: rgba(255,220,0,0.12); color: #FFDD55; border: 1px solid rgba(255,220,0,0.2); }
+.cat-simbologia { background: rgba(100,255,200,0.12); color: #77FFD4; border: 1px solid rgba(100,255,200,0.2); }
+.cat-senaletica { background: rgba(255,80,80,0.12); color: #FF9999; border: 1px solid rgba(255,80,80,0.2); }
+.cat-exteriores { background: rgba(180,100,255,0.12); color: #CC99FF; border: 1px solid rgba(180,100,255,0.2); }
+
+/* ── STICKY CART BAR ── */
+.sticky-cart {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  z-index: 1000;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sticky-cart.visible { transform: translateX(-50%) translateY(0); }
+
+.sticky-cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--purple-vivid);
+  color: white;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 14px 24px;
+  border-radius: 99px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 32px rgba(139,0,255,0.5), 0 8px 24px rgba(0,0,0,0.4);
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.sticky-cart-btn:hover {
+  background: #9f1fff;
+  box-shadow: 0 0 48px rgba(139,0,255,0.7), 0 8px 32px rgba(0,0,0,0.5);
+  transform: scale(1.03);
+}
+
+.cart-count-badge {
+  background: white;
+  color: var(--purple-vivid);
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── CART PANEL ── */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.cart-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  max-width: 100vw;
+  height: 100vh;
+  background: #130024;
+  border-left: 1px solid rgba(139,0,255,0.25);
+  z-index: 2001;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -16px 0 64px rgba(0,0,0,0.5);
+}
+
+.cart-panel.open { transform: translateX(0); }
+
+.cart-header {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(139,0,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.cart-title {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+}
+
+.cart-close {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: var(--gray-mid);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.15s;
+  line-height: 1;
+}
+
+.cart-close:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+/* NAME FIELD */
+.cart-name-section {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(139,0,255,0.1);
+  flex-shrink: 0;
+}
+
+.cart-name-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.cart-name-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(139,0,255,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cart-name-input::placeholder { color: var(--gray-mid); }
+.cart-name-input:focus {
+  border-color: var(--purple-vivid);
+  box-shadow: 0 0 0 3px rgba(139,0,255,0.12);
+}
+
+/* CART ITEMS */
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px;
+}
+
+.cart-items::-webkit-scrollbar { width: 4px; }
+.cart-items::-webkit-scrollbar-track { background: transparent; }
+.cart-items::-webkit-scrollbar-thumb { background: rgba(139,0,255,0.3); border-radius: 2px; }
+
+.cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--gray-mid);
+  text-align: center;
+  gap: 12px;
+}
+
+.cart-empty-icon { font-size: 36px; opacity: 0.4; }
+.cart-empty p { font-size: 14px; }
+
+.cart-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.cart-item:last-child { border-bottom: none; }
+
+.cart-item-info { flex: 1; }
+
+.cart-item-name {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+
+.cart-item-cat {
+  font-size: 11px;
+  color: var(--gray-mid);
+}
+
+.cart-item-price {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple-vivid);
+  white-space: nowrap;
+}
+
+.cart-item-remove {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  color: var(--gray-mid);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cart-item-remove:hover { border-color: rgba(255,80,80,0.5); color: #ff8888; background: rgba(255,80,80,0.08); }
+
+/* CART FOOTER */
+.cart-footer {
+  padding: 20px 24px 28px;
+  border-top: 1px solid rgba(139,0,255,0.15);
+  flex-shrink: 0;
+}
+
+.cart-note {
+  font-size: 11px;
+  color: var(--gray-mid);
+  margin-bottom: 16px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.cart-send-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(37,211,102,0.12);
+  border: 1px solid rgba(37,211,102,0.4);
+  color: var(--green);
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 15px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.22s;
+  box-shadow: 0 0 20px rgba(37,211,102,0.1);
+  letter-spacing: 0.03em;
+}
+
+.cart-send-btn:hover {
+  background: rgba(37,211,102,0.2);
+  border-color: rgba(37,211,102,0.8);
+  box-shadow: 0 0 32px rgba(37,211,102,0.25);
+  transform: translateY(-1px);
+  color: #4FFFAA;
+}
+
+.cart-clear {
+  width: 100%;
+  margin-top: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--gray-mid);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  transition: color 0.15s;
+  text-align: center;
+}
+
+.cart-clear:hover { color: #ff8888; }
+
+/* ── PACKS ── */
+#tab-packs { display: none; padding-bottom: 80px; }
+
+.packs-section { margin-bottom: 56px; }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(139,0,255,0.15);
+}
+
+.section-title {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--gray-mid);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.packs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.pack-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.22s;
+  position: relative;
+}
+
+.pack-card:hover {
+  border-color: rgba(139,0,255,0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(139,0,255,0.15);
+}
+
+.pack-card.featured {
+  border-color: rgba(139,0,255,0.5);
+  background: rgba(139,0,255,0.06);
+}
+
+.pack-card.featured::before {
+  content: '★ MÁS POPULAR';
+  position: absolute;
+  top: 12px; right: 12px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--purple-vivid);
+  background: rgba(139,0,255,0.15);
+  padding: 3px 8px;
+  border-radius: 99px;
+  border: 1px solid rgba(139,0,255,0.3);
+}
+
+.pack-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.pack-name {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.pack-time {
+  font-size: 12px;
+  color: var(--gray-mid);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pack-pricing {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pack-original { font-size: 14px; color: var(--gray-mid); text-decoration: line-through; }
+
+.pack-discount {
+  font-size: 11px;
+  font-weight: 600;
+  color: #55DDaa;
+  background: rgba(0,200,120,0.12);
+  border: 1px solid rgba(0,200,120,0.2);
+  padding: 2px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+}
+
+.pack-promo {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--purple-vivid);
+  text-shadow: 0 0 16px rgba(139,0,255,0.4);
+  width: 100%;
+}
+
+.pack-includes { padding: 16px 24px 24px; }
+
+.pack-includes-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  margin-bottom: 12px;
+}
+
+.pack-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 7px;
+  line-height: 1.4;
+}
+
+.pack-item::before {
+  content: '→';
+  color: var(--purple-vivid);
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+.pack-note {
+  font-size: 11px;
+  color: rgba(255,210,100,0.6);
+  background: rgba(255,180,0,0.06);
+  border: 1px solid rgba(255,180,0,0.12);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 12px 24px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.pack-custom {
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed rgba(139,0,255,0.25);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pack-custom .pack-name { color: var(--gray-mid); }
+
+.discount-tiers { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+
+.discount-tier {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(139,0,255,0.06);
+  border-radius: 7px;
+  border: 1px solid rgba(139,0,255,0.12);
+  font-size: 13px;
+}
+
+.discount-tier-label { color: rgba(255,255,255,0.6); }
+.discount-tier-value { color: #55DDaa; font-weight: 600; font-family: 'Encode Sans', sans-serif; }
+
+/* PACK CART BUTTON */
+.pack-cart-btn {
+  width: calc(100% - 48px);
+  margin: 0 24px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(139,0,255,0.35);
+  background: rgba(139,0,255,0.08);
+  color: rgba(180,100,255,0.9);
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.02em;
+}
+
+.pack-cart-btn:hover {
+  background: rgba(139,0,255,0.2);
+  border-color: var(--purple-vivid);
+  color: var(--white);
+}
+
+.pack-cart-btn.in-cart {
+  background: rgba(139,0,255,0.25);
+  border-color: var(--purple-vivid);
+  color: var(--white);
+}
+
+/* FOOTER */
+footer {
+  margin-top: 80px;
+  padding: 48px 0 60px;
+  border-top: 1px solid rgba(139,0,255,0.15);
+  text-align: center;
+}
+
+.footer-cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(37,211,102,0.1);
+  border: 1px solid rgba(37,211,102,0.35);
+  color: var(--green);
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 14px 28px;
+  border-radius: 99px;
+  text-decoration: none;
+  transition: all 0.22s;
+  box-shadow: 0 0 20px rgba(37,211,102,0.1);
+}
+
+.whatsapp-btn:hover {
+  background: rgba(37,211,102,0.18);
+  border-color: rgba(37,211,102,0.7);
+  box-shadow: 0 0 32px rgba(37,211,102,0.25), 0 4px 16px rgba(37,211,102,0.15);
+  transform: translateY(-2px);
+  color: #4FFFAA;
+}
+
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--gray-mid);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.social-link:hover {
+  color: var(--white);
+  border-color: rgba(139,0,255,0.4);
+  background: rgba(139,0,255,0.08);
+}
+
+.social-sep { color: rgba(255,255,255,0.15); font-size: 18px; }
+
+.footer-note {
+  font-size: 12px;
+  color: var(--gray-mid);
+  line-height: 1.8;
+}
+
+.footer-note strong { color: rgba(255,255,255,0.5); }
+
+/* SECTION DIVIDER */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,0,255,0.3), transparent);
+  margin: 48px 0;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray-mid);
+}
+
+.empty-state .big { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; margin-bottom: 16px; }
+
+.empty-clear-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 20px;
+  border-radius: 99px;
+  border: 1px solid rgba(139,0,255,0.35);
+  background: rgba(139,0,255,0.08);
+  color: rgba(180,100,255,0.9);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.empty-clear-btn:hover { background: rgba(139,0,255,0.18); color: white; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  .stats-bar { flex-direction: column; }
+  .stat { border-right: none; border-bottom: 1px solid rgba(139,0,255,0.15); }
+  .stat:last-child { border-bottom: none; }
+  .controls { flex-direction: column; }
+  .search-wrap { flex: 1 1 100%; }
+  .hero h1 { font-size: 36px; }
+  .header-tag { display: none; }
+  .packs-grid { grid-template-columns: 1fr; }
+  .cart-panel { width: 100vw; }
+}
+/* BACK TO HOME */
+.back-to-home {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 99px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: color .2s, border-color .2s, background .2s;
+}
+
+.back-to-home:hover {
+  color: var(--white);
+  border-color: rgba(139,0,255,0.4);
+  background: rgba(139,0,255,0.08);
+}
+
+/* PAGE TRANSITION */
+.page-overlay-cat {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 8000;
+  transform: scaleY(0);
+  transform-origin: top;
+  pointer-events: none;
+}
+
+.page-overlay-cat.in {
+  animation: catOverlayIn .5s cubic-bezier(0.76,0,0.24,1) forwards;
+}
+
+@keyframes catOverlayIn {
+  from { transform: scaleY(0); transform-origin: top; }
+  to { transform: scaleY(1); transform-origin: top; }
+}
+
+/* ── PARTICLE CANVAS ── */
+#particleCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+/* ── SCROLL REVEAL ── */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── HERO REVEAL ── */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  line-height: 1.08;
+  padding-bottom: 0.06em;
+}
+
+.reveal-inner {
+  display: block;
+  transform: translateY(110%);
+  opacity: 0;
+  animation: revealUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.reveal-line:nth-child(1) .reveal-inner { animation-delay: 0.2s; }
+.reveal-line:nth-child(2) .reveal-inner { animation-delay: 0.38s; }
+
+@keyframes revealUp {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: revealFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--reveal-delay, 0.3s);
+}
+
+@keyframes revealFade {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MAGNETIC BUTTONS ── */
+.magnetic-btn {
+  position: relative;
+  display: inline-flex;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+}
+
+/* ── CUSTOM CURSOR ── */
+* { cursor: none !important; }
+
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 8px; height: 8px;
+  background: var(--purple-vivid);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.15s ease, height 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 0 10px rgba(139,0,255,0.8);
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(139,0,255,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.2s ease;
+}
+
+.cursor-dot.hovering {
+  width: 6px; height: 6px;
+  background: white;
+  box-shadow: 0 0 14px rgba(255,255,255,0.9);
+}
+
+.cursor-ring.hovering {
+  width: 52px; height: 52px;
+  border-color: rgba(139,0,255,0.9);
+  background: rgba(139,0,255,0.06);
+}
+
+.cursor-dot.clicking {
+  width: 4px; height: 4px;
+  opacity: 0.6;
+}
+
+.cursor-ring.clicking {
+  width: 28px; height: 28px;
+}
+
+.cursor-dot.on-card {
+  width: 6px; height: 6px;
+  background: #CF88FF;
+}
+
+.cursor-ring.on-card {
+  width: 64px; height: 64px;
+  border-color: rgba(207,136,255,0.6);
+  background: rgba(139,0,255,0.04);
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<canvas id="particleCanvas"></canvas>
+
+<!-- BLOB SVG MORFANTE -->
+<div class="hero-blob-wrap" id="heroBlobWrap">
+  <svg class="hero-blob" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="blobGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#8B00FF" stop-opacity="0.35"/>
+        <stop offset="50%" stop-color="#5500CC" stop-opacity="0.15"/>
+        <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <path fill="url(#blobGrad)">
+      <animate attributeName="d" dur="12s" repeatCount="indefinite"
+        values="
+          M300,80 C420,80 520,160 520,300 C520,440 420,520 300,520 C180,520 80,440 80,300 C80,160 180,80 300,80 Z;
+          M300,60 C440,90 540,180 510,320 C480,460 380,540 240,510 C100,480 60,360 90,220 C120,80 200,40 300,60 Z;
+          M300,90 C410,70 530,170 530,310 C530,450 410,530 280,520 C150,510 70,400 80,270 C90,140 190,110 300,90 Z;
+          M300,80 C420,80 520,160 520,300 C520,440 420,520 300,520 C180,520 80,440 80,300 C80,160 180,80 300,80 Z
+        "
+        calcMode="spline"
+        keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1"
+      />
+    </path>
+    <path fill="none" stroke="#8B00FF" stroke-opacity="0.25" stroke-width="1.5">
+      <animate attributeName="d" dur="12s" repeatCount="indefinite"
+        values="
+          M300,80 C420,80 520,160 520,300 C520,440 420,520 300,520 C180,520 80,440 80,300 C80,160 180,80 300,80 Z;
+          M300,60 C440,90 540,180 510,320 C480,460 380,540 240,510 C100,480 60,360 90,220 C120,80 200,40 300,60 Z;
+          M300,90 C410,70 530,170 530,310 C530,450 410,530 280,520 C150,510 70,400 80,270 C90,140 190,110 300,90 Z;
+          M300,80 C420,80 520,160 520,300 C520,440 420,520 300,520 C180,520 80,440 80,300 C80,160 180,80 300,80 Z
+        "
+        calcMode="spline"
+        keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1"
+      />
+    </path>
+  </svg>
+</div>
+
+<!-- CART OVERLAY + PANEL -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <div class="cart-title">Tu solicitud</div>
+    <button class="cart-close" onclick="closeCart()">×</button>
+  </div>
+  <div class="cart-name-section">
+    <label class="cart-name-label" for="clientName">Tu nombre</label>
+    <input type="text" id="clientName" class="cart-name-input" placeholder="¿Cómo te llamo?">
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <p>Aún no has agregado servicios.<br>Explora el catálogo y presiona<br>"Agregar a solicitud".</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <p class="cart-note">Te enviaré una cotización personalizada en base a los servicios seleccionados. Los precios mostrados son referenciales.</p>
+    <button class="cart-send-btn" onclick="sendWhatsApp()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar solicitud por WhatsApp
+    </button>
+    <button class="cart-clear" onclick="clearCart()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      Vaciar solicitud
+    </button>
+  </div>
+</div>
+
+<!-- STICKY CART -->
+<div class="sticky-cart" id="stickyCart">
+  <button class="sticky-cart-btn" onclick="openCart()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+    Ver solicitud
+    <span class="cart-count-badge" id="cartBadge">0</span>
+  </button>
+</div>
+
+<div class="container">
+
+  <header>
+    <div class="header-inner">
+      <div class="logo-wrap">
+        <svg class="logo-icon" viewBox="0 0 48.84 48.84" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#8B00FF" fill-rule="evenodd" d="M27.72,6.6v14.52h7.26c1.99,0,3.81-.82,5.13-2.14h.01c1.31-1.31,2.12-3.12,2.12-5.13v-7.26h-14.52ZM27.72,27.72v7.26c0,3.81-1.56,7.28-4.07,9.79-2.51,2.51-5.98,4.07-9.79,4.07H0V13.68s0-.18,0-.18H0s0-.18,0-.18v-.18s0,0,0,0v-.18s.01,0,.01,0v-.17s.01,0,.01,0l.02-.17H.06s.02-.17.02-.17H.07s.02-.17.02-.17H.09s.02-.17.02-.17H.11s.02-.17.02-.17h0s.03-.17.03-.17H.16s.03-.17.03-.17H.19s.03-.17.03-.17h0s.03-.17.03-.17h0s.03-.17.03-.17h0s.03-.17.03-.17h0s.04-.17.04-.17h0s.04-.17.04-.17h0s.04-.17.04-.17h0s.04-.16.04-.16h0s.05-.16.05-.16h0s.05-.16.05-.16h0s.05-.16.05-.16h0s.05-.16.05-.16h0s.05-.16.05-.16h0s.05-.16.05-.16h0s.06-.16.06-.16h0s.06-.16.06-.16h0s.06-.16.06-.16h0s.06-.16.06-.16h0s.06-.16.06-.16h0s.06-.15.06-.15h0s.07-.15.07-.15h0s.07-.15.07-.15h0s.07-.16.07-.16l.07-.15h0s.07-.15.07-.15h0s.07-.15.07-.15h0s.08-.15.08-.15h0s.08-.15.08-.15h0s.08-.15.08-.15h0s.08-.14.08-.14h0s.08-.14.08-.14h0s.08-.14.08-.14h0s.09-.14.09-.14h0s.09-.14.09-.14h0s.09-.14.09-.14h0s.09-.14.09-.14h0s.09-.14.09-.14h0s.09-.14.09-.14h0s.1-.13.1-.13h0s.1-.13.1-.13h0s.1-.13.1-.13h0s.1-.14.1-.14l.1-.12h0s.1-.13.1-.13h0s.1-.13.1-.13h0s.1-.13.1-.13h0s.11-.12.11-.12h0s.11-.12.11-.12h0s.12-.13.12-.13l.11-.11h0s.11-.12.11-.12h0s0-.01,0-.01c1.84-1.84,4.2-3.17,6.84-3.75h0c.17-.04.34-.07.51-.1l.16-.03h0s.16-.03.16-.03h0s.16-.03.16-.03h0s.17-.02.17-.02h0s.17-.02.17-.02h0s.17-.02.17-.02h0s.17-.02.17-.02h0s.17-.01.17-.01h0s.17-.01.17-.01h0s.17,0,.17,0h0s.17,0,.17,0h0s.18,0,.18,0h0s.18,0,.18,0h0s.18,0,.18,0h0s34.98,0,34.98,0v13.86c0,3.8-1.56,7.27-4.08,9.78h0c-2.51,2.52-5.98,4.08-9.79,4.08h-7.26ZM6.6,21.12h14.52V6.6h-7.36c-1.96.03-3.74.84-5.03,2.13h-.01c-1.31,1.31-2.12,3.12-2.12,5.13v7.26ZM21.12,27.72H6.6v14.52h7.26c1.99,0,3.81-.82,5.13-2.13,1.32-1.32,2.14-3.13,2.14-5.13v-7.26Z"/>
+        </svg>
+        <div class="logo-text">JOTADY</div>
+      </div>
+      <div class="header-tag">Catálogo de Servicios</div>
+      <a href="index.html" class="back-to-home" id="backHome">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Inicio
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <!-- Capas de parallax -->
+    <div class="parallax-layer" data-speed="0.15" id="plLabel">
+      <div class="hero-label reveal-item" style="--reveal-delay: 0.1s">Diseño gráfico profesional</div>
+    </div>
+    <div class="parallax-layer" data-speed="0.25" id="plTitle">
+      <h1 class="hero-title-reveal">
+        <span class="reveal-line"><span class="reveal-inner">Soluciones visuales</span></span>
+        <span class="reveal-line"><span class="reveal-inner">para cada <em>necesidad</em></span></span>
+      </h1>
+    </div>
+    <div class="parallax-layer" data-speed="0.35" id="plSub">
+      <p class="hero-sub reveal-item" style="--reveal-delay: 0.55s">Desde identidad de marca hasta contenido digital. Todos los precios expresados en dólares (USD).</p>
+      <a href="https://www.behance.net/gallery/228837681/Portfolio-20XX" target="_blank" class="behance-btn reveal-item magnetic-btn" style="--reveal-delay: 0.75s">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7.803 5.731c.589 0 1.119.051 1.605.155.483.103.895.273 1.243.508.343.235.611.547.804.939.187.387.28.854.28 1.396 0 .597-.134 1.096-.405 1.488-.271.392-.66.716-1.167.966.707.201 1.24.571 1.598 1.105.355.53.535 1.17.535 1.909 0 .592-.112 1.103-.335 1.534-.223.43-.535.784-.935 1.06-.4.278-.863.482-1.393.614-.527.13-1.082.197-1.66.197H1V5.731h6.803zm-.351 4.972c.48 0 .878-.114 1.192-.345.312-.228.463-.588.463-1.079 0-.27-.05-.494-.147-.668-.099-.174-.232-.312-.399-.415-.165-.099-.355-.169-.57-.208-.214-.04-.435-.057-.665-.057H3.887v2.772h3.565zm.2 5.239c.264 0 .516-.025.752-.076.238-.05.443-.136.618-.259.175-.12.315-.283.421-.489.105-.205.156-.462.156-.77 0-.614-.173-1.052-.521-1.311-.346-.259-.807-.388-1.38-.388H3.887v3.293h3.765zm9.623-.627c.368.358.9.538 1.592.538.496 0 .924-.124 1.28-.375.354-.249.571-.514.651-.793h2.56c-.41 1.271-1.038 2.178-1.886 2.722-.846.543-1.869.815-3.066.815-.832 0-1.581-.134-2.249-.4-.666-.267-1.235-.643-1.704-1.128-.471-.485-.834-1.066-1.088-1.741-.256-.674-.383-1.413-.383-2.213 0-.775.131-1.497.392-2.165.261-.667.632-1.242 1.112-1.728.48-.484 1.048-.863 1.706-1.136.657-.272 1.383-.408 2.175-.408.887 0 1.67.17 2.347.511.677.341 1.236.804 1.676 1.388.44.585.758 1.261.953 2.029.196.767.262 1.58.198 2.438h-7.618c.043.839.312 1.485.682 1.846zm2.767-5.151c-.295-.323-.778-.486-1.45-.486-.421 0-.771.071-1.051.211-.278.14-.503.314-.676.523-.171.208-.292.43-.36.665-.069.234-.11.452-.123.651h4.336c-.118-.703-.381-1.241-.676-1.564zm-3.737-4.976h5.454v1.32h-5.454v-1.32z"/></svg>
+        Ver mi portafolio en Behance
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num" data-count="134">0</div><div class="stat-label">Servicios disponibles</div></div>
+    <div class="stat"><div class="stat-num" data-count="10">0</div><div class="stat-label">Categorías</div></div>
+    <div class="stat"><div class="stat-num" data-count="9">0</div><div class="stat-label">Packs con descuento</div></div>
+    <div class="stat"><div class="stat-num" data-count="48" data-suffix="%">0%</div><div class="stat-label">Descuento máximo en packs</div></div>
+  </div>
+
+  <!-- SERVICIOS ESTRELLA -->
+  <section class="featured-section">
+    <div class="featured-header">
+      <div class="featured-label">Especialidades</div>
+      <p class="featured-sub">Los servicios donde más entrego valor. Punto de partida para la mayoría de mis clientes.</p>
+    </div>
+    <div class="featured-grid">
+
+      <!-- IDENTIDAD VISUAL -->
+      <div class="featured-card" style="--accent: #8B00FF; --accent-soft: rgba(139,0,255,0.12);">
+        <div class="featured-num">01</div>
+        <div class="featured-body">
+          <div class="featured-name">Diseño de identidad visual</div>
+          <div class="featured-desc">Sistema visual completo para tu marca: logo, paleta, tipografía y normas de uso. La base sobre la que se construye todo.</div>
+          <div class="featured-meta">
+            <span class="featured-price">&gt;$200</span>
+            <span class="featured-time"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>1–2 semanas</span>
+          </div>
+        </div>
+        <div class="featured-actions">
+          <button class="featured-cart-btn" id="fcb-identidad" onclick="toggleFeaturedCart('Diseño de identidad visual', 'fcb-identidad')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+          <button class="featured-explore-btn" onclick="goToCategory('Identidad de marca')">
+            Ver categoría
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- NAMING -->
+      <div class="featured-card" style="--accent: #CC00FF; --accent-soft: rgba(204,0,255,0.1);">
+        <div class="featured-num">02</div>
+        <div class="featured-body">
+          <div class="featured-name">Naming</div>
+          <div class="featured-desc">El punto de partida de toda marca. Tu nombre es lo primero que el mundo recuerda.</div>
+          <div class="featured-meta">
+            <span class="featured-price">$100</span>
+            <span class="featured-time"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3–5 días</span>
+          </div>
+        </div>
+        <div class="featured-actions">
+          <button class="featured-cart-btn" id="fcb-naming" onclick="toggleFeaturedCart('Naming', 'fcb-naming')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+          <button class="featured-explore-btn" onclick="goToCategory('Identidad de marca')">
+            Ver categoría
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- BROCHURE -->
+      <div class="featured-card" style="--accent: #5500FF; --accent-soft: rgba(85,0,255,0.1);">
+        <div class="featured-num">03</div>
+        <div class="featured-body">
+          <div class="featured-name">Diseño de Brochure</div>
+          <div class="featured-desc">Tu empresa en papel — o en pantalla. Un brochure bien diseñado convierte una conversación en una decisión.</div>
+          <div class="featured-meta">
+            <span class="featured-price">&gt;$120</span>
+            <span class="featured-time"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Sujeto a evaluación</span>
+          </div>
+        </div>
+        <div class="featured-actions">
+          <button class="featured-cart-btn" id="fcb-brochure" onclick="toggleFeaturedCart('Diseño de Brochure', 'fcb-brochure')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+          <button class="featured-explore-btn" onclick="goToCategory('Editorial')">
+            Ver categoría
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('servicios')">Servicios individuales</button>
+    <button class="tab-btn" onclick="switchTab('packs')">Packs y combos</button>
+  </div>
+
+  <!-- TAB SERVICIOS -->
+  <div id="tab-servicios">
+    <div class="controls">
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" class="search-input" placeholder="Buscar servicio..." oninput="applyFilters()" id="searchInput">
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+        <option value="default">Orden por defecto</option>
+        <option value="price-asc">Precio: menor a mayor</option>
+        <option value="price-desc">Precio: mayor a menor</option>
+        <option value="name-asc">Nombre: A–Z</option>
+      </select>
+    </div>
+
+    <div class="filters-row" id="categoryFilters">
+      <button class="filter-btn active" data-cat="all" onclick="setCategory(this,'all')">Todos</button>
+      <button class="filter-btn" data-cat="Identidad de marca" onclick="setCategory(this,'Identidad de marca')">Identidad de marca</button>
+      <button class="filter-btn" data-cat="RRSS" onclick="setCategory(this,'RRSS')">RRSS</button>
+      <button class="filter-btn" data-cat="Merchandising" onclick="setCategory(this,'Merchandising')">Merchandising</button>
+      <button class="filter-btn" data-cat="Editorial" onclick="setCategory(this,'Editorial')">Editorial</button>
+      <button class="filter-btn" data-cat="Papelería" onclick="setCategory(this,'Papelería')">Papelería</button>
+      <button class="filter-btn" data-cat="Gráficos digitales" onclick="setCategory(this,'Gráficos digitales')">Gráficos digitales</button>
+      <button class="filter-btn" data-cat="Simbologías" onclick="setCategory(this,'Simbologías')">Simbologías</button>
+      <button class="filter-btn" data-cat="Señalética" onclick="setCategory(this,'Señalética')">Señalética</button>
+      <button class="filter-btn" data-cat="Exteriores" onclick="setCategory(this,'Exteriores')">Exteriores</button>
+      <button class="clear-filters-btn" id="clearFiltersBtn" onclick="clearFilters()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Limpiar filtros
+      </button>
+    </div>
+
+    <div class="results-info"><span id="resultsCount">134</span> servicios encontrados</div>
+    <div class="services-grid" id="servicesGrid"></div>
+  </div>
+
+  <!-- TAB PACKS -->
+  <div id="tab-packs">
+
+    <!-- RRSS -->
+    <div class="packs-section">
+      <div class="section-header">
+        <div class="section-title">Contenido para Redes Sociales</div>
+        <div class="section-subtitle">Posts · Historias · Carruseles</div>
+      </div>
+      <div class="packs-grid">
+        <div class="pack-card">
+          <div class="pack-header">
+            <div class="pack-name">Pack 1 Semana</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 3–5 días</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$208</span><span class="pack-discount">−15%</span>
+            <div class="pack-promo">$177</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">5 posts o portadas de video</div>
+            <div class="pack-item">3 historias</div>
+            <div class="pack-item">1 carrusel de 3–5 slides</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-rrss1" onclick="togglePackCart('Pack Contenido RRSS — 1 Semana', '$177', '3–5 días', 'pcb-rrss1')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+        <div class="pack-card featured">
+          <div class="pack-header">
+            <div class="pack-name">Pack 2 Semanas</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1 semana</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$416</span><span class="pack-discount">−30%</span>
+            <div class="pack-promo">$291</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">10 posts o portadas de video</div>
+            <div class="pack-item">6 historias</div>
+            <div class="pack-item">2 carruseles de 3–5 slides o 1 de 6–10 slides</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-rrss2" onclick="togglePackCart('Pack Contenido RRSS — 2 Semanas', '$291', '1 semana', 'pcb-rrss2')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+        <div class="pack-card">
+          <div class="pack-header">
+            <div class="pack-name">Pack 30 Días</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1–2 semanas</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$958</span><span class="pack-discount">−48%</span>
+            <div class="pack-promo">$498</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">24 posts o portadas de video</div>
+            <div class="pack-item">15 historias</div>
+            <div class="pack-item">4 carruseles de 3–5 slides o 2 de 6–10 slides</div>
+            <div class="pack-item">Redacción de copys para los 24 posts <strong style="color:#55DDaa">GRATIS</strong></div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-rrss30" onclick="togglePackCart('Pack Contenido RRSS — 30 Días', '$498', '1–2 semanas', 'pcb-rrss30')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ESTILIZACIÓN -->
+    <div class="packs-section">
+      <div class="section-header">
+        <div class="section-title">Estilización de Redes Sociales</div>
+        <div class="section-subtitle">Perfil · Portada · Plantillas · Íconos destacados</div>
+      </div>
+      <div class="packs-grid">
+        <div class="pack-card">
+          <div class="pack-header">
+            <div class="pack-name">Estilización Básica</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 3–5 días</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$184</span><span class="pack-discount">−15%</span>
+            <div class="pack-promo">$156</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">Imagen de perfil</div>
+            <div class="pack-item">Imagen de portada</div>
+            <div class="pack-item">5 íconos para historias/destacados</div>
+            <div class="pack-item">Creación/ajuste de paleta de colores</div>
+            <div class="pack-item">1 plantilla para post/portada de video</div>
+            <div class="pack-item">1 plantilla para historia</div>
+            <div class="pack-item">1 plantilla para carrusel (3 slides)</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-estbasica" onclick="togglePackCart('Pack Estilización RRSS — Básica', '$156', '3–5 días', 'pcb-estbasica')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+        <div class="pack-card featured">
+          <div class="pack-header">
+            <div class="pack-name">Estilización Plus</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1 semana</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$420</span><span class="pack-discount">−30%</span>
+            <div class="pack-promo">$294</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">2 variaciones de imagen de perfil</div>
+            <div class="pack-item">2 variaciones de imagen de portada</div>
+            <div class="pack-item">8 íconos para historias/destacados</div>
+            <div class="pack-item">Paleta de colores + Moodboard/brandboard</div>
+            <div class="pack-item">3 plantillas para post/portada de video</div>
+            <div class="pack-item">3 plantillas para historia</div>
+            <div class="pack-item">Plantillas para carruseles (hasta 10 slides)</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-estplus" onclick="togglePackCart('Pack Estilización RRSS — Plus', '$294', '1 semana', 'pcb-estplus')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+        <div class="pack-card">
+          <div class="pack-header">
+            <div class="pack-name">Estilización Ultra</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1–2 semanas</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$674</span><span class="pack-discount">−45%</span>
+            <div class="pack-promo">$371</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">3 imágenes de perfil</div>
+            <div class="pack-item">3 imágenes de portada</div>
+            <div class="pack-item">10 íconos para historias/destacados</div>
+            <div class="pack-item">Paleta de colores + Moodboard/brandboard editable</div>
+            <div class="pack-item">6 plantillas para post/portada de video</div>
+            <div class="pack-item">6 plantillas para historia</div>
+            <div class="pack-item">Plantillas para carruseles (hasta 15 slides)</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-estultra" onclick="togglePackCart('Pack Estilización RRSS — Ultra', '$371', '1–2 semanas', 'pcb-estultra')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- PAPELERÍA -->
+    <div class="packs-section">
+      <div class="section-header">
+        <div class="section-title">Papelería Corporativa</div>
+        <div class="section-subtitle">Membrete · Tarjetas · Talonarios · Credenciales</div>
+      </div>
+      <div class="pack-note" style="margin: 0 0 20px 0; border-radius: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,210,100,0.7)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span><strong style="color:rgba(255,210,100,0.85);">Solo diseño digital.</strong> El pack no incluye impresión ni producción física del material.</span>
+      </div>
+      <div class="packs-grid">
+        <div class="pack-card">
+          <div class="pack-header">
+            <div class="pack-name">Papelería Básica</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 3–5 días</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$220</span><span class="pack-discount">−15%</span>
+            <div class="pack-promo">$187</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">Diseño de hoja membretada</div>
+            <div class="pack-item">Diseño de planilla corporativa</div>
+            <div class="pack-item">Diseño de hoja de cotización/trabajo</div>
+            <div class="pack-item">Diseño de tarjeta de presentación</div>
+            <div class="pack-item">Diseño de talonario</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-papbasica" onclick="togglePackCart('Pack Papelería Corporativa — Básica', '$187', '3–5 días', 'pcb-papbasica')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+        <div class="pack-card featured">
+          <div class="pack-header">
+            <div class="pack-name">Papelería Plus</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1 semana</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$368</span><span class="pack-discount">−30%</span>
+            <div class="pack-promo">$258</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">2 variantes de hoja membretada</div>
+            <div class="pack-item">Planilla corporativa</div>
+            <div class="pack-item">Hoja de cotización/trabajo</div>
+            <div class="pack-item">Tarjeta de presentación</div>
+            <div class="pack-item">Talonario + Factura/boleta</div>
+            <div class="pack-item">Diploma/certificado + Credencial</div>
+            <div class="pack-item">Diseño de marca libro</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-papplus" onclick="togglePackCart('Pack Papelería Corporativa — Plus', '$258', '1 semana', 'pcb-papplus')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+        <div class="pack-card">
+          <div class="pack-header">
+            <div class="pack-name">Papelería Ultra</div>
+            <div class="pack-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1–2 semanas</div>
+          </div>
+          <div class="pack-pricing">
+            <span class="pack-original">$648</span><span class="pack-discount">−40%</span>
+            <div class="pack-promo">$389</div>
+          </div>
+          <div class="pack-includes">
+            <div class="pack-includes-title">Incluye</div>
+            <div class="pack-item">2 variantes de hoja membretada + planilla</div>
+            <div class="pack-item">Cotización/trabajo + 2 variantes de tarjeta</div>
+            <div class="pack-item">Credencial + 2 variantes de talonario</div>
+            <div class="pack-item">Factura/boleta + Sobre carta + Sobre saco</div>
+            <div class="pack-item">Bloc de notas + Carpeta + Marca libro</div>
+            <div class="pack-item">Diploma/certificado</div>
+            <div class="pack-item">3 variantes de etiquetas adhesivas</div>
+          </div>
+          <button class="pack-cart-btn" id="pcb-papultra" onclick="togglePackCart('Pack Papelería Corporativa — Ultra', '$389', '1–2 semanas', 'pcb-papultra')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Agregar a solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-packs -->
+
+  <footer>
+    <div class="footer-cta-wrap">
+      <a href="https://wa.me/56934881823?text=Hola%20Jotady%2C%20vi%20tu%20cat%C3%A1logo%20y%20me%20interesa%20cotizar%20un%20servicio." target="_blank" class="whatsapp-btn magnetic-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Háblame por WhatsApp
+      </a>
+    </div>
+    <div class="footer-socials">
+      <a href="https://instagram.com/jotady" target="_blank" class="social-link magnetic-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        @jotady
+      </a>
+      <span class="social-sep">·</span>
+      <a href="https://linkedin.com/in/jotady" target="_blank" class="social-link magnetic-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        @jotady
+      </a>
+    </div>
+    <div class="footer-note">
+      <strong>Todos los precios están expresados en USD.</strong><br>
+      Los valores con ">" son precios desde. Los ítems "Sujeto a evaluación" se cotizan según el proyecto.<br>
+      Los precios no incluyen costos asociados adicionales (licencias, mockups, imágenes especiales, etc.).
+    </div>
+  </footer>
+
+</div><!-- /container -->
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const LOGO_KEYWORDS = ['logo','identidad visual','refrescamiento','rediseño de logo','vectorización'];
+
+const SERVICES = [
+  {name:"Diseño de logo",cat:"Identidad de marca",time:"5–7 días aprox.",costs:"Licencias tipográficas, imágenes especiales, mockups",price:">$150",priceNum:150},
+  {name:"Vectorización de isotipo (símbolo)",cat:"Identidad de marca",time:"1–2 días aprox.",costs:"",price:"$80",priceNum:80},
+  {name:"Vectorización de logotipo (texto)",cat:"Identidad de marca",time:"2–3 días aprox.",costs:"",price:"$100",priceNum:100},
+  {name:"Vectorización de imagotipo (símbolo + texto)",cat:"Identidad de marca",time:"3–4 días aprox.",costs:"",price:"$120",priceNum:120},
+  {name:"Vectorización de isologo (símbolo+texto fusión)",cat:"Identidad de marca",time:"3–4 días aprox.",costs:"",price:"$120",priceNum:120},
+  {name:"Diseño de identidad visual",cat:"Identidad de marca",time:"1–2 semanas",costs:"Licencias tipográficas, mockups",price:">$200",priceNum:200},
+  {name:"Refrescamiento de logo",cat:"Identidad de marca",time:"5–7 días aprox.",costs:"Licencias tipográficas, mockups, imágenes especiales",price:">$120",priceNum:120},
+  {name:"Rediseño de logo",cat:"Identidad de marca",time:"1–2 semanas",costs:"Licencias tipográficas, mockups, imágenes especiales",price:">$150",priceNum:150},
+  {name:"Diseño de packing",cat:"Identidad de marca",time:"1–2 semanas",costs:"Patrón, imágenes especiales",price:">$350",priceNum:350},
+  {name:"Diseño de patrón gráfico / red modular",cat:"Identidad de marca",time:"1–2 días",costs:"Imágenes especiales",price:"$16",priceNum:16},
+  {name:"Implementación de gráfico en mockup (maqueta)",cat:"Identidad de marca",time:"1 día",costs:"Mockups",price:"$18",priceNum:18},
+  {name:"Naming",cat:"Identidad de marca",time:"3–5 días",costs:"Registro de patentes, servicios legales",price:"$100",priceNum:100},
+  {name:"Ícono de aplicación",cat:"Identidad de marca",time:"1–2 días",costs:"",price:"$20",priceNum:20},
+  {name:"Diseño de interfaz de página web",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"Imágenes especiales, licencias tipográficas",price:">$80 p/pág",priceNum:80},
+  {name:"Diseño de Portafolio",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"",price:">$120",priceNum:120},
+  {name:"Diseño visual de prototipo para app",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$60 p/pág",priceNum:60},
+  {name:"Diseño de etiqueta para producto",cat:"Identidad de marca",time:"5–7 días aprox.",costs:"Imágenes especiales",price:"$90",priceNum:90},
+  {name:"Diseño de estampado para textil superior (camisa)",cat:"Identidad de marca",time:"1–2 días",costs:"Imágenes especiales",price:"$25",priceNum:25},
+  {name:"Diseño de estampado para textil inferior (pantalón)",cat:"Identidad de marca",time:"1–2 días",costs:"Imágenes especiales",price:"$25",priceNum:25},
+  {name:"Diseño de estampado para accesorio textil",cat:"Identidad de marca",time:"1–2 días",costs:"Imágenes especiales",price:"$25",priceNum:25},
+  {name:"Creación de eslogan",cat:"Identidad de marca",time:"2–3 días aprox.",costs:"",price:"$70",priceNum:70},
+  {name:"Diseño de catálogo digital de productos",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$120",priceNum:120},
+  {name:"Diseño de catálogo impreso de productos",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$160",priceNum:160},
+  {name:"Diseño de sello de tinta",cat:"Identidad de marca",time:"2–3 días aprox.",costs:"",price:"$50",priceNum:50},
+  {name:"Diseño de credencial corporativa",cat:"Identidad de marca",time:"2–3 días aprox.",costs:"",price:"$60",priceNum:60},
+  {name:"Diseño de carnet educativo",cat:"Identidad de marca",time:"2–3 días aprox.",costs:"",price:"$61",priceNum:61},
+  {name:"Diseño de membretes",cat:"Identidad de marca",time:"1–2 días",costs:"",price:"$18",priceNum:18},
+  {name:"Diseño de poster propagandístico",cat:"Identidad de marca",time:"1–2 semanas",costs:"Imágenes especiales",price:">$90",priceNum:90},
+  {name:"Diseño de poster publicitario",cat:"Identidad de marca",time:"1–2 semanas",costs:"Imágenes especiales",price:">$110",priceNum:110},
+  {name:"Diseño de poster cinematográfico",cat:"Identidad de marca",time:"1–2 semanas",costs:"Imágenes especiales",price:">$220",priceNum:220},
+  {name:"Diseño de manual corporativo",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"Licencias tipográficas, imágenes especiales, mockups",price:">$700",priceNum:700},
+  {name:"Diseño de manual de uso",cat:"Identidad de marca",time:"Sujeto a evaluación",costs:"Licencias tipográficas, imágenes especiales, mockups",price:">$220",priceNum:220},
+  {name:"Diseño de historia destacada (IG)",cat:"RRSS",time:"1–2 días",costs:"",price:"$15",priceNum:15},
+  {name:"Diseño de sticker para red social",cat:"RRSS",time:"1–2 días",costs:"Imágenes especiales",price:"$16",priceNum:16},
+  {name:"Diseño de post para red social (1:1 feed)",cat:"RRSS",time:"1–2 días",costs:"Imágenes especiales",price:"$18",priceNum:18},
+  {name:"Diseño de post para red social (9:16 historia)",cat:"RRSS",time:"1–2 días",costs:"Imágenes especiales",price:"$18",priceNum:18},
+  {name:"Miniatura para Youtube",cat:"RRSS",time:"1–2 días",costs:"Imágenes especiales",price:"$20",priceNum:20},
+  {name:"Portada para video de red social",cat:"RRSS",time:"1–2 días",costs:"Imágenes especiales",price:"$20",priceNum:20},
+  {name:"Carrusel para red social",cat:"RRSS",time:"2–3 días aprox.",costs:"Imágenes especiales",price:">$16 p/slide",priceNum:16},
+  {name:"Diseño de fan page (Facebook)",cat:"RRSS",time:"5–7 días aprox.",costs:"Imágenes especiales",price:"$50",priceNum:50},
+  {name:"Diseño de plantilla/marco para post",cat:"RRSS",time:"2–3 días aprox.",costs:"",price:"$20",priceNum:20},
+  {name:"Diseño de plantilla/marco para slide de carrusel",cat:"RRSS",time:"2–3 días aprox.",costs:"",price:"$16",priceNum:16},
+  {name:"Diseño de imagen de perfil",cat:"RRSS",time:"1 día",costs:"Imágenes especiales",price:"$10",priceNum:10},
+  {name:"Diseño de imagen de portada",cat:"RRSS",time:"1 día",costs:"Imágenes especiales",price:"$12",priceNum:12},
+  {name:"Investigación para RRSS",cat:"RRSS",time:"3–5 días",costs:"Suscripciones",price:">$45",priceNum:45},
+  {name:"Redacción de copys para posteos",cat:"RRSS",time:"1 día",costs:"",price:"$3 c/u",priceNum:3},
+  {name:"Diseño de botón o chapa",cat:"Merchandising",time:"1 día",costs:"",price:"$12",priceNum:12},
+  {name:"Diseño de giftcard",cat:"Merchandising",time:"1–2 días",costs:"",price:"$35",priceNum:35},
+  {name:"Diseño de bolsa personalizada",cat:"Merchandising",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$45",priceNum:45},
+  {name:"Diseño de ilustraciones para camisetas/textiles",cat:"Merchandising",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$100",priceNum:100},
+  {name:"Diseño para utensilios ecológicos/desechables",cat:"Merchandising",time:"3–5 días",costs:"Imágenes especiales",price:">$45",priceNum:45},
+  {name:"Diseño para lápiz/bolígrafo",cat:"Merchandising",time:"1–2 días",costs:"",price:"$12",priceNum:12},
+  {name:"Diseño de Brochure",cat:"Editorial",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$120",priceNum:120},
+  {name:"Diseño de maquetación editorial",cat:"Editorial",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$150",priceNum:150},
+  {name:"Diseño de portada de libro",cat:"Editorial",time:"1–2 semanas",costs:"Imágenes especiales",price:">$180",priceNum:180},
+  {name:"Diseño de portada de disco",cat:"Editorial",time:"1–2 semanas",costs:"Imágenes especiales",price:">$250",priceNum:250},
+  {name:"Diseño de portada de revista",cat:"Editorial",time:"1–2 semanas",costs:"Imágenes especiales",price:">$320",priceNum:320},
+  {name:"Diseño de menú impreso gastronómico",cat:"Editorial",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$180",priceNum:180},
+  {name:"Diseño de menú digital gastronómico",cat:"Editorial",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$150",priceNum:150},
+  {name:"Diseño de e-book",cat:"Editorial",time:"Sujeto a evaluación",costs:"Licencias tipográficas, imágenes especiales, mockups",price:">$220",priceNum:220},
+  {name:"Diseño de revista digital/impresa",cat:"Editorial",time:"Sujeto a evaluación",costs:"Licencias tipográficas, imágenes especiales, mockups",price:">$500",priceNum:500},
+  {name:"Diseño de bloc de notas/libreta",cat:"Editorial",time:"Sujeto a evaluación",costs:"Licencias tipográficas, imágenes especiales, mockups",price:">$80",priceNum:80},
+  {name:"Diseño de manual de instrucciones",cat:"Editorial",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$150",priceNum:150},
+  {name:"Diseño de flyer",cat:"Papelería",time:"1–2 días",costs:"Imágenes especiales",price:">$30",priceNum:30},
+  {name:"Diseño de folleto",cat:"Papelería",time:"1–2 días",costs:"Imágenes especiales",price:">$45",priceNum:45},
+  {name:"Diseño de tríptico",cat:"Papelería",time:"1–2 días",costs:"Imágenes especiales",price:">$45",priceNum:45},
+  {name:"Diseño de sticker",cat:"Papelería",time:"1 día",costs:"Imágenes especiales",price:"$10",priceNum:10},
+  {name:"Diseño de tarjeta de presentación",cat:"Papelería",time:"1–2 días",costs:"",price:"$25",priceNum:25},
+  {name:"Diseño de credencial",cat:"Papelería",time:"2–3 días aprox.",costs:"",price:"$60",priceNum:60},
+  {name:"Diseño de adhesivo troquelado",cat:"Papelería",time:"2–3 días aprox.",costs:"Imágenes especiales",price:">$25",priceNum:25},
+  {name:"Diseño de factura/boleta",cat:"Papelería",time:"2–3 días aprox.",costs:"",price:"$40",priceNum:40},
+  {name:"Diseño de talonario de notas",cat:"Papelería",time:"2–3 días aprox.",costs:"",price:"$40",priceNum:40},
+  {name:"Diseño de hoja membretada",cat:"Papelería",time:"1–2 días",costs:"",price:"$25",priceNum:25},
+  {name:"Diseño de hojas de trabajo/cotización",cat:"Papelería",time:"2–3 días aprox.",costs:"",price:"$35",priceNum:35},
+  {name:"Diseño de planilla corporativa",cat:"Papelería",time:"2–3 días aprox.",costs:"",price:"$30",priceNum:30},
+  {name:"Diseño de diploma o certificado",cat:"Papelería",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$40",priceNum:40},
+  {name:"Diseño para sobre tipo saco",cat:"Papelería",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$30",priceNum:30},
+  {name:"Diseño de sobre carta",cat:"Papelería",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$30",priceNum:30},
+  {name:"Diseño de calendario",cat:"Papelería",time:"3–5 días",costs:"Imágenes especiales",price:"$90",priceNum:90},
+  {name:"Diseño de etiquetas/bandas sellantes",cat:"Papelería",time:"1–2 días",costs:"",price:"$15",priceNum:15},
+  {name:"Diseño de marca libro",cat:"Papelería",time:"1–2 días",costs:"",price:"$18",priceNum:18},
+  {name:"Diseño de carpeta corporativa",cat:"Papelería",time:"1–2 días",costs:"Imágenes especiales",price:"$30",priceNum:30},
+  {name:"Diseño de Banner digital",cat:"Gráficos digitales",time:"1–2 días",costs:"Imágenes especiales",price:"$18",priceNum:18},
+  {name:"Ilustración vectorial",cat:"Gráficos digitales",time:"5–7 días aprox.",costs:"",price:">$100",priceNum:100},
+  {name:"Ilustración digital",cat:"Gráficos digitales",time:"5–7 días aprox.",costs:"",price:">$100",priceNum:100},
+  {name:"Generación de imagen con Inteligencia Artificial",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"Tokens, imágenes especiales",price:">$30",priceNum:30},
+  {name:"Búsqueda de tipografía",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"Licencias tipográficas",price:">$30",priceNum:30},
+  {name:"Diapositiva de presentación",cat:"Gráficos digitales",time:"1–2 días",costs:"Imágenes especiales",price:">$25",priceNum:25},
+  {name:"Retoque fotográfico de retrato",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$25",priceNum:25},
+  {name:"Retoque fotográfico de varios sujetos",cat:"Gráficos digitales",time:"3–5 días",costs:"Imágenes especiales",price:"$18 p/sujeto",priceNum:18},
+  {name:"Retoque fotográfico de producto",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$20",priceNum:20},
+  {name:"Eliminar fondo de objeto/producto",cat:"Gráficos digitales",time:"1–2 días",costs:"Imágenes especiales",price:"$15",priceNum:15},
+  {name:"Eliminar fondo de sujeto",cat:"Gráficos digitales",time:"1–2 días",costs:"Imágenes especiales",price:"$18",priceNum:18},
+  {name:"Eliminar fondo de varios sujetos",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$18 p/sujeto",priceNum:18},
+  {name:"Creación de paleta de colores",cat:"Gráficos digitales",time:"1–2 días aprox.",costs:"",price:"$20",priceNum:20},
+  {name:"Extracción de colores de una imagen",cat:"Gráficos digitales",time:"1–2 días aprox.",costs:"Imágenes especiales",price:"$30",priceNum:30},
+  {name:"Restauración fotográfica estándar",cat:"Gráficos digitales",time:"3–5 días",costs:"Imágenes especiales",price:"$50",priceNum:50},
+  {name:"Restauración fotográfica avanzada",cat:"Gráficos digitales",time:"1–2 semanas",costs:"Imágenes especiales",price:">$120",priceNum:120},
+  {name:"Diseño de Curriculum Vitae",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"",price:"$40",priceNum:40},
+  {name:"Diseño de código QR",cat:"Gráficos digitales",time:"1–2 días",costs:"Servicios web",price:"$20",priceNum:20},
+  {name:"Diseño de mapa conceptual",cat:"Gráficos digitales",time:"3–5 días",costs:"",price:"$50",priceNum:50},
+  {name:"Diseño de mapa mental",cat:"Gráficos digitales",time:"5–7 días aprox.",costs:"Imágenes especiales",price:">$70",priceNum:70},
+  {name:"Diseño de infografía",cat:"Gráficos digitales",time:"1–2 semanas",costs:"Imágenes especiales",price:">$80",priceNum:80},
+  {name:"Diseño de firma para e-mail",cat:"Gráficos digitales",time:"1–2 días",costs:"",price:"$20",priceNum:20},
+  {name:"Diseño de moodboard/brandboard",cat:"Gráficos digitales",time:"3–5 días",costs:"Imágenes especiales",price:"$40",priceNum:40},
+  {name:"Diseño de recursos gráficos para interfaz digital",cat:"Gráficos digitales",time:"Sujeto a evaluación",costs:"Servicios web, imágenes especiales, licencias tipográficas",price:">$120",priceNum:120},
+  {name:"Diseño de wireframes para app/web",cat:"Gráficos digitales",time:"Sujeto a evaluación",costs:"",price:">$100",priceNum:100},
+  {name:"Fotomontaje estándar",cat:"Gráficos digitales",time:"3–5 días",costs:"Imágenes especiales",price:">$100",priceNum:100},
+  {name:"Fotomontaje avanzado",cat:"Gráficos digitales",time:"1–2 semanas",costs:"Imágenes especiales",price:">$300",priceNum:300},
+  {name:"Corrección de color fotográfico",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"",price:"$40",priceNum:40},
+  {name:"Diseño de fotocomposición creativa",cat:"Gráficos digitales",time:"1–2 semanas",costs:"Imágenes especiales, tokens",price:">$250",priceNum:250},
+  {name:"Vectorización de fotografía",cat:"Gráficos digitales",time:"3–5 días",costs:"Imágenes especiales",price:">$90",priceNum:90},
+  {name:"Diseño de fondos para plataforma de videollamada",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"Imágenes especiales",price:"$25",priceNum:25},
+  {name:"Diseño de fondos para presentaciones o videos",cat:"Gráficos digitales",time:"3–5 días",costs:"Imágenes especiales",price:"$40",priceNum:40},
+  {name:"Diseño de email marketing",cat:"Gráficos digitales",time:"2–3 días aprox.",costs:"",price:"$20",priceNum:20},
+  {name:"Diseño de guía educativa digital",cat:"Gráficos digitales",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$90",priceNum:90},
+  {name:"Estilización de planos arquitectónicos",cat:"Gráficos digitales",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$150",priceNum:150},
+  {name:"Diseño de pictograma",cat:"Simbologías",time:"1 día",costs:"",price:"$8",priceNum:8},
+  {name:"Favicon",cat:"Simbologías",time:"1 día",costs:"",price:"$10",priceNum:10},
+  {name:"Ícono de aplicación",cat:"Simbologías",time:"1–2 días",costs:"",price:"$15",priceNum:15},
+  {name:"Diseño de señalética de seguridad",cat:"Señalética",time:"1–2 días",costs:"",price:"$20",priceNum:20},
+  {name:"Diseño de señalética corporativa",cat:"Señalética",time:"1–2 días",costs:"",price:"$35",priceNum:35},
+  {name:"Diseño de señalética vial",cat:"Señalética",time:"1–2 días",costs:"",price:"$35",priceNum:35},
+  {name:"Diseño de vías de evacuación",cat:"Señalética",time:"3–5 días",costs:"",price:">$50",priceNum:50},
+  {name:"Diseño de señal informativa",cat:"Señalética",time:"1–2 días",costs:"Imágenes especiales",price:">$35",priceNum:35},
+  {name:"Diseño de corpóreo (para producción 3D)",cat:"Exteriores",time:"1–2 días",costs:"Mockups",price:"$18",priceNum:18},
+  {name:"Cenefa publicitaria",cat:"Exteriores",time:"1–2 días",costs:"Imágenes especiales",price:"$50",priceNum:50},
+  {name:"Valla publicitaria",cat:"Exteriores",time:"2–4 días",costs:"Imágenes especiales",price:">$120",priceNum:120},
+  {name:"Diseño de Display publicitario",cat:"Exteriores",time:"5–7 días aprox.",costs:"Imágenes especiales",price:">$120",priceNum:120},
+  {name:"Diseño de mural gráfico",cat:"Exteriores",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$100",priceNum:100},
+  {name:"Diseño de gráficas vehiculares",cat:"Exteriores",time:"Sujeto a evaluación",costs:"Imágenes especiales",price:">$80",priceNum:80},
+  {name:"Diseño de cartelera informativa",cat:"Exteriores",time:"3–5 días",costs:"Imágenes especiales",price:"$50",priceNum:50},
+  {name:"Diseño de pizarra informativa",cat:"Exteriores",time:"3–5 días",costs:"",price:">$80",priceNum:80},
+  {name:"Diseño de pendón publicitario",cat:"Exteriores",time:"3–5 días",costs:"Imágenes especiales",price:">$35",priceNum:35},
+  {name:"Diseño de lienzo exterior",cat:"Exteriores",time:"3–5 días",costs:"Imágenes especiales",price:">$45",priceNum:45},
+];
+
+const CAT_CLASS = {
+  "Identidad de marca":"cat-identidad","RRSS":"cat-rrss","Merchandising":"cat-merchandising",
+  "Editorial":"cat-editorial","Papelería":"cat-papeleria","Gráficos digitales":"cat-graficos",
+  "Simbologías":"cat-simbologia","Señalética":"cat-senaletica","Exteriores":"cat-exteriores"
+};
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let currentCat = 'all';
+let currentSearch = '';
+let currentSort = 'default';
+let cart = [];
+
+function isLogoService(s) {
+  return LOGO_KEYWORDS.some(k => s.name.toLowerCase().includes(k));
+}
+
+// ─────────────────────────────────────────────
+// RENDER SERVICES
+// ─────────────────────────────────────────────
+function applyFilters() {
+  currentSearch = document.getElementById('searchInput').value;
+  currentSort = document.getElementById('sortSelect').value;
+  renderServices();
+}
+
+function setCategory(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = cat;
+  updateClearBtn();
+  renderServices();
+}
+
+function updateClearBtn() {
+  const btn = document.getElementById('clearFiltersBtn');
+  const hasFilter = currentCat !== 'all' || currentSearch.trim() !== '';
+  btn.classList.toggle('visible', hasFilter);
+}
+
+function clearFilters() {
+  currentCat = 'all';
+  currentSearch = '';
+  currentSort = 'default';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('sortSelect').value = 'default';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === 'all'));
+  updateClearBtn();
+  renderServices();
+}
+
+function sortServices(list) {
+  const s = [...list];
+  if (currentSort === 'price-asc') s.sort((a,b) => a.priceNum - b.priceNum);
+  else if (currentSort === 'price-desc') s.sort((a,b) => b.priceNum - a.priceNum);
+  else if (currentSort === 'name-asc') s.sort((a,b) => a.name.localeCompare(b.name,'es'));
+  return s;
+}
+
+function renderServices() {
+  const grid = document.getElementById('servicesGrid');
+  const q = currentSearch.toLowerCase().trim();
+
+  let filtered = SERVICES.filter(s => {
+    const matchCat = currentCat === 'all' || s.cat === currentCat;
+    const matchSearch = !q || s.name.toLowerCase().includes(q) || s.cat.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  filtered = sortServices(filtered);
+  document.getElementById('resultsCount').textContent = filtered.length;
+  updateClearBtn();
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="big">🔍</div>
+      <p>No se encontraron servicios para "<strong>${currentSearch || currentCat}</strong>"</p>
+      <button class="empty-clear-btn" onclick="clearFilters()">Limpiar filtros y ver todos</button>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((s, i) => {
+    const inCart = cart.some(c => c.name === s.name);
+    const catClass = CAT_CLASS[s.cat] || '';
+    const needsBrief = isLogoService(s);
+
+    const costsHtml = s.costs ? `
+      <div class="card-costs">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,210,100,0.7)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><span class="card-costs-label">Gastos asociados:</span> ${s.costs}</span>
+      </div>` : '';
+
+    const briefBtn = needsBrief ? `
+      <a href="https://brief-jotady.netlify.app/" target="_blank" class="btn-brief">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Brief
+      </a>` : '';
+
+    return `<div class="service-card">
+      <div class="card-top">
+        <div class="card-name">${s.name}</div>
+        <div class="card-price">${s.price}</div>
+      </div>
+      <div class="card-meta">
+        <span class="cat-badge ${catClass}">${s.cat}</span>
+        <span class="card-time">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ${s.time}
+        </span>
+      </div>
+      ${costsHtml}
+      <div class="card-actions">
+        <button class="btn-add-cart ${inCart?'in-cart':''}" onclick="toggleCart('${s.name.replace(/'/g,"\\'")}')">
+          ${inCart
+            ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Agregado`
+            : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`
+          }
+        </button>
+        ${briefBtn}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// CART LOGIC
+// ─────────────────────────────────────────────
+function toggleCart(name) {
+  const s = SERVICES.find(x => x.name === name);
+  if (!s) return;
+  const idx = cart.findIndex(c => c.name === name);
+  if (idx >= 0) cart.splice(idx, 1);
+  else cart.push(s);
+  updateCartUI();
+  renderServices();
+}
+
+function togglePackCart(name, price, time, btnId) {
+  const idx = cart.findIndex(c => c.name === name);
+  if (idx >= 0) cart.splice(idx, 1);
+  else cart.push({ name, price, cat: 'Pack', time });
+  updateCartUI();
+  // Actualizar visual del botón específico
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  const inCart = cart.some(c => c.name === name);
+  btn.classList.toggle('in-cart', inCart);
+  btn.innerHTML = inCart
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Agregado`
+    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
+}
+
+function removeFromCart(name) {
+  cart = cart.filter(c => c.name !== name);
+  updateCartUI();
+  renderServices();
+}
+
+function clearCart() {
+  cart = [];
+  updateCartUI();
+  renderServices();
+  // Reset pack buttons
+  document.querySelectorAll('.pack-cart-btn').forEach(btn => {
+    btn.classList.remove('in-cart');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
+  });
+  // Reset featured buttons
+  document.querySelectorAll('.featured-cart-btn').forEach(btn => {
+    btn.classList.remove('in-cart');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
+  });
+}
+
+function updateCartUI() {
+  const count = cart.length;
+  document.getElementById('cartBadge').textContent = count;
+  document.getElementById('stickyCart').classList.toggle('visible', count > 0);
+
+  const itemsEl = document.getElementById('cartItems');
+  if (count === 0) {
+    itemsEl.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Aún no has agregado servicios.<br>Explora el catálogo y presiona<br>"Agregar a solicitud".</p></div>`;
+    return;
+  }
+
+  itemsEl.innerHTML = cart.map(s => `
+    <div class="cart-item">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${s.name}</div>
+        <div class="cart-item-cat">${s.cat} · ${s.time}</div>
+      </div>
+      <div class="cart-item-price">${s.price}</div>
+      <button class="cart-item-remove" onclick="removeFromCart('${s.name.replace(/'/g,"\\'")}')">×</button>
+    </div>
+  `).join('');
+}
+
+function openCart() {
+  document.getElementById('cartPanel').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+}
+
+function closeCart() {
+  document.getElementById('cartPanel').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+}
+
+function sendWhatsApp() {
+  if (cart.length === 0) return;
+  const name = document.getElementById('clientName').value.trim();
+  const greeting = name ? `Hola Jotady, soy *${name}*.` : 'Hola Jotady,';
+  const list = cart.map((s, i) => `${i+1}. *${s.name}* — ${s.price} (${s.time})`).join('\n');
+  const msg = `${greeting} Vi tu catálogo de servicios y me gustaría cotizar lo siguiente:\n\n${list}\n\n¿Podemos coordinar?`;
+  window.open(`https://wa.me/56934881823?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ─────────────────────────────────────────────
+// TABS
+// ─────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', (i===0 && tab==='servicios') || (i===1 && tab==='packs'));
+  });
+  document.getElementById('tab-servicios').style.display = tab === 'servicios' ? 'block' : 'none';
+  document.getElementById('tab-packs').style.display = tab === 'packs' ? 'block' : 'none';
+
+  if (tab === 'packs') {
+    // Resetear estado y dejar que IntersectionObserver active al hacer scroll
+    const packRevealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.transition = `opacity 0.65s cubic-bezier(0.16,1,0.3,1) ${entry.target._revealDelay || 0}s, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${entry.target._revealDelay || 0}s`;
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translate(0,0)';
+          packRevealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    // Pack cards — stagger por sección (grupos de 3)
+    document.querySelectorAll('#tab-packs .pack-card').forEach((el, i) => {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el._revealDelay = (i % 3) * 0.1;
+      packRevealObserver.observe(el);
+    });
+
+    // Section headers — desde izquierda
+    document.querySelectorAll('#tab-packs .section-header').forEach((el, i) => {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(-24px)';
+      el._revealDelay = 0;
+      packRevealObserver.observe(el);
+    });
+
+    // Pack note
+    document.querySelectorAll('#tab-packs .pack-note').forEach(el => {
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      el._revealDelay = 0.1;
+      packRevealObserver.observe(el);
+    });
+
+  } else {
+    // Servicios — re-animar cards con stagger rápido
+    setTimeout(() => {
+      document.querySelectorAll('#tab-servicios .service-card').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'none';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          el.style.transition = `opacity 0.5s cubic-bezier(0.16,1,0.3,1) ${Math.min(i * 0.035, 0.4)}s, transform 0.5s cubic-bezier(0.16,1,0.3,1) ${Math.min(i * 0.035, 0.4)}s`;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }));
+      });
+    }, 20);
+  }
+}
+
+// ─────────────────────────────────────────────
+// FEATURED SERVICES
+// ─────────────────────────────────────────────
+function goToCategory(cat) {
+  // Activar tab servicios
+  switchTab('servicios');
+  // Activar filtro de categoría
+  const btn = document.querySelector(`.filter-btn[data-cat="${cat}"]`);
+  if (btn) setCategory(btn, cat);
+  // Scroll suave al tab
+  document.getElementById('tab-servicios').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleFeaturedCart(name, btnId) {
+  const s = SERVICES.find(x => x.name === name);
+  if (!s) return;
+  const idx = cart.findIndex(c => c.name === name);
+  if (idx >= 0) cart.splice(idx, 1);
+  else cart.push(s);
+  updateCartUI();
+  renderServices(); // sincroniza estado en el catálogo también
+  // Actualizar botón featured
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  const inCart = cart.some(c => c.name === name);
+  btn.classList.toggle('in-cart', inCart);
+  btn.innerHTML = inCart
+    ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Agregado`
+    : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+renderServices();
+</script>
+<!-- PAGE TRANSITION OVERLAY -->
+<div class="page-overlay-cat" id="catOverlay"></div>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// CUSTOM CURSOR
+// ─────────────────────────────────────────────
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
+let rafId;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  dot.style.left = mouseX + 'px';
+  dot.style.top = mouseY + 'px';
+});
+
+// Ring sigue con lag suave
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  rafId = requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// Hover states
+const hoverTargets = 'a, button, .filter-btn, .tab-btn, .sort-select, input, select';
+const cardTargets = '.service-card, .featured-card, .pack-card';
+
+document.addEventListener('mouseover', e => {
+  const isCard = e.target.closest(cardTargets);
+  const isHover = e.target.closest(hoverTargets);
+  if (isCard) {
+    dot.classList.add('on-card');
+    ring.classList.add('on-card');
+    dot.classList.remove('hovering');
+    ring.classList.remove('hovering');
+  } else if (isHover) {
+    dot.classList.add('hovering');
+    ring.classList.add('hovering');
+    dot.classList.remove('on-card');
+    ring.classList.remove('on-card');
+  } else {
+    dot.classList.remove('hovering', 'on-card');
+    ring.classList.remove('hovering', 'on-card');
+  }
+});
+
+document.addEventListener('mousedown', () => {
+  dot.classList.add('clicking');
+  ring.classList.add('clicking');
+});
+
+document.addEventListener('mouseup', () => {
+  dot.classList.remove('clicking');
+  ring.classList.remove('clicking');
+});
+
+// Ocultar cursor al salir de la ventana
+document.addEventListener('mouseleave', () => {
+  dot.style.opacity = '0';
+  ring.style.opacity = '0';
+});
+
+document.addEventListener('mouseenter', () => {
+  dot.style.opacity = '1';
+  ring.style.opacity = '1';
+});
+
+// ─────────────────────────────────────────────
+// 3D TILT EN CARDS
+// ─────────────────────────────────────────────
+function initTilt() {
+  const cards = document.querySelectorAll('.service-card, .featured-card, .pack-card');
+
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+
+      const tiltX = dy * -8;  // grados de inclinación vertical
+      const tiltY = dx * 10;  // grados de inclinación horizontal
+      const glowX = 50 + dx * 30;
+      const glowY = 50 + dy * 30;
+
+      card.style.transform = `perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(4px)`;
+      card.style.transition = 'transform 0.1s ease';
+      card.style.backgroundImage = `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(139,0,255,0.12) 0%, transparent 65%)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      card.style.transition = 'transform 0.5s ease, background-image 0.5s ease';
+      card.style.backgroundImage = '';
+    });
+  });
+}
+
+// Inicializar tilt + re-inicializar cuando el grid se re-renderiza
+initTilt();
+
+// Observer para re-aplicar tilt cuando las cards se regeneran dinámicamente
+const gridObserver = new MutationObserver(() => initTilt());
+const grid = document.getElementById('servicesGrid');
+if (grid) gridObserver.observe(grid, { childList: true });
+
+// ─────────────────────────────────────────────
+// MAGNETIC BUTTONS
+// ─────────────────────────────────────────────
+function applyMagnetic(btn) {
+  // Evitar duplicados
+  if (btn._magneticBound) return;
+  btn._magneticBound = true;
+
+  btn.addEventListener('mousemove', e => {
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    btn.style.transform = `translate(${dx * 0.35}px, ${dy * 0.35}px)`;
+    btn.style.transition = 'transform 0.15s ease';
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0px, 0px)';
+    btn.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+  });
+}
+
+function initMagnetic() {
+  document.querySelectorAll('.magnetic-btn').forEach(applyMagnetic);
+}
+
+// Añadir clase magnetic-btn a botones principales
+document.querySelectorAll('.tab-btn, .sticky-cart-btn, .whatsapp-btn, .cart-send-btn').forEach(btn => {
+  btn.classList.add('magnetic-btn');
+});
+
+// Inicializar para todos los elementos visibles
+initMagnetic();
+
+// El behance-btn tiene animation-delay 0.75s + duración 0.8s = 1.55s
+// Quitamos la animación CSS una vez que terminó y aplicamos magnético limpio
+const behanceBtn = document.querySelector('.behance-btn');
+if (behanceBtn) {
+  setTimeout(() => {
+    // Fijar estado final y quitar la animación CSS para que no conflictúe
+    behanceBtn.style.animation = 'none';
+    behanceBtn.style.opacity = '1';
+    behanceBtn.style.transform = 'translate(0px, 0px)';
+    applyMagnetic(behanceBtn);
+  }, 1600);
+}
+
+// ─────────────────────────────────────────────
+// STAT COUNTERS
+// ─────────────────────────────────────────────
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1400;
+  const startTime = performance.now();
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeOutExpo(progress);
+    const current = Math.round(eased * target);
+    el.textContent = current + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+  counterObserver.observe(el);
+});
+
+// ─────────────────────────────────────────────
+// SCROLL REVEAL
+// ─────────────────────────────────────────────
+function initScrollReveal() {
+  // Stats bar
+  document.querySelectorAll('.stat').forEach((el, i) => {
+    el.classList.add('scroll-reveal');
+    el.style.transitionDelay = `${i * 0.08}s`;
+  });
+
+  // Featured cards
+  document.querySelectorAll('.featured-card').forEach((el, i) => {
+    el.classList.add('scroll-reveal');
+    el.style.transitionDelay = `${i * 0.12}s`;
+  });
+
+  // Pack cards
+  document.querySelectorAll('.pack-card').forEach((el, i) => {
+    el.classList.add('scroll-reveal');
+    el.style.transitionDelay = `${(i % 3) * 0.1}s`;
+  });
+
+  // Section headers
+  document.querySelectorAll('.section-header, .featured-header').forEach(el => {
+    el.classList.add('scroll-reveal-left');
+  });
+
+  // Footer
+  document.querySelectorAll('.footer-cta-wrap, .footer-socials, .footer-note').forEach((el, i) => {
+    el.classList.add('scroll-reveal');
+    el.style.transitionDelay = `${i * 0.1}s`;
+  });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.scroll-reveal, .scroll-reveal-left').forEach(el => {
+    revealObserver.observe(el);
+  });
+}
+
+// ─────────────────────────────────────────────
+// SERVICE CARDS SCROLL REVEAL
+// ─────────────────────────────────────────────
+let serviceCardObserver = null;
+
+function observeServiceCards() {
+  if (serviceCardObserver) serviceCardObserver.disconnect();
+
+  const vh = window.innerHeight;
+
+  serviceCardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        el.style.transition = `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${el._cardDelay || 0}s, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${el._cardDelay || 0}s`;
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        serviceCardObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card').forEach((el, i) => {
+    const rect = el.getBoundingClientRect();
+    const isInView = rect.top < vh && rect.bottom > 0;
+
+    if (isInView) {
+      // Ya visible: aparece con stagger suave sin esperar scroll
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'none';
+      el._cardDelay = Math.min(i * 0.04, 0.25);
+      setTimeout(() => {
+        el.style.transition = `opacity 0.55s cubic-bezier(0.16,1,0.3,1) ${el._cardDelay}s, transform 0.55s cubic-bezier(0.16,1,0.3,1) ${el._cardDelay}s`;
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 30);
+    } else {
+      // Fuera del viewport: espera al scroll
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(32px)';
+      el._cardDelay = 0.05;
+      serviceCardObserver.observe(el);
+    }
+  });
+}
+
+const originalRenderServices = renderServices;
+renderServices = function() {
+  originalRenderServices();
+  setTimeout(observeServiceCards, 30);
+};
+
+initScrollReveal();
+setTimeout(observeServiceCards, 150);
+
+// ─────────────────────────────────────────────
+// PAGE TRANSITION
+// ─────────────────────────────────────────────
+const catOverlay = document.getElementById('catOverlay');
+
+const backHome = document.getElementById('backHome');
+if (backHome) {
+  backHome.addEventListener('click', e => {
+    e.preventDefault();
+    vortexOutSimple('index.html');
+  });
+}
+
+function vortexOutSimple(url) {
+  const vc = document.createElement('canvas');
+  vc.style.cssText = 'position:fixed;inset:0;z-index:8000;pointer-events:all;';
+  vc.width = window.innerWidth;
+  vc.height = window.innerHeight;
+  document.body.appendChild(vc);
+  const ctx = vc.getContext('2d');
+  const W = vc.width, H = vc.height;
+  const cx = W/2, cy = H/2;
+  const maxR = Math.sqrt((W/2)**2+(H/2)**2)*1.1;
+  let r=0, frame=0;
+  const DUR=50;
+  (function draw(){
+    frame++;
+    const p=frame/DUR, e=1-Math.pow(1-p,3);
+    r=e*maxR;
+    ctx.clearRect(0,0,W,H);
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.fillStyle='#0E0118'; ctx.fill();
+    if(p<0.85){
+      for(let i=0;i<24;i++){
+        const a=(i/24)*Math.PI*2, al=(1-p/0.85)*0.45;
+        const grad=ctx.createLinearGradient(cx+Math.cos(a)*r*.12,cy+Math.sin(a)*r*.12,cx+Math.cos(a)*r*.7,cy+Math.sin(a)*r*.7);
+        grad.addColorStop(0,`rgba(139,0,255,${al*.9})`);
+        grad.addColorStop(1,'rgba(139,0,255,0)');
+        ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*r*.12,cy+Math.sin(a)*r*.12);
+        ctx.lineTo(cx+Math.cos(a)*r*.7,cy+Math.sin(a)*r*.7);
+        ctx.strokeStyle=grad; ctx.lineWidth=1+Math.random(); ctx.stroke();
+      }
+      ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(139,0,255,${(1-p/0.85)*.6})`; ctx.lineWidth=2; ctx.stroke();
+    }
+    if(frame<DUR) requestAnimationFrame(draw);
+    else setTimeout(()=>window.location.href=url, 40);
+  })();
+}
+
+// Entrada con vórtice
+window.addEventListener('load', () => {
+  const vc = document.createElement('canvas');
+  vc.style.cssText = 'position:fixed;inset:0;z-index:8000;pointer-events:none;';
+  vc.width = window.innerWidth;
+  vc.height = window.innerHeight;
+  document.body.appendChild(vc);
+  const ctx = vc.getContext('2d');
+  const W = vc.width, H = vc.height;
+  const cx = W/2, cy = H/2;
+  const maxR = Math.sqrt((W/2)**2+(H/2)**2)*1.1;
+  let frame = 0;
+  const DUR = 48;
+  (function drawIn(){
+    frame++;
+    const p = frame/DUR, e = Math.pow(p, 0.55);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0E0118'; ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath(); ctx.arc(cx,cy,maxR*e,0,Math.PI*2); ctx.fill();
+    ctx.globalCompositeOperation='source-over';
+    if(maxR*e>5){
+      ctx.beginPath(); ctx.arc(cx,cy,maxR*e,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(139,0,255,${0.55*(1-p)})`; ctx.lineWidth=3; ctx.stroke();
+    }
+    if(frame<DUR) requestAnimationFrame(drawIn);
+    else { ctx.clearRect(0,0,W,H); vc.remove(); }
+  })();
+});
+
+// ─────────────────────────────────────────────
+// PARALLAX HERO
+// ─────────────────────────────────────────────
+(function() {
+  const layers = document.querySelectorAll('.parallax-layer');
+  const blob = document.getElementById('heroBlobWrap');
+  const hero = document.querySelector('.hero');
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+    const heroH = hero ? hero.offsetHeight : 600;
+
+    // Solo activo mientras el hero es visible
+    if (scrollY > heroH * 1.5) return;
+
+    // Capas de texto — cada una a distinta velocidad
+    layers.forEach(layer => {
+      const speed = parseFloat(layer.dataset.speed) || 0.2;
+      layer.style.transform = `translateY(${scrollY * speed}px)`;
+    });
+
+    // Blob se mueve más lento y también deriva ligeramente en X
+    if (blob) {
+      blob.style.transform = `translateY(${scrollY * 0.08}px) translateX(${scrollY * 0.03}px)`;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+// ─────────────────────────────────────────────
+// PARTICLE SYSTEM
+// ─────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, particles = [];
+  let mouse = { x: -9999, y: -9999 };
+  const PARTICLE_COUNT = 80;
+  const MOUSE_RADIUS = 120;
+  const MOUSE_FORCE = 0.018;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Track mouse globally (shared con el cursor ya existente)
+  document.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  class Particle {
+    constructor() { this.reset(true); }
+
+    reset(initial = false) {
+      this.x = Math.random() * W;
+      this.y = initial ? Math.random() * H : H + 10;
+      this.baseX = this.x;
+      this.baseY = this.y;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = -(Math.random() * 0.4 + 0.1);
+      this.size = Math.random() * 1.8 + 0.4;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.opacityDir = Math.random() > 0.5 ? 1 : -1;
+      // color: mix entre púrpura y blanco
+      const purple = Math.random() > 0.4;
+      this.color = purple
+        ? `rgba(${100 + Math.floor(Math.random()*60)}, 0, 255,`
+        : `rgba(200, 180, 255,`;
+    }
+
+    update() {
+      // Movimiento base
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Parpadeo suave
+      this.opacity += 0.003 * this.opacityDir;
+      if (this.opacity > 0.6 || this.opacity < 0.05) this.opacityDir *= -1;
+
+      // Repulsión del cursor
+      const dx = this.x - mouse.x;
+      const dy = this.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < MOUSE_RADIUS) {
+        const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+        const angle = Math.atan2(dy, dx);
+        this.x += Math.cos(angle) * force * MOUSE_RADIUS * MOUSE_FORCE * 60;
+        this.y += Math.sin(angle) * force * MOUSE_RADIUS * MOUSE_FORCE * 60;
+      }
+
+      // Reset si sale de pantalla
+      if (this.y < -10 || this.x < -10 || this.x > W + 10) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `${this.color}${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  // Inicializar partículas
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(new Particle());
+  }
+
+  // Loop
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Líneas de conexión entre partículas cercanas
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 90) {
+          const alpha = (1 - dist / 90) * 0.12;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(139, 0, 255, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+})();
+</script>
+
+</body>
+</html>
