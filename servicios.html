@@ -469,50 +469,57 @@ header {
 }
 
 /* CONTROLS */
+/* CONTROLS — buscador en fila propia */
 .controls {
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
-.search-wrap { position: relative; flex: 0 0 260px; }
+.controls-top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-wrap { position: relative; flex: 1; }
 
 .search-icon {
   position: absolute;
-  left: 14px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--gray-mid);
+  color: rgba(139,0,255,0.6);
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(139,0,255,0.2);
-  border-radius: 8px;
-  padding: 11px 14px 11px 40px;
+  background: rgba(139,0,255,0.06);
+  border: 1.5px solid rgba(139,0,255,0.3);
+  border-radius: 10px;
+  padding: 13px 16px 13px 44px;
   color: var(--white);
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
-.search-input::placeholder { color: var(--gray-mid); }
+.search-input::placeholder { color: rgba(255,255,255,0.3); }
 .search-input:focus {
   border-color: var(--purple-vivid);
-  box-shadow: 0 0 0 3px rgba(139,0,255,0.12);
+  background: rgba(139,0,255,0.1);
+  box-shadow: 0 0 0 3px rgba(139,0,255,0.15);
 }
 
 /* SORT */
 .sort-select {
   background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(139,0,255,0.2);
-  border-radius: 8px;
-  padding: 11px 14px;
+  border: 1.5px solid rgba(139,0,255,0.2);
+  border-radius: 10px;
+  padding: 13px 14px;
   color: var(--white);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
@@ -525,6 +532,7 @@ header {
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 32px;
+  flex-shrink: 0;
 }
 
 .sort-select option { background: #1a002e; color: var(--white); }
@@ -534,7 +542,6 @@ header {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 10px;
   align-items: center;
 }
 
@@ -577,7 +584,8 @@ header {
 .results-info {
   font-size: 12px;
   color: var(--gray-mid);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  margin-top: 4px;
   letter-spacing: 0.04em;
   display: flex;
   align-items: center;
@@ -1607,6 +1615,25 @@ footer {
   background: rgba(139,0,255,0.04);
 }
 
+.is-touch .cursor-dot,.is-touch .cursor-ring{display:none!important;}
+body.is-touch{cursor:auto!important;}
+
+/* SCROLL TO TOP */
+.scroll-top-btn{
+  position:fixed;bottom:32px;right:32px;z-index:200;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(139,0,255,0.12);
+  border:1.5px solid rgba(139,0,255,0.35);
+  color:rgba(180,100,255,0.9);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .3s,transform .3s,background .2s,border-color .2s,box-shadow .2s;
+  pointer-events:none;
+}
+.scroll-top-btn.visible{opacity:1;transform:translateY(0);pointer-events:all;}
+.scroll-top-btn:hover{background:rgba(139,0,255,0.25);border-color:var(--purple-vivid);box-shadow:0 0 20px rgba(139,0,255,0.35);color:white;}
+
 </style>
 </head>
 <body>
@@ -1817,16 +1844,18 @@ footer {
   <!-- TAB SERVICIOS -->
   <div id="tab-servicios">
     <div class="controls">
-      <div class="search-wrap">
-        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" class="search-input" placeholder="Buscar servicio..." oninput="applyFilters()" id="searchInput">
+      <div class="controls-top">
+        <div class="search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="search-input" placeholder="Buscar servicio..." oninput="applyFilters()" id="searchInput">
+        </div>
+        <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+          <option value="default">Orden por defecto</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="name-asc">Nombre: A–Z</option>
+        </select>
       </div>
-      <select class="sort-select" id="sortSelect" onchange="applyFilters()">
-        <option value="default">Orden por defecto</option>
-        <option value="price-asc">Precio: menor a mayor</option>
-        <option value="price-desc">Precio: mayor a menor</option>
-        <option value="name-asc">Nombre: A–Z</option>
-      </select>
     </div>
 
     <div class="filters-row" id="categoryFilters">
@@ -2595,76 +2624,88 @@ renderServices();
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
+<!-- SCROLL TO TOP -->
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
 <script>
 // ─────────────────────────────────────────────
 // CUSTOM CURSOR
 // ─────────────────────────────────────────────
+const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+if (isTouch) document.body.classList.add('is-touch');
+
 const dot = document.getElementById('cursorDot');
 const ring = document.getElementById('cursorRing');
 
-let mouseX = 0, mouseY = 0;
-let ringX = 0, ringY = 0;
-let rafId;
+if (!isTouch) {
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
 
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  dot.style.left = mouseX + 'px';
-  dot.style.top = mouseY + 'px';
-});
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+  });
 
-// Ring sigue con lag suave
-function animateRing() {
-  ringX += (mouseX - ringX) * 0.12;
-  ringY += (mouseY - ringY) * 0.12;
-  ring.style.left = ringX + 'px';
-  ring.style.top = ringY + 'px';
-  rafId = requestAnimationFrame(animateRing);
-}
-animateRing();
-
-// Hover states
-const hoverTargets = 'a, button, .filter-btn, .tab-btn, .sort-select, input, select';
-const cardTargets = '.service-card, .featured-card, .pack-card';
-
-document.addEventListener('mouseover', e => {
-  const isCard = e.target.closest(cardTargets);
-  const isHover = e.target.closest(hoverTargets);
-  if (isCard) {
-    dot.classList.add('on-card');
-    ring.classList.add('on-card');
-    dot.classList.remove('hovering');
-    ring.classList.remove('hovering');
-  } else if (isHover) {
-    dot.classList.add('hovering');
-    ring.classList.add('hovering');
-    dot.classList.remove('on-card');
-    ring.classList.remove('on-card');
-  } else {
-    dot.classList.remove('hovering', 'on-card');
-    ring.classList.remove('hovering', 'on-card');
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
   }
-});
+  animateRing();
 
-document.addEventListener('mousedown', () => {
-  dot.classList.add('clicking');
-  ring.classList.add('clicking');
-});
+  const hoverTargets = 'a, button, .filter-btn, .tab-btn, .sort-select, input, select';
+  const cardTargets = '.service-card, .featured-card, .pack-card';
 
-document.addEventListener('mouseup', () => {
-  dot.classList.remove('clicking');
-  ring.classList.remove('clicking');
-});
+  document.addEventListener('mouseover', e => {
+    const isCard = e.target.closest(cardTargets);
+    const isHover = e.target.closest(hoverTargets);
+    if (isCard) {
+      dot.classList.add('on-card'); ring.classList.add('on-card');
+      dot.classList.remove('hovering'); ring.classList.remove('hovering');
+    } else if (isHover) {
+      dot.classList.add('hovering'); ring.classList.add('hovering');
+      dot.classList.remove('on-card'); ring.classList.remove('on-card');
+    } else {
+      dot.classList.remove('hovering', 'on-card');
+      ring.classList.remove('hovering', 'on-card');
+    }
+  });
 
-// Ocultar cursor al salir de la ventana
-document.addEventListener('mouseleave', () => {
-  dot.style.opacity = '0';
-  ring.style.opacity = '0';
-});
+  document.addEventListener('mousedown', () => { dot.classList.add('clicking'); ring.classList.add('clicking'); });
+  document.addEventListener('mouseup', () => { dot.classList.remove('clicking'); ring.classList.remove('clicking'); });
+  document.addEventListener('mouseleave', () => { dot.style.opacity='0'; ring.style.opacity='0'; });
+  document.addEventListener('mouseenter', () => { dot.style.opacity='1'; ring.style.opacity='1'; });
+}
 
-document.addEventListener('mouseenter', () => {
-  dot.style.opacity = '1';
-  ring.style.opacity = '1';
+// ── GIROSCOPIO EN HERO (móvil) ──
+if (isTouch && window.DeviceOrientationEvent) {
+  const heroEl = document.getElementById('heroSection');
+  let ghx=0,ghy=0,ghtx=0,ghty=0;
+  window.addEventListener('deviceorientation', e => {
+    const x = e.beta  ? Math.max(-20, Math.min(20, e.beta  - 20)) : 0;
+    const y = e.gamma ? Math.max(-20, Math.min(20, e.gamma))       : 0;
+    ghtx = (x/20)*-3; ghty = (y/20)*4;
+  }, { passive: true });
+  (function ag(){
+    ghx += (ghtx-ghx)*.07; ghy += (ghty-ghy)*.07;
+    if(heroEl) heroEl.style.transform=`perspective(1200px) rotateX(${ghx}deg) rotateY(${ghy}deg)`;
+    requestAnimationFrame(ag);
+  })();
+}
+
+// ── SCROLL TO TOP ──
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // ─────────────────────────────────────────────
@@ -2949,8 +2990,23 @@ function vortexOutSimple(url) {
 }
 
 // Entrada con vórtice
-window.addEventListener('load', () => {
+// Fix bfcache: usar pageshow en lugar de load
+// pageshow se dispara tanto en carga normal como al navegar con "atrás"
+window.addEventListener('pageshow', (e) => {
+  // Limpiar cualquier canvas o overlay residual
+  document.querySelectorAll('canvas.vortex-canvas').forEach(c => c.remove());
+  const overlay = document.getElementById('catOverlay');
+  if (overlay) {
+    overlay.style.transform = 'scaleY(0)';
+    overlay.style.animation = 'none';
+  }
+
+  // Si viene del bfcache (persisted=true), limpiar y no animar
+  if (e.persisted) return;
+
+  // Animación de entrada normal
   const vc = document.createElement('canvas');
+  vc.className = 'vortex-canvas';
   vc.style.cssText = 'position:fixed;inset:0;z-index:8000;pointer-events:none;';
   vc.width = window.innerWidth;
   vc.height = window.innerHeight;

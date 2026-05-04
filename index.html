@@ -23,12 +23,14 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{width:100%;height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;cursor:none;}
+body.is-touch{cursor:auto;}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.5;}
 #bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.6;}
 .cursor-dot{position:fixed;width:8px;height:8px;background:var(--purple-vivid);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(139,0,255,0.8);transition:width .15s,height .15s,background .15s;}
 .cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(139,0,255,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;}
 .cursor-dot.hov{width:5px;height:5px;background:white;}
 .cursor-ring.hov{width:54px;height:54px;border-color:rgba(139,0,255,0.9);}
+.is-touch .cursor-dot,.is-touch .cursor-ring{display:none!important;}
 
 
 /* SCENE — wrapper para tilt 3D */
@@ -220,15 +222,21 @@ svg.filter-defs{position:absolute;width:0;height:0;}
 </div>
 
 <script>
-// ── CURSOR ──
+// ── TOUCH DETECTION ──
+const isTouch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+if(isTouch) document.body.classList.add('is-touch');
+
+// ── CURSOR (solo desktop) ──
 const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function ar(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{dot.classList.add('hov');ring.classList.add('hov');});
-  el.addEventListener('mouseleave',()=>{dot.classList.remove('hov');ring.classList.remove('hov');});
-});
+if(!isTouch){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function ar(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(ar);})();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{dot.classList.add('hov');ring.classList.add('hov');});
+    el.addEventListener('mouseleave',()=>{dot.classList.remove('hov');ring.classList.remove('hov');});
+  });
+}
 
 // ── DISTORSIÓN SVG ──
 const turbulence=document.getElementById('turbulence');
@@ -343,9 +351,10 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
 });
 
 // Entrada
-window.addEventListener('load',()=>{
+window.addEventListener('pageshow',(e)=>{
   vortexRunning=false;
   document.querySelectorAll('canvas.vortex-canvas').forEach(c=>c.remove());
+  if(e.persisted)return; // bfcache: no animar, solo limpiar
   const vc=document.createElement('canvas');
   vc.className='vortex-canvas';
   vc.style.cssText='position:fixed;inset:0;z-index:7000;pointer-events:none;';
@@ -391,6 +400,9 @@ let eggRunning=false;
 function triggerEasterEgg(){
   if(eggRunning)return;
   eggRunning=true;
+  const eggAudio = new Audio('audio/explosion-sound.mp3');
+  eggAudio.volume = 0.6;
+  eggAudio.play().catch(()=>{});
   const trigger=document.getElementById('eggTrigger');
   trigger.style.transition='opacity .3s';
   trigger.style.opacity='0';
