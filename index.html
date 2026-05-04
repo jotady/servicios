@@ -52,12 +52,33 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* NAV */
 .nav-buttons{display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeUp 1s cubic-bezier(0.16,1,0.3,1) 0.9s forwards;}
 .nav-row{display:flex;gap:12px;align-items:center;}
-.nav-btn{display:flex;align-items:center;gap:10px;padding:15px 28px;border-radius:99px;font-family:'Encode Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;cursor:none;transition:box-shadow .25s,background .25s,border-color .25s,color .25s;position:relative;will-change:transform;font-variation-settings:'wdth' 110,'wght' 700;}
+
+/* Wrapper magnético — recibe el transform, NO el elemento clicable */
+.mag-wrap{position:relative;display:inline-flex;will-change:transform;}
+
+.nav-btn{
+  display:flex;align-items:center;gap:10px;padding:15px 28px;border-radius:99px;
+  font-family:'Encode Sans',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;cursor:none;
+  transition:box-shadow .25s,background .25s,border-color .25s,color .25s;
+  position:relative;
+  font-variation-settings:'wdth' 110,'wght' 700;
+  user-select:none;-webkit-user-select:none;
+  /* Sin will-change ni transform propio — lo maneja el wrapper */
+}
 .nav-btn-primary{background:var(--purple-vivid);color:white;border:1.5px solid var(--purple-vivid);box-shadow:0 0 32px rgba(139,0,255,0.4);}
 .nav-btn-primary:hover{box-shadow:0 0 52px rgba(139,0,255,0.7);background:#9f1fff;}
 .nav-btn-secondary{background:transparent;color:rgba(255,255,255,0.6);border:1.5px solid rgba(255,255,255,0.12);}
 .nav-btn-secondary:hover{border-color:rgba(139,0,255,0.5);color:var(--white);background:rgba(139,0,255,0.08);}
-.nav-btn-behance{display:inline-flex;align-items:center;gap:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-mid);text-decoration:none;cursor:none;padding:9px 18px;border-radius:99px;border:1px solid rgba(255,255,255,0.07);transition:color .2s,border-color .2s,background .2s;will-change:transform;}
+.nav-btn-behance{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-mid);
+  text-decoration:none;cursor:none;padding:9px 18px;border-radius:99px;
+  border:1px solid rgba(255,255,255,0.07);
+  transition:color .2s,border-color .2s,background .2s;
+  user-select:none;-webkit-user-select:none;
+}
 .nav-btn-behance:hover{color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);}
 
 /* EASTER EGG TRIGGER — izquierda inferior */
@@ -110,8 +131,8 @@ svg.filter-defs{position:absolute;width:0;height:0;}
 
   .egg-trigger { bottom: 20px; left: 20px; }
 
-  .social-row { bottom: 24px; right: 20px; gap: 8px; }
-  .social-dot { width: 32px; height: 32px; }
+  .social-row { bottom: 24px; right: 20px; gap: 14px; }
+  .social-dot { width: 48px; height: 48px; }
 }
 </style>
 </head>
@@ -148,19 +169,25 @@ svg.filter-defs{position:absolute;width:0;height:0;}
 
   <div class="nav-buttons">
     <div class="nav-row">
-      <a href="servicios.html" class="nav-btn nav-btn-primary magnetic-nav" id="btnServicios">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Catálogo de servicios
-      </a>
-      <a href="microapps.html" class="nav-btn nav-btn-secondary magnetic-nav" id="btnMicroapps">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        MicroApps
+      <div class="mag-wrap magnetic-nav">
+        <a href="servicios.html" class="nav-btn nav-btn-primary" id="btnServicios">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Catálogo de servicios
+        </a>
+      </div>
+      <div class="mag-wrap magnetic-nav">
+        <a href="microapps.html" class="nav-btn nav-btn-secondary" id="btnMicroapps">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          MicroApps
+        </a>
+      </div>
+    </div>
+    <div class="mag-wrap magnetic-nav">
+      <a href="https://www.behance.net/gallery/228837681/Portfolio-20XX" target="_blank" class="nav-btn-behance">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7.803 5.731c.589 0 1.119.051 1.605.155.483.103.895.273 1.243.508.343.235.611.547.804.939.187.387.28.854.28 1.396 0 .597-.134 1.096-.405 1.488-.271.392-.66.716-1.167.966.707.201 1.24.571 1.598 1.105.355.53.535 1.17.535 1.909 0 .592-.112 1.103-.335 1.534-.223.43-.535.784-.935 1.06-.4.278-.863.482-1.393.614-.527.13-1.082.197-1.66.197H1V5.731h6.803zm-.351 4.972c.48 0 .878-.114 1.192-.345.312-.228.463-.588.463-1.079 0-.27-.05-.494-.147-.668-.099-.174-.232-.312-.399-.415-.165-.099-.355-.169-.57-.208-.214-.04-.435-.057-.665-.057H3.887v2.772h3.565zm.2 5.239c.264 0 .516-.025.752-.076.238-.05.443-.136.618-.259.175-.12.315-.283.421-.489.105-.205.156-.462.156-.77 0-.614-.173-1.052-.521-1.311-.346-.259-.807-.388-1.38-.388H3.887v3.293h3.765zm9.623-.627c.368.358.9.538 1.592.538.496 0 .924-.124 1.28-.375.354-.249.571-.514.651-.793h2.56c-.41 1.271-1.038 2.178-1.886 2.722-.846.543-1.869.815-3.066.815-.832 0-1.581-.134-2.249-.4-.666-.267-1.235-.643-1.704-1.128-.471-.485-.834-1.066-1.088-1.741-.256-.674-.383-1.413-.383-2.213 0-.775.131-1.497.392-2.165.261-.667.632-1.242 1.112-1.728.48-.484 1.048-.863 1.706-1.136.657-.272 1.383-.408 2.175-.408.887 0 1.67.17 2.347.511.677.341 1.236.804 1.676 1.388.44.585.758 1.261.953 2.029.196.767.262 1.58.198 2.438h-7.618c.043.839.312 1.485.682 1.846zm2.767-5.151c-.295-.323-.778-.486-1.45-.486-.421 0-.771.071-1.051.211-.278.14-.503.314-.676.523-.171.208-.292.43-.36.665-.069.234-.11.452-.123.651h4.336c-.118-.703-.381-1.241-.676-1.564zm-3.737-4.976h5.454v1.32h-5.454v-1.32z"/></svg>
+        Ver portafolio en Behance ↗
       </a>
     </div>
-    <a href="https://www.behance.net/gallery/228837681/Portfolio-20XX" target="_blank" class="nav-btn-behance magnetic-nav">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7.803 5.731c.589 0 1.119.051 1.605.155.483.103.895.273 1.243.508.343.235.611.547.804.939.187.387.28.854.28 1.396 0 .597-.134 1.096-.405 1.488-.271.392-.66.716-1.167.966.707.201 1.24.571 1.598 1.105.355.53.535 1.17.535 1.909 0 .592-.112 1.103-.335 1.534-.223.43-.535.784-.935 1.06-.4.278-.863.482-1.393.614-.527.13-1.082.197-1.66.197H1V5.731h6.803zm-.351 4.972c.48 0 .878-.114 1.192-.345.312-.228.463-.588.463-1.079 0-.27-.05-.494-.147-.668-.099-.174-.232-.312-.399-.415-.165-.099-.355-.169-.57-.208-.214-.04-.435-.057-.665-.057H3.887v2.772h3.565zm.2 5.239c.264 0 .516-.025.752-.076.238-.05.443-.136.618-.259.175-.12.315-.283.421-.489.105-.205.156-.462.156-.77 0-.614-.173-1.052-.521-1.311-.346-.259-.807-.388-1.38-.388H3.887v3.293h3.765zm9.623-.627c.368.358.9.538 1.592.538.496 0 .924-.124 1.28-.375.354-.249.571-.514.651-.793h2.56c-.41 1.271-1.038 2.178-1.886 2.722-.846.543-1.869.815-3.066.815-.832 0-1.581-.134-2.249-.4-.666-.267-1.235-.643-1.704-1.128-.471-.485-.834-1.066-1.088-1.741-.256-.674-.383-1.413-.383-2.213 0-.775.131-1.497.392-2.165.261-.667.632-1.242 1.112-1.728.48-.484 1.048-.863 1.706-1.136.657-.272 1.383-.408 2.175-.408.887 0 1.67.17 2.347.511.677.341 1.236.804 1.676 1.388.44.585.758 1.261.953 2.029.196.767.262 1.58.198 2.438h-7.618c.043.839.312 1.485.682 1.846zm2.767-5.151c-.295-.323-.778-.486-1.45-.486-.421 0-.771.071-1.051.211-.278.14-.503.314-.676.523-.171.208-.292.43-.36.665-.069.234-.11.452-.123.651h4.336c-.118-.703-.381-1.241-.676-1.564zm-3.737-4.976h5.454v1.32h-5.454v-1.32z"/></svg>
-      Ver portafolio en Behance ↗
-    </a>
   </div>
 
 </main>
@@ -219,6 +246,11 @@ setInterval(()=>{if(distortActive){seed=(seed+1)%100;turbulence.setAttribute('se
 
 // ── SCENE TILT ──
 const scene=document.getElementById('scene');
+// Fix C: scene no debe interceptar eventos de puntero
+scene.style.pointerEvents='none';
+// Pero los elementos internos sí deben ser clicables
+document.querySelectorAll('.stage *').forEach(el=>el.style.pointerEvents='auto');
+
 let tiltActive=true,tiltX=0,tiltY=0,targetTX=0,targetTY=0;
 document.addEventListener('mousemove',e=>{
   if(!tiltActive)return;
@@ -228,14 +260,30 @@ document.addEventListener('mousemove',e=>{
 });
 (function at(){tiltX+=(targetTX-tiltX)*.07;tiltY+=(targetTY-tiltY)*.07;scene.style.transform=`perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;requestAnimationFrame(at);})();
 
-// ── MAGNETIC ──
-document.querySelectorAll('.magnetic-nav').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    btn.style.transform=`translate(${(e.clientX-(r.left+r.width/2))*.3}px,${(e.clientY-(r.top+r.height/2))*.3}px)`;
-    btn.style.transition='transform .15s ease';
+// ── GYROSCOPIO (móvil) ──
+if(window.DeviceOrientationEvent){
+  window.addEventListener('deviceorientation',e=>{
+    if(!tiltActive)return;
+    const x=e.beta?Math.max(-30,Math.min(30,e.beta-20)):0; // inclinación adelante/atrás
+    const y=e.gamma?Math.max(-30,Math.min(30,e.gamma)):0;  // inclinación izquierda/derecha
+    targetTX=(x/30)*-6;
+    targetTY=(y/30)*8;
+  },{passive:true});
+}
+
+// ── MAGNETIC — actúa sobre .mag-wrap, no sobre el enlace ──
+document.querySelectorAll('.magnetic-nav').forEach(wrap=>{
+  wrap.addEventListener('mousemove',e=>{
+    const r=wrap.getBoundingClientRect();
+    const dx=(e.clientX-(r.left+r.width/2))*.32;
+    const dy=(e.clientY-(r.top+r.height/2))*.32;
+    wrap.style.transform=`translate(${dx}px,${dy}px)`;
+    wrap.style.transition='transform .12s ease';
   });
-  btn.addEventListener('mouseleave',()=>{btn.style.transform='translate(0,0)';btn.style.transition='transform .5s cubic-bezier(0.23,1,0.32,1)';});
+  wrap.addEventListener('mouseleave',()=>{
+    wrap.style.transform='translate(0,0)';
+    wrap.style.transition='transform .5s cubic-bezier(0.23,1,0.32,1)';
+  });
 });
 
 // ── PAGE TRANSITION — VÓRTICE ──
@@ -244,116 +292,98 @@ let vortexRunning=false;
 function vortexOut(url, originX, originY){
   if(vortexRunning) return;
   vortexRunning=true;
-
-  // Limpiar cualquier canvas residual antes de crear uno nuevo
   document.querySelectorAll('canvas.vortex-canvas').forEach(c=>c.remove());
-
   const vc=document.createElement('canvas');
   vc.className='vortex-canvas';
   vc.style.cssText='position:fixed;inset:0;z-index:7000;pointer-events:all;';
   vc.width=window.innerWidth; vc.height=window.innerHeight;
   document.body.appendChild(vc);
   const ctx=vc.getContext('2d');
-
-  const W=vc.width, H=vc.height;
-  const ox = originX || W/2;
-  const oy = originY || H/2;
+  const W=vc.width,H=vc.height;
+  const ox=originX||W/2, oy=originY||H/2;
   const maxR=Math.sqrt(Math.max(ox,W-ox)**2+Math.max(oy,H-oy)**2)*1.1;
-  let r=0, frame=0;
-  const DURATION=55;
-
-  function draw(){
+  let r=0,frame=0;
+  const DUR=55;
+  (function draw(){
     frame++;
-    const progress=frame/DURATION;
-    const eased=1-Math.pow(1-progress,3);
-    r=eased*maxR;
-
+    const p=frame/DUR,e=1-Math.pow(1-p,3);
+    r=e*maxR;
     ctx.clearRect(0,0,W,H);
-    ctx.beginPath();
-    ctx.arc(ox,oy,r,0,Math.PI*2);
-    ctx.fillStyle='#0E0118';
-    ctx.fill();
-
-    if(progress<0.85){
-      const lineCount=28;
-      const lineProgress=progress/0.85;
-      for(let i=0;i<lineCount;i++){
-        const angle=(i/lineCount)*Math.PI*2;
-        const innerR=r*0.15, outerR=r*(0.4+Math.random()*0.5);
-        const alpha=(1-lineProgress)*0.5;
-        const lx1=ox+Math.cos(angle)*innerR, ly1=oy+Math.sin(angle)*innerR;
-        const lx2=ox+Math.cos(angle)*outerR, ly2=oy+Math.sin(angle)*outerR;
-        const grad=ctx.createLinearGradient(lx1,ly1,lx2,ly2);
-        grad.addColorStop(0,`rgba(139,0,255,${alpha*0.9})`);
-        grad.addColorStop(0.5,`rgba(200,100,255,${alpha*0.6})`);
+    ctx.beginPath();ctx.arc(ox,oy,r,0,Math.PI*2);
+    ctx.fillStyle='#0E0118';ctx.fill();
+    if(p<0.85){
+      const lp=p/0.85;
+      for(let i=0;i<28;i++){
+        const a=(i/28)*Math.PI*2,al=(1-lp)*0.5;
+        const grad=ctx.createLinearGradient(ox+Math.cos(a)*r*.15,oy+Math.sin(a)*r*.15,ox+Math.cos(a)*r*.65,oy+Math.sin(a)*r*.65);
+        grad.addColorStop(0,`rgba(139,0,255,${al*.9})`);
+        grad.addColorStop(0.5,`rgba(200,100,255,${al*.6})`);
         grad.addColorStop(1,'rgba(139,0,255,0)');
-        ctx.beginPath(); ctx.moveTo(lx1,ly1); ctx.lineTo(lx2,ly2);
-        ctx.strokeStyle=grad; ctx.lineWidth=0.8+Math.random()*1.5; ctx.stroke();
+        ctx.beginPath();ctx.moveTo(ox+Math.cos(a)*r*.15,oy+Math.sin(a)*r*.15);
+        ctx.lineTo(ox+Math.cos(a)*r*.65,oy+Math.sin(a)*r*.65);
+        ctx.strokeStyle=grad;ctx.lineWidth=0.8+Math.random()*1.5;ctx.stroke();
       }
-      ctx.beginPath(); ctx.arc(ox,oy,r,0,Math.PI*2);
-      ctx.strokeStyle=`rgba(139,0,255,${(1-lineProgress)*0.7})`;
-      ctx.lineWidth=2; ctx.stroke();
-      const glow=ctx.createRadialGradient(ox,oy,0,ox,oy,r*0.2);
-      glow.addColorStop(0,`rgba(180,0,255,${(1-lineProgress)*0.4})`);
-      glow.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.beginPath(); ctx.arc(ox,oy,r*0.2,0,Math.PI*2);
-      ctx.fillStyle=glow; ctx.fill();
+      ctx.beginPath();ctx.arc(ox,oy,r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(139,0,255,${(1-lp)*.7})`;ctx.lineWidth=2;ctx.stroke();
     }
-
-    if(frame<DURATION) requestAnimationFrame(draw);
-    else setTimeout(()=>window.location.href=url, 50);
-  }
-  requestAnimationFrame(draw);
+    if(frame<DUR)requestAnimationFrame(draw);
+    else setTimeout(()=>window.location.href=url,50);
+  })();
 }
 
-// Capturar posición del clic en cada botón
+// Vórtice en clics de los enlaces internos (no Behance)
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click',e=>{
     e.preventDefault();
-    const r=btn.getBoundingClientRect();
-    vortexOut(btn.href, r.left+r.width/2, r.top+r.height/2);
+    e.stopPropagation();
+    const wrap=btn.closest('.mag-wrap');
+    const r=wrap?wrap.getBoundingClientRect():btn.getBoundingClientRect();
+    vortexOut(btn.href,r.left+r.width/2,r.top+r.height/2);
   });
 });
 
-// Entrada — vórtice de apertura al cargar la página
+// Entrada
 window.addEventListener('load',()=>{
-  // Asegurar que el flag esté limpio al entrar
   vortexRunning=false;
-
-  // Limpiar canvas residuales
   document.querySelectorAll('canvas.vortex-canvas').forEach(c=>c.remove());
-
   const vc=document.createElement('canvas');
   vc.className='vortex-canvas';
   vc.style.cssText='position:fixed;inset:0;z-index:7000;pointer-events:none;';
-  vc.width=window.innerWidth; vc.height=window.innerHeight;
+  vc.width=window.innerWidth;vc.height=window.innerHeight;
   document.body.appendChild(vc);
   const ctx=vc.getContext('2d');
-  const W=vc.width, H=vc.height, cx=W/2, cy=H/2;
+  const W=vc.width,H=vc.height,cx=W/2,cy=H/2;
   const maxR=Math.sqrt((W/2)**2+(H/2)**2)*1.1;
   let frame=0;
   const DUR=48;
-
   (function drawIn(){
     frame++;
-    const p=frame/DUR, e=Math.pow(p,0.55);
+    const p=frame/DUR,e=Math.pow(p,0.55);
     ctx.clearRect(0,0,W,H);
-    ctx.fillStyle='#0E0118'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#0E0118';ctx.fillRect(0,0,W,H);
     ctx.globalCompositeOperation='destination-out';
-    ctx.beginPath(); ctx.arc(cx,cy,maxR*e,0,Math.PI*2); ctx.fill();
+    ctx.beginPath();ctx.arc(cx,cy,maxR*e,0,Math.PI*2);ctx.fill();
     ctx.globalCompositeOperation='source-over';
     if(maxR*e>5){
-      ctx.beginPath(); ctx.arc(cx,cy,maxR*e,0,Math.PI*2);
-      ctx.strokeStyle=`rgba(139,0,255,${0.55*(1-p)})`; ctx.lineWidth=3; ctx.stroke();
+      ctx.beginPath();ctx.arc(cx,cy,maxR*e,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(139,0,255,${0.55*(1-p)})`;ctx.lineWidth=3;ctx.stroke();
     }
-    if(frame<DUR){
-      requestAnimationFrame(drawIn);
-    } else {
-      ctx.clearRect(0,0,W,H);
-      vc.remove(); // Eliminar completamente del DOM
-    }
+    if(frame<DUR)requestAnimationFrame(drawIn);
+    else{ctx.clearRect(0,0,W,H);vc.remove();}
   })();
 });
+
+// ── MÓVIL: giroscopio únicamente ──
+(function(){
+  if(!window.DeviceOrientationEvent) return;
+  window.addEventListener('deviceorientation',e=>{
+    if(!tiltActive) return;
+    const x = e.beta  ? Math.max(-30, Math.min(30, e.beta  - 20)) : 0;
+    const y = e.gamma ? Math.max(-30, Math.min(30, e.gamma))      : 0;
+    targetTX = (x / 30) * -6;
+    targetTY = (y / 30) *  8;
+  }, { passive: true });
+})();
 
 // ── EASTER EGG ──
 let eggRunning=false;
