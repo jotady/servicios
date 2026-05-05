@@ -93,7 +93,11 @@ footer{padding:56px 40px 64px;text-align:center;border-top:1px solid rgba(139,0,
 .footer-back{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--gray-mid);text-decoration:none;cursor:none;transition:color .2s;user-select:none;}
 .footer-back:hover{color:var(--white);}
 
-/* RESPONSIVE */
+/* En móvil las animaciones van más sutiles */
+@media(hover:none){
+  .app-canvas.mobile-active{ opacity:0.35!important; }
+}
+
 @media(max-width:768px){
   header{padding:20px 24px;}
   .page-hero{padding:120px 24px 60px;}
@@ -141,8 +145,8 @@ footer{padding:56px 40px 64px;text-align:center;border-top:1px solid rgba(139,0,
       <div class="app-number">01</div>
       <div class="app-info">
         <div class="app-tags"><span class="app-tag">Juego</span><span class="app-tag">Prototipo</span><span class="app-tag">IASD</span></div>
-        <div class="app-name">Profeta Express</div>
-        <p class="app-desc">Prototipo digital para la versión express del juego de mesa «Profeta», basado en las profecías bíblicas interpretadas por la Iglesia Adventista. Una experiencia interactiva que lleva la dinámica del juego físico a la pantalla.</p>
+        <div class="app-name">Profeta Express <span style="font-size:0.6em;opacity:0.6;font-variation-settings:'wdth' 100,'wght' 500;">(PC)</span></div>
+        <p class="app-desc">Prototipo (de escritorio) digital para la versión express del juego de mesa «Profeta», basado en las profecías bíblicas interpretadas por la Iglesia Adventista. Una experiencia interactiva que lleva la dinámica del juego físico a la pantalla.</p>
       </div>
       <div class="app-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
     </div>
@@ -226,6 +230,14 @@ footer{padding:56px 40px 64px;text-align:center;border-top:1px solid rgba(139,0,
 const isTouch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 if(isTouch) document.body.classList.add('is-touch');
 
+// Desbloquear contexto de audio en el primer touch (antes de que el usuario llegue a las apps)
+if(isTouch){
+  document.addEventListener('touchstart',()=>{
+    const unlock=new Audio();
+    unlock.play().catch(()=>{});
+  },{once:true,passive:true});
+}
+
 // ── CURSOR (solo desktop) ──
 const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
@@ -290,44 +302,32 @@ function initCards(row){
   sizeCanvas(canvas,row);
   const ctx=canvas.getContext('2d');
   const W=canvas.width,H=canvas.height;
-  const N=18;
-  const color='rgba(249,202,36,';
-  const cards=Array.from({length:N},(_,i)=>({
-    x:Math.random()*W, y:Math.random()*H,
-    w:36+Math.random()*24, h:52+Math.random()*32,
+  const cards=Array.from({length:18},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    w:36+Math.random()*24,h:52+Math.random()*32,
     rot:Math.random()*Math.PI*2,
-    vx:(Math.random()-.5)*.6, vy:(Math.random()-.5)*.4,
-    vr:(Math.random()-.5)*.025,
-    op:0.08+Math.random()*.18,
+    vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.4,
+    vr:(Math.random()-.5)*.025,op:0.08+Math.random()*.18,
   }));
-
-  let raf;
-  function draw(){
+  let raf,lastTs=0;
+  function draw(ts){
+    const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     ctx.clearRect(0,0,W,H);
     cards.forEach(c=>{
-      c.x+=c.vx; c.y+=c.vy; c.rot+=c.vr;
-      if(c.x<-c.w)c.x=W+c.w;
-      if(c.x>W+c.w)c.x=-c.w;
-      if(c.y<-c.h)c.y=H+c.h;
-      if(c.y>H+c.h)c.y=-c.h;
-      ctx.save();
-      ctx.translate(c.x,c.y);
-      ctx.rotate(c.rot);
+      c.x+=c.vx*d;c.y+=c.vy*d;c.rot+=c.vr*d;
+      if(c.x<-c.w)c.x=W+c.w;if(c.x>W+c.w)c.x=-c.w;
+      if(c.y<-c.h)c.y=H+c.h;if(c.y>H+c.h)c.y=-c.h;
+      ctx.save();ctx.translate(c.x,c.y);ctx.rotate(c.rot);
       ctx.globalAlpha=c.op;
-      ctx.strokeStyle=`rgba(249,202,36,0.7)`;
-      ctx.lineWidth=1.2;
-      ctx.fillStyle=`rgba(249,202,36,0.04)`;
-      const rr=4;
-      const hw=c.w/2,hh=c.h/2;
+      ctx.strokeStyle='rgba(249,202,36,0.7)';ctx.lineWidth=1.2;
+      ctx.fillStyle='rgba(249,202,36,0.04)';
+      const rr=4,hw=c.w/2,hh=c.h/2;
       ctx.beginPath();
-      ctx.moveTo(-hw+rr,-hh);
-      ctx.lineTo(hw-rr,-hh);ctx.arcTo(hw,-hh,hw,-hh+rr,rr);
+      ctx.moveTo(-hw+rr,-hh);ctx.lineTo(hw-rr,-hh);ctx.arcTo(hw,-hh,hw,-hh+rr,rr);
       ctx.lineTo(hw,hh-rr);ctx.arcTo(hw,hh,hw-rr,hh,rr);
       ctx.lineTo(-hw+rr,hh);ctx.arcTo(-hw,hh,-hw,hh-rr,rr);
       ctx.lineTo(-hw,-hh+rr);ctx.arcTo(-hw,-hh,-hw+rr,-hh,rr);
-      ctx.closePath();
-      ctx.fill();ctx.stroke();
-      // Línea decorativa de carta
+      ctx.closePath();ctx.fill();ctx.stroke();
       ctx.globalAlpha=c.op*.5;
       ctx.beginPath();ctx.moveTo(-hw+6,-hh+6);ctx.lineTo(hw-6,-hh+6);ctx.stroke();
       ctx.beginPath();ctx.moveTo(-hw+6,hh-6);ctx.lineTo(hw-6,hh-6);ctx.stroke();
@@ -335,8 +335,8 @@ function initCards(row){
     });
     raf=requestAnimationFrame(draw);
   }
-  return {start:()=>{if(!animLoops.profeta){draw();animLoops.profeta=raf;}},
-          stop:()=>{cancelAnimationFrame(animLoops.profeta);animLoops.profeta=null;ctx.clearRect(0,0,W,H);}};
+  return {start:()=>{if(!animLoops.profeta){raf=requestAnimationFrame(draw);animLoops.profeta=true;}},
+          stop:()=>{cancelAnimationFrame(raf);animLoops.profeta=null;ctx.clearRect(0,0,W,H);}};
 }
 
 // ── 02 SEMILLA: LUCIÉRNAGAS ──
@@ -346,23 +346,21 @@ function initFireflies(row){
   const ctx=canvas.getContext('2d');
   const W=canvas.width,H=canvas.height;
   const COLORS=['rgba(85,239,196,','rgba(0,230,118,','rgba(178,255,89,','rgba(255,234,167,'];
-  const N=28;
-  const flies=Array.from({length:N},()=>({
-    x:Math.random()*W, y:Math.random()*H,
-    vx:(Math.random()-.5)*.5, vy:(Math.random()-.5)*.5,
+  const flies=Array.from({length:28},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,
     r:1.5+Math.random()*2.5,
-    phase:Math.random()*Math.PI*2,
-    speed:0.02+Math.random()*.03,
+    phase:Math.random()*Math.PI*2,speed:0.02+Math.random()*.03,
     col:COLORS[Math.floor(Math.random()*COLORS.length)],
   }));
-
-  let raf,t=0;
-  function draw(){
-    t++;
+  let raf,t=0,lastTs=0;
+  function draw(ts){
+    const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
+    t+=d;
     ctx.clearRect(0,0,W,H);
     flies.forEach(f=>{
-      f.x+=f.vx+(Math.sin(t*.01+f.phase)*.3);
-      f.y+=f.vy+(Math.cos(t*.013+f.phase)*.3);
+      f.x+=f.vx*d+(Math.sin(t*.01+f.phase)*.3*d);
+      f.y+=f.vy*d+(Math.cos(t*.013+f.phase)*.3*d);
       if(f.x<0)f.x=W;if(f.x>W)f.x=0;
       if(f.y<0)f.y=H;if(f.y>H)f.y=0;
       const blink=0.4+0.6*Math.abs(Math.sin(t*f.speed+f.phase));
@@ -377,8 +375,8 @@ function initFireflies(row){
     });
     raf=requestAnimationFrame(draw);
   }
-  return {start:()=>{if(!animLoops.semilla){draw();animLoops.semilla=raf;}},
-          stop:()=>{cancelAnimationFrame(animLoops.semilla);animLoops.semilla=null;ctx.clearRect(0,0,W,H);}};
+  return {start:()=>{if(!animLoops.semilla){raf=requestAnimationFrame(draw);animLoops.semilla=true;}},
+          stop:()=>{cancelAnimationFrame(raf);animLoops.semilla=null;ctx.clearRect(0,0,W,H);}};
 }
 
 // ── 03 COUNTRYMATCH: PAÍSES DOM ──
@@ -387,39 +385,32 @@ function initCountries(row){
   const COUNTRIES=['Japón','Canadá','Noruega','Portugal','Chile','Nueva Zelanda','Suiza','Islandia','Costa Rica','Finlandia','Países Bajos','Uruguay','Austria','Dinamarca','Eslovenia','Australia','Irlanda','Suecia','Corea','Estonia','Letonia','Lituania','República Checa','Malta'];
   const sizes=['11px','13px','16px','20px','26px','32px','38px'];
   const items=[];
-  let running=false;
-
   function build(){
-    container.innerHTML='';
-    const W=container.offsetWidth,H=container.offsetHeight;
-    COUNTRIES.forEach((name,i)=>{
+    container.innerHTML='';items.length=0;
+    COUNTRIES.forEach(name=>{
       const el=document.createElement('span');
       el.textContent=name;
       const sz=sizes[Math.floor(Math.random()*sizes.length)];
       el.style.cssText=`position:absolute;font-family:'Encode Sans',sans-serif;font-size:${sz};font-weight:700;color:rgba(116,185,255,${0.06+Math.random()*.14});letter-spacing:.05em;white-space:nowrap;font-variation-settings:'wdth' 125,'wght' 800;pointer-events:none;user-select:none;`;
-      el.style.left=Math.random()*85+'%';
-      el.style.top=Math.random()*85+'%';
+      el.style.left=Math.random()*85+'%';el.style.top=Math.random()*85+'%';
       container.appendChild(el);
       items.push({el,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.18,x:parseFloat(el.style.left),y:parseFloat(el.style.top)});
     });
   }
-
-  let raf;
-  function tick(){
-    const W=container.offsetWidth,H=container.offsetHeight;
+  let raf,lastTs=0;
+  function tick(ts){
+    const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     items.forEach(it=>{
-      it.x+=it.vx; it.y+=it.vy;
+      it.x+=it.vx*d;it.y+=it.vy*d;
       if(it.x<-10)it.x=100;if(it.x>100)it.x=-10;
       if(it.y<-5)it.y=100;if(it.y>100)it.y=-5;
-      it.el.style.left=it.x+'%';
-      it.el.style.top=it.y+'%';
+      it.el.style.left=it.x+'%';it.el.style.top=it.y+'%';
     });
     raf=requestAnimationFrame(tick);
   }
-
   return {
-    start:()=>{if(!animLoops.country){build();tick();animLoops.country=raf;}},
-    stop:()=>{cancelAnimationFrame(animLoops.country);animLoops.country=null;container.innerHTML='';items.length=0;}
+    start:()=>{if(!animLoops.country){build();raf=requestAnimationFrame(tick);animLoops.country=true;}},
+    stop:()=>{cancelAnimationFrame(raf);animLoops.country=null;container.innerHTML='';items.length=0;}
   };
 }
 
@@ -430,58 +421,46 @@ function initNotes(row){
   const ctx=canvas.getContext('2d');
   const W=canvas.width,H=canvas.height;
   const SYMBOLS=['♩','♪','♫','♬','𝄞','𝄢'];
-  const N=20;
   let mouseX=-999,mouseY=-999;
   row.addEventListener('mousemove',e=>{const r=row.getBoundingClientRect();mouseX=e.clientX-r.left;mouseY=e.clientY-r.top;});
   row.addEventListener('mouseleave',()=>{mouseX=-999;mouseY=-999;});
-
-  const notes=Array.from({length:N},()=>({
-    x:Math.random()*W, y:Math.random()*H,
-    vx:(Math.random()-.5)*.5, vy:-0.2-Math.random()*.35,
+  const notes=Array.from({length:20},()=>({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.5,vy:-0.2-Math.random()*.35,
     sym:SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)],
-    size:16+Math.random()*28,
-    op:0.1+Math.random()*.25,
+    size:16+Math.random()*28,op:0.1+Math.random()*.25,
     phase:Math.random()*Math.PI*2,
   }));
-
-  let raf,t=0;
-  function draw(){
-    t++;
+  let raf,t=0,lastTs=0;
+  function draw(ts){
+    const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
+    t+=d;
     ctx.clearRect(0,0,W,H);
     notes.forEach(n=>{
-      // Repulsión del cursor — igual que las partículas del catálogo
-      const dx=n.x-mouseX, dy=n.y-mouseY;
-      const dist=Math.sqrt(dx*dx+dy*dy);
+      const dx=n.x-mouseX,dy=n.y-mouseY,dist=Math.sqrt(dx*dx+dy*dy);
       if(dist<120&&mouseX>0){
-        const force=(120-dist)/120;
-        const angle=Math.atan2(dy,dx);
-        n.vx+=Math.cos(angle)*force*.18;
-        n.vy+=Math.sin(angle)*force*.18;
+        const force=(120-dist)/120,angle=Math.atan2(dy,dx);
+        n.vx+=Math.cos(angle)*force*.18*d;
+        n.vy+=Math.sin(angle)*force*.18*d;
       }
-      // Fricción para que no se disparen al infinito
-      n.vx*=0.96; n.vy*=0.96;
-      // Velocidad vertical base constante para que sigan flotando
-      n.vy-=0.008;
-      n.x+=n.vx+Math.sin(t*.02+n.phase)*.25;
-      n.y+=n.vy;
-      // Wrap
+      n.vx*=Math.pow(0.96,d);n.vy*=Math.pow(0.96,d);
+      n.vy-=0.008*d;
+      n.x+=n.vx*d+Math.sin(t*.02+n.phase)*.25*d;
+      n.y+=n.vy*d;
       if(n.y<-40){n.y=H+20;n.x=Math.random()*W;}
-      if(n.x<-20)n.x=W+10;
-      if(n.x>W+20)n.x=-10;
+      if(n.x<-20)n.x=W+10;if(n.x>W+20)n.x=-10;
       const pulse=0.7+0.3*Math.sin(t*.05+n.phase);
       ctx.globalAlpha=n.op*pulse;
       ctx.fillStyle='rgba(255,107,107,1)';
       ctx.font=`${n.size}px serif`;
-      ctx.shadowColor='rgba(255,107,107,0.5)';
-      ctx.shadowBlur=n.size*.5;
-      ctx.fillText(n.sym,n.x,n.y);
-      ctx.shadowBlur=0;
+      ctx.shadowColor='rgba(255,107,107,0.5)';ctx.shadowBlur=n.size*.5;
+      ctx.fillText(n.sym,n.x,n.y);ctx.shadowBlur=0;
     });
     ctx.globalAlpha=1;
     raf=requestAnimationFrame(draw);
   }
-  return {start:()=>{if(!animLoops.cancionero){draw();animLoops.cancionero=raf;}},
-          stop:()=>{cancelAnimationFrame(animLoops.cancionero);animLoops.cancionero=null;ctx.clearRect(0,0,W,H);}};
+  return {start:()=>{if(!animLoops.cancionero){raf=requestAnimationFrame(draw);animLoops.cancionero=true;}},
+          stop:()=>{cancelAnimationFrame(raf);animLoops.cancionero=null;ctx.clearRect(0,0,W,H);}};
 }
 
 // ── 05 CHORDPRO: CÓDIGO ──
@@ -490,53 +469,47 @@ function initChord(row){
   const TAGS=['{title: Canción}','{artist: Artista}','{key: Am}','{tempo: 120}','{time: 4/4}','[Am]','[G]','[F]','[C]','[Em]','[Dm]','{start_of_chorus}','{end_of_chorus}','{start_of_verse}','{end_of_verse}','{comment: Intro}','[Am][G][F][C]','# Estrofa 1'];
   const COLORS=['rgba(162,155,254,','rgba(200,195,255,','rgba(120,110,220,'];
   const items=[];
-  let rafId;
-
   function build(){
-    container.innerHTML='';
-    items.length=0;
-    const W=container.offsetWidth;
-    const N=14;
-    for(let i=0;i<N;i++){
+    container.innerHTML='';items.length=0;
+    for(let i=0;i<14;i++){
       const el=document.createElement('div');
-      const tag=TAGS[Math.floor(Math.random()*TAGS.length)];
       const col=COLORS[Math.floor(Math.random()*COLORS.length)];
       const sz=10+Math.floor(Math.random()*8);
-      el.textContent=tag;
+      el.textContent=TAGS[Math.floor(Math.random()*TAGS.length)];
       el.style.cssText=`position:absolute;font-family:monospace;font-size:${sz}px;color:${col}${0.08+Math.random()*.2});white-space:nowrap;pointer-events:none;user-select:none;`;
-      el.style.left=Math.random()*80+'%';
-      el.style.top=Math.random()*80+'%';
+      el.style.left=Math.random()*80+'%';el.style.top=Math.random()*80+'%';
       container.appendChild(el);
-      items.push({el,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.15,x:parseFloat(el.style.left),y:parseFloat(el.style.top),blinkTimer:0,blinkRate:60+Math.floor(Math.random()*120)});
+      items.push({el,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.15,
+        x:parseFloat(el.style.left),y:parseFloat(el.style.top),
+        blinkTimer:0,blinkRate:60+Math.floor(Math.random()*120)});
     }
   }
-
-  function tick(){
+  let raf,lastTs=0,tFrames=0;
+  function tick(ts){
+    const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
+    tFrames+=d;
     items.forEach(it=>{
-      it.x+=it.vx;it.y+=it.vy;
+      it.x+=it.vx*d;it.y+=it.vy*d;
       if(it.x<-15)it.x=100;if(it.x>100)it.x=-15;
       if(it.y<-5)it.y=100;if(it.y>100)it.y=-5;
-      it.el.style.left=it.x+'%';
-      it.el.style.top=it.y+'%';
-      it.blinkTimer++;
+      it.el.style.left=it.x+'%';it.el.style.top=it.y+'%';
+      it.blinkTimer+=d;
       if(it.blinkTimer>it.blinkRate){
         it.blinkTimer=0;
-        const newTag=TAGS[Math.floor(Math.random()*TAGS.length)];
-        it.el.textContent=newTag;
+        it.el.textContent=TAGS[Math.floor(Math.random()*TAGS.length)];
       }
     });
-    rafId=requestAnimationFrame(tick);
+    raf=requestAnimationFrame(tick);
   }
-
   return {
-    start:()=>{if(!animLoops.chord){build();tick();animLoops.chord=rafId;}},
-    stop:()=>{cancelAnimationFrame(animLoops.chord);animLoops.chord=null;container.innerHTML='';items.length=0;}
+    start:()=>{if(!animLoops.chord){build();raf=requestAnimationFrame(tick);animLoops.chord=true;}},
+    stop:()=>{cancelAnimationFrame(raf);animLoops.chord=null;container.innerHTML='';items.length=0;}
   };
 }
 
 // ── AUDIO MAP ──
 const AUDIO_MAP={
-  'profeta-express-assets':{ src:'audio/profeta-express-sound4.mp3', vol:0.7 },
+  'profeta-express-assets':{ src:'audio/profeta-express-sound4.mp3', vol:0.6 },
   'semilla':               { src:'audio/semilla-sound.mp3',          vol:0.3  },
   'countrymatch':          { src:'audio/countrymatch-sound.mp3',     vol:0.3  },
   'cancioneroicentral':    { src:'audio/cancionero-icentral-sound.mp3', vol:0.2 },
@@ -709,9 +682,9 @@ function navigateWithAudio(url,row,clickX,clickY){
   }
   requestAnimationFrame(drawFrame);
 
-  // Navegar a los 2s exactos en nueva pestaña
+  // Navegar en la misma ventana — compatible con todos los navegadores
   setTimeout(()=>{
-    window.open(url,'_blank');
+    window.location.href=url;
     // Limpiar todo después de abrir
     setTimeout(()=>{
       vc.remove();

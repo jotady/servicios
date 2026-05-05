@@ -91,12 +91,60 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .egg-label{font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,80,80,0.6);animation:eggPulse 2s ease-in-out infinite;}
 @keyframes eggPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
 
+/* Estado ALERTA del egg (primer toque) */
+.egg-warning.alert{animation:eggAlert .25s ease-in-out infinite;}
+@keyframes eggAlert{
+  0%{transform:rotate(-8deg) scale(1);}
+  25%{transform:rotate(8deg) scale(1.18);}
+  50%{transform:rotate(-6deg) scale(0.92);}
+  75%{transform:rotate(7deg) scale(1.22);}
+  100%{transform:rotate(-8deg) scale(1);}
+}
+.egg-label.alert{
+  color:rgba(255,60,60,1);
+  animation:eggLabelAlert .18s ease-in-out infinite;
+  letter-spacing:0.28em;
+}
+@keyframes eggLabelAlert{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.3;transform:scale(1.08);}
+}
+.egg-btn.alert svg path{stroke:rgba(255,60,60,0.95)!important;}
+.egg-btn.alert svg line,.egg-btn.alert svg circle{stroke:rgba(255,255,100,1)!important;fill:rgba(255,255,100,1)!important;}
+
 /* SOCIAL — derecha inferior */
 .social-row{position:fixed;bottom:32px;right:40px;display:flex;gap:12px;align-items:center;opacity:0;animation:fadeUp 1s cubic-bezier(0.16,1,0.3,1) 1.2s forwards;z-index:1;}
 .social-dot{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:var(--gray-mid);text-decoration:none;cursor:none;transition:border-color .2s,color .2s,background .2s;}
 .social-dot:hover{border-color:rgba(139,0,255,0.5);color:white;background:rgba(139,0,255,0.1);}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* GYRO BUTTON — solo visible en iOS touch vía JS */
+.gyro-btn{
+  display:none;
+  position:fixed;bottom:90px;left:50%;
+  transform:translateX(-50%);
+  z-index:200;
+  align-items:center;gap:9px;
+  background:rgba(139,0,255,0.14);
+  border:1.5px solid rgba(139,0,255,0.45);
+  color:rgba(200,150,255,0.9);
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;font-weight:500;
+  padding:10px 18px;border-radius:99px;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .4s,background .2s,transform .4s;
+  letter-spacing:0.04em;
+}
+.gyro-btn.visible{
+  opacity:1;pointer-events:all;
+  animation:gyroAppear .8s cubic-bezier(0.16,1,0.3,1) 2s forwards;
+}
+@keyframes gyroAppear{from{opacity:0;transform:translateX(-50%) translateY(8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 svg.filter-defs{position:absolute;width:0;height:0;}
 
 /* ── RESPONSIVE MÓVIL ── */
@@ -195,14 +243,24 @@ svg.filter-defs{position:absolute;width:0;height:0;}
 </main>
 </div>
 
+<!-- GYRO BUTTON (iOS) -->
+<button class="gyro-btn" id="gyroBtn">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2a10 10 0 1 0 10 10"/>
+    <path d="M12 6v6l4 2"/>
+    <path d="M22 2l-3 3 3 3"/>
+  </svg>
+  Activar movimiento
+</button>
+
 <!-- EASTER EGG TRIGGER -->
 <div class="egg-trigger" id="eggTrigger">
   <button class="egg-btn" id="eggBtn" onclick="triggerEasterEgg()">
     <div class="egg-warning">
       <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" fill="rgba(255,60,60,0.12)" stroke="rgba(255,80,80,0.65)" stroke-width="1.5" stroke-linejoin="round"/>
-        <line x1="12" y1="9" x2="12" y2="13" stroke="rgba(255,80,80,0.85)" stroke-width="1.8" stroke-linecap="round"/>
-        <circle cx="12" cy="16.5" r="0.8" fill="rgba(255,80,80,0.85)"/>
+        <path id="eggTriPath" d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" fill="rgba(255,60,60,0.12)" stroke="rgba(255,80,80,0.65)" stroke-width="1.5" stroke-linejoin="round"/>
+        <line x1="12" y1="9" x2="12" y2="13" id="eggTriLine" stroke="rgba(255,80,80,0.85)" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="12" cy="16.5" r="0.8" id="eggTriDot" fill="rgba(255,80,80,0.85)"/>
       </svg>
     </div>
     <span class="egg-label">NO PULSAR</span>
@@ -268,15 +326,40 @@ document.addEventListener('mousemove',e=>{
 });
 (function at(){tiltX+=(targetTX-tiltX)*.07;tiltY+=(targetTY-tiltY)*.07;scene.style.transform=`perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;requestAnimationFrame(at);})();
 
-// ── GYROSCOPIO (móvil) ──
-if(window.DeviceOrientationEvent){
-  window.addEventListener('deviceorientation',e=>{
-    if(!tiltActive)return;
-    const x=e.beta?Math.max(-30,Math.min(30,e.beta-20)):0; // inclinación adelante/atrás
-    const y=e.gamma?Math.max(-30,Math.min(30,e.gamma)):0;  // inclinación izquierda/derecha
-    targetTX=(x/30)*-6;
-    targetTY=(y/30)*8;
-  },{passive:true});
+// ── GIROSCOPIO (móvil) con permiso iOS ──
+if(isTouch && window.DeviceOrientationEvent){
+  function startGyro(){
+    window.addEventListener('deviceorientation',e=>{
+      if(!tiltActive)return;
+      const x=e.beta ?Math.max(-30,Math.min(30,e.beta -20)):0;
+      const y=e.gamma?Math.max(-30,Math.min(30,e.gamma    )):0;
+      targetTX=(x/30)*-6;
+      targetTY=(y/30)*8;
+    },{passive:true});
+  }
+
+  // iOS 13+ requiere permiso explícito
+  if(typeof DeviceOrientationEvent.requestPermission==='function'){
+    const gyroBtn=document.getElementById('gyroBtn');
+    if(gyroBtn){
+      gyroBtn.style.display='flex';
+      // Delay para que aparezca después de la animación de entrada
+      setTimeout(()=>gyroBtn.classList.add('visible'),2000);
+      gyroBtn.addEventListener('click',()=>{
+        DeviceOrientationEvent.requestPermission().then(state=>{
+          if(state==='granted'){
+            startGyro();
+            gyroBtn.style.opacity='0';
+            gyroBtn.style.pointerEvents='none';
+            setTimeout(()=>gyroBtn.remove(),600);
+          }
+        }).catch(()=>{});
+      });
+    }
+  } else {
+    // Android y navegadores sin restricción — arrancar directo
+    startGyro();
+  }
 }
 
 // ── MAGNETIC — actúa sobre .mag-wrap, no sobre el enlace ──
@@ -394,14 +477,105 @@ window.addEventListener('pageshow',(e)=>{
   }, { passive: true });
 })();
 
-// ── EASTER EGG ──
+// ── EASTER EGG SYSTEM ──
 let eggRunning=false;
+let eggAlerted=false;
+let selectedEgg='';
+
+// Colores por tipo de egg
+const EGG_COLORS={
+  explosion:{stroke:'rgba(255,80,80,0.65)',fill:'rgba(255,60,60,0.12)',detail:'rgba(255,80,80,0.85)'},
+  snake:    {stroke:'rgba(85,239,196,0.65)',fill:'rgba(85,239,196,0.08)',detail:'rgba(85,239,196,0.85)'},
+  terminal: {stroke:'rgba(207,136,255,0.65)',fill:'rgba(139,0,255,0.08)',detail:'rgba(207,136,255,0.85)'},
+};
+
+function pickNewEgg(){
+  const types=['explosion','snake','terminal'];
+  selectedEgg=types[Math.floor(Math.random()*types.length)];
+  applyEggColor(selectedEgg);
+}
+
+function applyEggColor(type){
+  const c=EGG_COLORS[type];
+  const path=document.getElementById('eggTriPath');
+  const line=document.getElementById('eggTriLine');
+  const dot=document.getElementById('eggTriDot');
+  if(path){ path.setAttribute('stroke',c.stroke); path.setAttribute('fill',c.fill); }
+  if(line){ line.setAttribute('stroke',c.detail); }
+  if(dot) { dot.setAttribute('fill',c.detail); }
+}
+
+function resetEggVisuals(){
+  eggAlerted=false;
+  const warning=document.querySelector('.egg-warning');
+  const label=document.querySelector('.egg-label');
+  const btn=document.getElementById('eggBtn');
+  if(warning)warning.classList.remove('alert');
+  if(label)label.classList.remove('alert');
+  if(btn)btn.classList.remove('alert');
+  if(!isTouch){
+    dot.style.background='';dot.style.boxShadow='';
+    ring.style.borderColor='';
+  }
+}
+
+function showEggTrigger(){
+  const t=document.getElementById('eggTrigger');
+  if(!t)return;
+  pickNewEgg(); // nuevo sorteo cada vez que reaparece
+  t.style.transition='opacity .7s ease';
+  t.style.opacity='1';
+  t.style.pointerEvents='all';
+}
+
+// Sorteo inicial al cargar
+pickNewEgg();
 
 function triggerEasterEgg(){
   if(eggRunning)return;
+
+  // Snake y Terminal — 1 solo toque
+  if(selectedEgg==='snake'||selectedEgg==='terminal'){
+    eggRunning=true;
+    resetEggVisuals();
+    const trigger=document.getElementById('eggTrigger');
+    trigger.style.transition='opacity .3s';
+    trigger.style.opacity='0';
+    trigger.style.pointerEvents='none';
+    if(selectedEgg==='snake') runSnake();
+    else runTerminal();
+    return;
+  }
+
+  // Explosión — 2 toques (necesita desbloquear audio)
+  if(!eggAlerted){
+    eggAlerted=true;
+    // Desbloquear audio con silencio
+    const unlock=new Audio();
+    unlock.play().catch(()=>{});
+    // Activar alerta visual
+    const warning=document.querySelector('.egg-warning');
+    const label=document.querySelector('.egg-label');
+    const btn=document.getElementById('eggBtn');
+    if(warning)warning.classList.add('alert');
+    if(label)label.classList.add('alert');
+    if(btn)btn.classList.add('alert');
+    if(!isTouch){
+      dot.style.background='rgba(255,60,60,0.9)';
+      dot.style.boxShadow='0 0 12px rgba(255,60,60,0.8)';
+      ring.style.borderColor='rgba(255,60,60,0.6)';
+    }
+    // Auto-reset si no da 2do toque en 4s
+    setTimeout(()=>{
+      if(!eggRunning){ resetEggVisuals(); }
+    },4000);
+    return;
+  }
+
+  // Segundo toque — explosión
   eggRunning=true;
-  const eggAudio = new Audio('audio/explosion-sound.mp3');
-  eggAudio.volume = 0.6;
+  const eggAudio=new Audio('audio/explosion-sound.mp3');
+  eggAudio.volume=0.7;
   eggAudio.play().catch(()=>{});
   const trigger=document.getElementById('eggTrigger');
   trigger.style.transition='opacity .3s';
@@ -564,13 +738,8 @@ function finishExplosion(expCanvas,ctx,titleSvg){
         distortActive=true;
         tiltActive=true;
         eggRunning=false;
-        // Reaparece el trigger tras 1.5s
-        setTimeout(()=>{
-          const t=document.getElementById('eggTrigger');
-          t.style.transition='opacity .7s ease';
-          t.style.opacity='1';
-          t.style.pointerEvents='all';
-        },1500);
+        // Reaparece con nuevo sorteo
+        setTimeout(()=>showEggTrigger(),1500);
       }
     },22);
   },220);
@@ -594,26 +763,433 @@ function finishExplosion(expCanvas,ctx,titleSvg){
       this.op=Math.random()*.5+.1;this.opDir=Math.random()>.5?1:-1;
       this.col=Math.random()>.4?`rgba(${100+Math.floor(Math.random()*60)},0,255,`:`rgba(200,180,255,`;
     }
-    update(){
-      this.x+=this.vx;this.y+=this.vy;this.op+=.003*this.opDir;
+    update(d){
+      this.x+=this.vx*d;this.y+=this.vy*d;this.op+=.003*this.opDir*d;
       if(this.op>.6||this.op<.05)this.opDir*=-1;
-      const dx=this.x-pmx,dy=this.y-pmy,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<RAD){const f=(RAD-d)/RAD,a=Math.atan2(dy,dx);this.x+=Math.cos(a)*f*RAD*.02*60;this.y+=Math.sin(a)*f*RAD*.02*60;}
+      const dx=this.x-pmx,dy=this.y-pmy,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<RAD){const f=(RAD-dist)/RAD,a=Math.atan2(dy,dx);this.x+=Math.cos(a)*f*RAD*.02*60*d;this.y+=Math.sin(a)*f*RAD*.02*60*d;}
       if(this.y<-10||this.x<-10||this.x>W+10)this.reset();
     }
     draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`${this.col}${this.op})`;ctx.fill();}
   }
   for(let i=0;i<N;i++)pts.push(new Pt());
-  (function loop(){
+  let lastTs=0;
+  (function loop(ts){
+    const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     ctx.clearRect(0,0,W,H);
     for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(139,0,255,${(1-d/90)*.12})`;ctx.lineWidth=.5;ctx.stroke();}
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(139,0,255,${(1-dist/90)*.12})`;ctx.lineWidth=.5;ctx.stroke();}
     }
-    pts.forEach(p=>{p.update();p.draw();});
+    pts.forEach(p=>{p.update(d);p.draw();});
     requestAnimationFrame(loop);
-  })();
+  })(0);
 })();
+
+// ── SNAKE EASTER EGG ──
+function runSnake(){
+  // Overlay del juego
+  const overlay=document.createElement('div');
+  overlay.id='snakeOverlay';
+  overlay.style.cssText='position:fixed;inset:0;z-index:600;background:rgba(10,0,20,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;';
+  
+  // Header con score y botón X
+  const header=document.createElement('div');
+  header.style.cssText='display:flex;align-items:center;justify-content:space-between;width:min(400px,90vw);padding:0 4px 16px;';
+  
+  const scoreEl=document.createElement('div');
+  scoreEl.style.cssText='font-family:"Encode Sans",sans-serif;font-size:13px;font-weight:700;letter-spacing:.15em;color:rgba(139,0,255,0.8);font-variation-settings:"wdth" 125,"wght" 700;';
+  scoreEl.textContent='SCORE: 0';
+
+  const titleEl=document.createElement('div');
+  titleEl.style.cssText='font-family:"Encode Sans",sans-serif;font-size:11px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,0.25);font-variation-settings:"wdth" 125,"wght" 700;';
+  titleEl.textContent='JOTADY SNAKE';
+
+  const closeBtn=document.createElement('button');
+  closeBtn.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  closeBtn.style.cssText='background:none;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;';
+  closeBtn.onmouseover=()=>{closeBtn.style.borderColor='rgba(255,80,80,0.5)';closeBtn.style.color='rgba(255,80,80,0.8)';};
+  closeBtn.onmouseleave=()=>{closeBtn.style.borderColor='rgba(255,255,255,0.12)';closeBtn.style.color='rgba(255,255,255,0.4)';};
+
+  header.append(scoreEl,titleEl,closeBtn);
+
+  // Canvas del juego
+  const CELL=18;
+  const COLS=22,ROWS=22;
+  const W=COLS*CELL,H=ROWS*CELL;
+  const gc=document.createElement('canvas');
+  gc.width=W; gc.height=H;
+  gc.style.cssText=`width:${W}px;height:${H}px;border:1px solid rgba(139,0,255,0.3);border-radius:4px;display:block;`;
+  const gctx=gc.getContext('2d');
+
+  // Controles táctiles (móvil)
+  const controls=document.createElement('div');
+  controls.style.cssText='display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px);gap:6px;margin-top:20px;';
+  const ctrlBtns={up:'↑',left:'←',right:'→',down:'↓'};
+  const positions={up:[0,1],left:[1,0],right:[1,2],down:[1,1]};
+  const dirMap={up:{x:0,y:-1},down:{x:0,y:1},left:{x:-1,y:0},right:{x:1,y:0}};
+  Object.entries(positions).forEach(([dir,[row,col]])=>{
+    const b=document.createElement('button');
+    b.textContent=ctrlBtns[dir];
+    b.style.cssText=`grid-row:${row+1};grid-column:${col+1};background:rgba(139,0,255,0.12);border:1px solid rgba(139,0,255,0.3);color:rgba(200,150,255,0.9);font-size:18px;border-radius:8px;cursor:pointer;`;
+    b.addEventListener('touchstart',e=>{e.preventDefault();nextDir=dirMap[dir];},{passive:false});
+    b.addEventListener('click',()=>nextDir=dirMap[dir]);
+    controls.appendChild(b);
+  });
+
+  const hint=document.createElement('div');
+  hint.style.cssText='font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:.1em;margin-top:14px;text-align:center;font-family:"DM Sans",sans-serif;';
+  hint.textContent=isTouch?'Desliza o usa los botones · X para salir':'Flechas del teclado · ESC para salir';
+
+  overlay.append(header,gc);
+  if(isTouch) overlay.appendChild(controls);
+  overlay.appendChild(hint);
+  document.body.appendChild(overlay);
+
+  // Estado del juego
+  let snake=[{x:11,y:11},{x:10,y:11},{x:9,y:11}];
+  let dir={x:1,y:0};
+  let nextDir={x:1,y:0};
+  let food=spawnFood(snake,COLS,ROWS);
+  let score=0;
+  let gameOver=false;
+  let gameRaf;
+  let lastTime=0;
+  const SPEED=130; // ms por frame
+
+  function spawnFood(s,C,R){
+    let f;
+    do{ f={x:Math.floor(Math.random()*C),y:Math.floor(Math.random()*R)}; }
+    while(s.some(seg=>seg.x===f.x&&seg.y===f.y));
+    return f;
+  }
+
+  function drawGame(){
+    gctx.fillStyle='#0A0014';
+    gctx.fillRect(0,0,W,H);
+
+    // Grid sutil
+    gctx.strokeStyle='rgba(139,0,255,0.05)';
+    gctx.lineWidth=0.5;
+    for(let x=0;x<=COLS;x++){gctx.beginPath();gctx.moveTo(x*CELL,0);gctx.lineTo(x*CELL,H);gctx.stroke();}
+    for(let y=0;y<=ROWS;y++){gctx.beginPath();gctx.moveTo(0,y*CELL);gctx.lineTo(W,y*CELL);gctx.stroke();}
+
+    // Comida — punto brillante
+    const fx=food.x*CELL+CELL/2, fy=food.y*CELL+CELL/2;
+    const t=Date.now()/400;
+    const pulse=0.7+0.3*Math.sin(t);
+    const glow=gctx.createRadialGradient(fx,fy,0,fx,fy,CELL*.8);
+    glow.addColorStop(0,`rgba(255,255,100,${pulse})`);
+    glow.addColorStop(1,'rgba(255,255,100,0)');
+    gctx.fillStyle=glow;
+    gctx.beginPath();gctx.arc(fx,fy,CELL*.8,0,Math.PI*2);gctx.fill();
+    gctx.fillStyle=`rgba(255,255,120,${pulse})`;
+    gctx.beginPath();gctx.arc(fx,fy,CELL*.25,0,Math.PI*2);gctx.fill();
+
+    // Serpiente
+    snake.forEach((seg,i)=>{
+      const x=seg.x*CELL+1, y=seg.y*CELL+1, s=CELL-2;
+      const ratio=i/snake.length;
+      const r=Math.round(139+(116-139)*ratio);
+      const g=0;
+      const b=Math.round(255+(200-255)*ratio);
+      gctx.fillStyle=`rgba(${r},${g},${b},${1-ratio*0.4})`;
+      if(i===0){
+        // Cabeza con brillo
+        gctx.shadowColor='rgba(139,0,255,0.8)';
+        gctx.shadowBlur=8;
+      } else {
+        gctx.shadowBlur=0;
+      }
+      const rr=3;
+      gctx.beginPath();
+      gctx.moveTo(x+rr,y);gctx.lineTo(x+s-rr,y);gctx.arcTo(x+s,y,x+s,y+rr,rr);
+      gctx.lineTo(x+s,y+s-rr);gctx.arcTo(x+s,y+s,x+s-rr,y+s,rr);
+      gctx.lineTo(x+rr,y+s);gctx.arcTo(x,y+s,x,y+s-rr,rr);
+      gctx.lineTo(x,y+rr);gctx.arcTo(x,y,x+rr,y,rr);
+      gctx.closePath();gctx.fill();
+      gctx.shadowBlur=0;
+    });
+
+    // Game over overlay
+    if(gameOver){
+      gctx.fillStyle='rgba(10,0,20,0.82)';
+      gctx.fillRect(0,0,W,H);
+      gctx.fillStyle='rgba(139,0,255,1)';
+      gctx.font='bold 22px "Encode Sans",sans-serif';
+      gctx.textAlign='center';
+      gctx.fillText('GAME OVER',W/2,H/2-18);
+      gctx.fillStyle='rgba(255,255,255,0.5)';
+      gctx.font='13px "DM Sans",sans-serif';
+      gctx.fillText(`Score: ${score}`,W/2,H/2+10);
+      gctx.fillText(isTouch?'Toca para reiniciar':'Space para reiniciar',W/2,H/2+32);
+    }
+  }
+
+  function gameLoop(ts){
+    gameRaf=requestAnimationFrame(gameLoop);
+    drawGame();
+    if(gameOver)return;
+    if(ts-lastTime<SPEED)return;
+    lastTime=ts;
+
+    // Aplicar dirección
+    if(!(nextDir.x===-dir.x&&nextDir.y===-dir.y)) dir=nextDir;
+
+    const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+
+    // Colisión con paredes
+    if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS){gameOver=true;return;}
+    // Colisión consigo misma
+    if(snake.some(s=>s.x===head.x&&s.y===head.y)){gameOver=true;return;}
+
+    snake.unshift(head);
+    if(head.x===food.x&&head.y===food.y){
+      score++;
+      scoreEl.textContent=`SCORE: ${score}`;
+      food=spawnFood(snake,COLS,ROWS);
+    } else {
+      snake.pop();
+    }
+  }
+  gameRaf=requestAnimationFrame(gameLoop);
+
+  // Swipe en móvil
+  let tx=0,ty=0;
+  gc.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+  gc.addEventListener('touchend',e=>{
+    if(gameOver){restartSnake();return;}
+    const dx=e.changedTouches[0].clientX-tx;
+    const dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>Math.abs(dy)){nextDir=dx>0?{x:1,y:0}:{x:-1,y:0};}
+    else{nextDir=dy>0?{x:0,y:1}:{x:0,y:-1};}
+  },{passive:true});
+
+  gc.addEventListener('click',()=>{if(gameOver)restartSnake();});
+
+  function restartSnake(){
+    snake=[{x:11,y:11},{x:10,y:11},{x:9,y:11}];
+    dir={x:1,y:0};nextDir={x:1,y:0};
+    food=spawnFood(snake,COLS,ROWS);
+    score=0;scoreEl.textContent='SCORE: 0';
+    gameOver=false;lastTime=0;
+  }
+
+  function closeSnake(){
+    cancelAnimationFrame(gameRaf);
+    // Quitar listeners de teclado
+    document.removeEventListener('keydown',keyHandler);
+    overlay.remove();
+    // Restaurar portada
+    distortActive=true;tiltActive=true;
+    eggRunning=false;eggAlerted=false;
+    const warning=document.querySelector('.egg-warning');
+    const label=document.querySelector('.egg-label');
+    const btn=document.getElementById('eggBtn');
+    if(warning)warning.classList.remove('alert');
+    if(label)label.classList.remove('alert');
+    if(btn)btn.classList.remove('alert');
+    setTimeout(()=>showEggTrigger(),800);
+  }
+
+  closeBtn.addEventListener('click',closeSnake);
+
+  // Teclado
+  function keyHandler(e){
+    const map={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0}};
+    if(map[e.key]){e.preventDefault();nextDir=map[e.key];}
+    if(e.key==='Escape')closeSnake();
+    if(e.key===' '&&gameOver){e.preventDefault();restartSnake();}
+  }
+  document.addEventListener('keydown',keyHandler);
+
+  // Entrada con fade
+  overlay.style.opacity='0';
+  overlay.style.transition='opacity .35s ease';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.style.opacity='1'));
+}
+
+// ── TERMINAL EASTER EGG ──
+function runTerminal(){
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;z-index:600;background:#0A0014;display:flex;flex-direction:column;opacity:0;transition:opacity .4s;overflow:hidden;';
+  document.body.appendChild(overlay);
+
+  // Scanlines
+  const scanlines=document.createElement('div');
+  scanlines.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(139,0,255,0.03) 2px,rgba(139,0,255,0.03) 4px);';
+  overlay.appendChild(scanlines);
+
+  // Botón X
+  const closeBtn=document.createElement('button');
+  closeBtn.innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+  closeBtn.style.cssText='position:absolute;top:20px;right:20px;z-index:10;background:none;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;';
+  closeBtn.onmouseover=()=>{closeBtn.style.borderColor='rgba(255,80,80,0.5)';closeBtn.style.color='rgba(255,80,80,0.8)';};
+  closeBtn.onmouseleave=()=>{closeBtn.style.borderColor='rgba(255,255,255,0.1)';closeBtn.style.color='rgba(255,255,255,0.3)';};
+  overlay.appendChild(closeBtn);
+
+  // Terminal container
+  const term=document.createElement('div');
+  term.style.cssText='position:relative;z-index:3;width:min(640px,92vw);margin:auto;padding:40px 0;font-family:monospace;font-size:clamp(12px,1.8vw,14px);line-height:1.8;';
+  overlay.appendChild(term);
+
+  // Cursor parpadeante
+  const cursor=document.createElement('span');
+  cursor.textContent='_';
+  cursor.style.cssText='color:#8B00FF;animation:termCursor .7s step-end infinite;';
+  const cursorStyle=document.createElement('style');
+  cursorStyle.textContent='@keyframes termCursor{0%,100%{opacity:1;}50%{opacity:0;}}';
+  document.head.appendChild(cursorStyle);
+
+  // Glitch de entrada en la portada
+  tiltActive=false; distortActive=false;
+  scene.style.transition='transform .2s';
+  scene.style.transform='perspective(1000px) rotateX(0) rotateY(0)';
+
+  let glitchCount=0;
+  const glitchInt=setInterval(()=>{
+    glitchCount++;
+    scene.style.transform=`perspective(1000px) rotateX(${(Math.random()-.5)*12}deg) rotateY(${(Math.random()-.5)*14}deg) skewX(${(Math.random()-.5)*4}deg)`;
+    const d=turbulence.nextElementSibling;
+    if(d)d.setAttribute('scale',(20+Math.random()*40).toFixed(1));
+    turbulence.setAttribute('seed',Math.floor(Math.random()*100));
+    if(glitchCount>18){
+      clearInterval(glitchInt);
+      scene.style.opacity='0';
+    }
+  },55);
+
+  // Mostrar overlay tras el glitch
+  setTimeout(()=>{
+    requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.style.opacity='1'));
+  },1100);
+
+  // Secuencia de líneas
+  const LINES=[
+    {text:'> SISTEMA COMPROMETIDO',         color:'rgba(255,80,80,0.95)', delay:200},
+    {text:'> Iniciando diagnóstico...',      color:'rgba(139,0,255,0.9)',  delay:600},
+    {text:'> Escaneando archivos...',        color:'rgba(139,0,255,0.9)',  delay:400},
+    {text:'PROGRESS',                        color:'#8B00FF',              delay:300, isBar:true},
+    {text:'',                                color:'',                     delay:200},
+    {text:'> SUJETO IDENTIFICADO',           color:'rgba(255,80,80,0.8)', delay:100},
+    {text:'  NOMBRE:    José Daniel Pérez Montilla', color:'#CF88FF',     delay:80},
+    {text:'  ALIAS:     Jotady',             color:'#CF88FF',              delay:80},
+    {text:'  ROL:       Diseñador gráfico · Dev creativo', color:'#CF88FF',delay:80},
+    {text:'  UBICACIÓN: Santiago, Chile',    color:'#CF88FF',              delay:80},
+    {text:'',                                color:'',                     delay:300},
+    {text:'> ANÁLISIS DE CAPACIDADES:',      color:'rgba(139,0,255,0.9)', delay:200},
+    {text:'  ✓ Identidad de marca',          color:'#55EFC4',              delay:120, badge:'EXPERTO'},
+    {text:'  ✓ Diseño editorial',            color:'#55EFC4',              delay:120, badge:'AVANZADO'},
+    {text:'  ✓ Interfaces digitales',        color:'#55EFC4',              delay:120, badge:'AVANZADO'},
+    {text:'  ✓ Pensamiento sistémico',       color:'#55EFC4',              delay:120, badge:'CRÍTICO'},
+    {text:'',                                color:'',                     delay:300},
+    {text:'> DATOS DEL SISTEMA:',            color:'rgba(139,0,255,0.9)', delay:200},
+    {text:'  Servicios disponibles:  134',   color:'rgba(255,255,255,0.7)',delay:80},
+    {text:'  MicroApps activas:      5',     color:'rgba(255,255,255,0.7)',delay:80},
+    {text:'  Proyectos en curso:     [CLASIFICADO]', color:'rgba(255,80,80,0.7)',delay:80},
+    {text:'',                                color:'',                     delay:400},
+    {text:'> ADVERTENCIA DEL SISTEMA:',      color:'rgba(255,80,80,0.95)',delay:100},
+    {text:'  Este sujeto convierte ideas vagas',       color:'rgba(255,255,255,0.85)',delay:60},
+    {text:'  en sistemas visuales funcionales.',       color:'rgba(255,255,255,0.85)',delay:60},
+    {text:'  Proceder con precaución.',      color:'rgba(255,255,255,0.85)',delay:200},
+    {text:'',                                color:'',                     delay:400},
+    {text:'> RECOMENDACIÓN:',               color:'rgba(139,0,255,0.9)', delay:100},
+    {text:'  Contratar antes de que lo haga tu competencia.', color:'#CF88FF',delay:200},
+    {text:'',                                color:'',                     delay:600},
+    {text:'> Cerrando sesión...',            color:'rgba(139,0,255,0.6)', delay:800},
+  ];
+
+  let totalDelay=1400; // empieza cuando aparece el overlay
+
+  LINES.forEach((line,idx)=>{
+    setTimeout(()=>{
+      if(!document.body.contains(overlay))return;
+
+      const row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:baseline;gap:8px;';
+
+      if(line.isBar){
+        // Barra de progreso animada
+        const barWrap=document.createElement('div');
+        barWrap.style.color='#8B00FF';
+        barWrap.textContent='[';
+        const bar=document.createElement('span');
+        bar.style.color='#8B00FF';
+        bar.textContent='';
+        const barEnd=document.createElement('span');
+        barEnd.style.color='#8B00FF';
+        barEnd.textContent='] 0%';
+        barWrap.appendChild(bar);
+        barWrap.appendChild(barEnd);
+        row.appendChild(barWrap);
+        term.appendChild(row);
+        term.appendChild(cursor);
+        // Animar barra
+        let pct=0;
+        const barAnim=setInterval(()=>{
+          pct+=4;
+          bar.textContent='█'.repeat(Math.floor(pct/4));
+          barEnd.textContent=`] ${pct}%`;
+          if(pct>=100){clearInterval(barAnim);barEnd.textContent='] 100% ✓';}
+        },28);
+      } else if(line.text===''){
+        row.innerHTML='&nbsp;';
+        term.appendChild(row);
+        term.appendChild(cursor);
+      } else {
+        const span=document.createElement('span');
+        span.style.color=line.color||'rgba(255,255,255,0.85)';
+        span.textContent=line.text;
+        row.appendChild(span);
+        if(line.badge){
+          const b=document.createElement('span');
+          b.textContent=line.badge;
+          b.style.cssText='font-size:10px;padding:1px 7px;border-radius:99px;background:rgba(85,239,196,0.12);border:1px solid rgba(85,239,196,0.3);color:#55EFC4;letter-spacing:.08em;';
+          row.appendChild(b);
+        }
+        term.appendChild(row);
+        term.appendChild(cursor);
+      }
+
+      // Scroll al fondo
+      term.scrollTop=term.scrollHeight;
+
+      // Última línea — cerrar automáticamente
+      if(idx===LINES.length-1){
+        setTimeout(()=>closeTerminal(true),1200);
+      }
+    }, totalDelay);
+    totalDelay+=line.delay||100;
+  });
+
+  function closeTerminal(auto=false){
+    if(!document.body.contains(overlay))return;
+    // Glitch de salida
+    overlay.style.transition='opacity .15s';
+    let gf=0;
+    const gOut=setInterval(()=>{
+      gf++;
+      overlay.style.opacity=gf%2===0?'0':'1';
+      if(gf>6){clearInterval(gOut);overlay.remove();cursorStyle.remove();}
+    },80);
+    // Restaurar portada
+    setTimeout(()=>{
+      scene.style.opacity='1';
+      scene.style.transform='perspective(1000px) rotateX(0) rotateY(0)';
+      const d=turbulence.nextElementSibling;
+      if(d)d.setAttribute('scale','0');
+      distortActive=true; tiltActive=true;
+      eggRunning=false; eggAlerted=false;
+      if(!isTouch){dot.style.background='';dot.style.boxShadow='';ring.style.borderColor='';}
+      setTimeout(()=>showEggTrigger(),800);
+    },auto?0:200);
+  }
+
+  closeBtn.addEventListener('click',()=>closeTerminal(false));
+  document.addEventListener('keydown',function escHandler(e){
+    if(e.key==='Escape'){closeTerminal(false);document.removeEventListener('keydown',escHandler);}
+  });
+}
 </script>
 </body>
 </html>
