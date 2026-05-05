@@ -109,7 +109,6 @@ header {
   position: relative;
   overflow: visible;
   will-change: transform;
-  transform-style: preserve-3d;
 }
 
 .hero-blob-wrap {
@@ -2420,7 +2419,18 @@ const CAT_CLASS = {
 let currentCat = 'all';
 let currentSearch = '';
 let currentSort = 'default';
-let cart = [];
+
+// Carrito persistente con localStorage
+function loadCart() {
+  try {
+    const saved = localStorage.getItem('jotady_cart');
+    return saved ? JSON.parse(saved) : [];
+  } catch(e) { return []; }
+}
+function saveCart() {
+  try { localStorage.setItem('jotady_cart', JSON.stringify(cart)); } catch(e) {}
+}
+let cart = loadCart();
 
 function isLogoService(s) {
   return LOGO_KEYWORDS.some(k => s.name.toLowerCase().includes(k));
@@ -2543,6 +2553,7 @@ function toggleCart(name) {
   const idx = cart.findIndex(c => c.name === name);
   if (idx >= 0) cart.splice(idx, 1);
   else cart.push(s);
+  saveCart();
   updateCartUI();
   renderServices();
 }
@@ -2551,8 +2562,8 @@ function togglePackCart(name, price, time, btnId) {
   const idx = cart.findIndex(c => c.name === name);
   if (idx >= 0) cart.splice(idx, 1);
   else cart.push({ name, price, cat: 'Pack', time });
+  saveCart();
   updateCartUI();
-  // Actualizar visual del botón específico
   const btn = document.getElementById(btnId);
   if (!btn) return;
   const inCart = cart.some(c => c.name === name);
@@ -2564,20 +2575,20 @@ function togglePackCart(name, price, time, btnId) {
 
 function removeFromCart(name) {
   cart = cart.filter(c => c.name !== name);
+  saveCart();
   updateCartUI();
   renderServices();
 }
 
 function clearCart() {
   cart = [];
+  saveCart();
   updateCartUI();
   renderServices();
-  // Reset pack buttons
   document.querySelectorAll('.pack-cart-btn').forEach(btn => {
     btn.classList.remove('in-cart');
     btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
   });
-  // Reset featured buttons
   document.querySelectorAll('.featured-cart-btn').forEach(btn => {
     btn.classList.remove('in-cart');
     btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
@@ -2712,9 +2723,9 @@ function toggleFeaturedCart(name, btnId) {
   const idx = cart.findIndex(c => c.name === name);
   if (idx >= 0) cart.splice(idx, 1);
   else cart.push(s);
+  saveCart();
   updateCartUI();
-  renderServices(); // sincroniza estado en el catálogo también
-  // Actualizar botón featured
+  renderServices();
   const btn = document.getElementById(btnId);
   if (!btn) return;
   const inCart = cart.some(c => c.name === name);

@@ -311,6 +311,7 @@ function initCards(row){
   }));
   let raf,lastTs=0;
   function draw(ts){
+    if(pagePaused){raf=requestAnimationFrame(draw);return;}
     const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     ctx.clearRect(0,0,W,H);
     cards.forEach(c=>{
@@ -355,6 +356,7 @@ function initFireflies(row){
   }));
   let raf,t=0,lastTs=0;
   function draw(ts){
+    if(pagePaused){raf=requestAnimationFrame(draw);return;}
     const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     t+=d;
     ctx.clearRect(0,0,W,H);
@@ -399,6 +401,7 @@ function initCountries(row){
   }
   let raf,lastTs=0;
   function tick(ts){
+    if(pagePaused){raf=requestAnimationFrame(tick);return;}
     const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     items.forEach(it=>{
       it.x+=it.vx*d;it.y+=it.vy*d;
@@ -433,6 +436,7 @@ function initNotes(row){
   }));
   let raf,t=0,lastTs=0;
   function draw(ts){
+    if(pagePaused){raf=requestAnimationFrame(draw);return;}
     const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     t+=d;
     ctx.clearRect(0,0,W,H);
@@ -486,6 +490,7 @@ function initChord(row){
   }
   let raf,lastTs=0,tFrames=0;
   function tick(ts){
+    if(pagePaused){raf=requestAnimationFrame(tick);return;}
     const d=Math.min(ts-lastTs,50)/16.67;lastTs=ts;
     tFrames+=d;
     items.forEach(it=>{
@@ -738,6 +743,12 @@ document.querySelectorAll('.app-row').forEach(row=>{
       navigateWithAudio(url,row,r.left+r.width/2,r.top+r.height/2);
     });
   }
+});
+
+// ── PAUSA DE ANIMACIONES AL CAMBIAR PESTAÑA ──
+let pagePaused = false;
+document.addEventListener('visibilitychange', () => {
+  pagePaused = document.hidden;
 });
 
 // ── PAGE TRANSITION — VÓRTICE ──

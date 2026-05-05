@@ -493,106 +493,111 @@ let eggRunning=false;
 let eggAlerted=false;
 let selectedEgg='';
 
-// Colores por tipo de egg
+// Colores por tipo — solo se aplican en el primer toque
 const EGG_COLORS={
-  explosion:{stroke:'rgba(255,80,80,0.65)',fill:'rgba(255,60,60,0.12)',detail:'rgba(255,80,80,0.85)'},
-  snake:    {stroke:'rgba(85,239,196,0.65)',fill:'rgba(85,239,196,0.08)',detail:'rgba(85,239,196,0.85)'},
-  terminal: {stroke:'rgba(207,136,255,0.65)',fill:'rgba(139,0,255,0.08)',detail:'rgba(207,136,255,0.85)'},
+  explosion:{stroke:'rgba(255,80,80,0.65)',  fill:'rgba(255,60,60,0.12)',  detail:'rgba(255,80,80,0.85)'},
+  snake:    {stroke:'rgba(85,239,196,0.65)', fill:'rgba(85,239,196,0.08)', detail:'rgba(85,239,196,0.85)'},
+  terminal: {stroke:'rgba(207,136,255,0.65)',fill:'rgba(139,0,255,0.08)',  detail:'rgba(207,136,255,0.85)'},
 };
 
-function pickNewEgg(){
-  const types=['explosion','snake','terminal'];
-  selectedEgg=types[Math.floor(Math.random()*types.length)];
-  applyEggColor(selectedEgg);
-}
+// Color de reposo — siempre rojo
+const EGG_REST={stroke:'rgba(255,80,80,0.65)',fill:'rgba(255,60,60,0.12)',detail:'rgba(255,80,80,0.85)'};
 
-function applyEggColor(type){
-  const c=EGG_COLORS[type];
+function applyEggColor(colors){
   const path=document.getElementById('eggTriPath');
   const line=document.getElementById('eggTriLine');
-  const dot=document.getElementById('eggTriDot');
-  if(path){ path.setAttribute('stroke',c.stroke); path.setAttribute('fill',c.fill); }
-  if(line){ line.setAttribute('stroke',c.detail); }
-  if(dot) { dot.setAttribute('fill',c.detail); }
+  const dotEl=document.getElementById('eggTriDot');
+  if(path){path.setAttribute('stroke',colors.stroke);path.setAttribute('fill',colors.fill);}
+  if(line) line.setAttribute('stroke',colors.detail);
+  if(dotEl) dotEl.setAttribute('fill',colors.detail);
 }
 
 function resetEggVisuals(){
   eggAlerted=false;
+  applyEggColor(EGG_REST); // vuelve a rojo neutro
   const warning=document.querySelector('.egg-warning');
   const label=document.querySelector('.egg-label');
   const btn=document.getElementById('eggBtn');
   if(warning)warning.classList.remove('alert');
   if(label)label.classList.remove('alert');
   if(btn)btn.classList.remove('alert');
-  if(!isTouch){
-    dot.style.background='';dot.style.boxShadow='';
-    ring.style.borderColor='';
-  }
+  if(!isTouch){dot.style.background='';dot.style.boxShadow='';ring.style.borderColor='';}
+}
+
+function pickNewEgg(){
+  const types=['explosion','snake','terminal'];
+  selectedEgg=types[Math.floor(Math.random()*types.length)];
+  // En reposo siempre rojo — el color del egg solo aparece en primer toque
+  applyEggColor(EGG_REST);
 }
 
 function showEggTrigger(){
   const t=document.getElementById('eggTrigger');
   if(!t)return;
-  pickNewEgg(); // nuevo sorteo cada vez que reaparece
+  pickNewEgg();
   t.style.transition='opacity .7s ease';
   t.style.opacity='1';
   t.style.pointerEvents='all';
 }
 
-// Sorteo inicial al cargar
+// Estado inicial
 pickNewEgg();
 
 function triggerEasterEgg(){
   if(eggRunning)return;
 
-  // Snake y Terminal — 1 solo toque
-  if(selectedEgg==='snake'||selectedEgg==='terminal'){
-    eggRunning=true;
-    resetEggVisuals();
-    const trigger=document.getElementById('eggTrigger');
-    trigger.style.transition='opacity .3s';
-    trigger.style.opacity='0';
-    trigger.style.pointerEvents='none';
-    if(selectedEgg==='snake') runSnake();
-    else runTerminal();
-    return;
-  }
-
-  // Explosión — 2 toques (necesita desbloquear audio)
   if(!eggAlerted){
+    // PRIMER TOQUE — desbloquear audio, mostrar color del egg sorteado, alerta visual
     eggAlerted=true;
-    // Desbloquear audio con silencio
+
+    // Desbloquear audio
     const unlock=new Audio();
     unlock.play().catch(()=>{});
-    // Activar alerta visual
+
+    // Cambiar al color del egg sorteado
+    applyEggColor(EGG_COLORS[selectedEgg]);
+
+    // Alerta visual
     const warning=document.querySelector('.egg-warning');
     const label=document.querySelector('.egg-label');
     const btn=document.getElementById('eggBtn');
     if(warning)warning.classList.add('alert');
     if(label)label.classList.add('alert');
     if(btn)btn.classList.add('alert');
+
+    // Cursor en el color del egg (desktop)
     if(!isTouch){
-      dot.style.background='rgba(255,60,60,0.9)';
-      dot.style.boxShadow='0 0 12px rgba(255,60,60,0.8)';
-      ring.style.borderColor='rgba(255,60,60,0.6)';
+      const c=EGG_COLORS[selectedEgg];
+      dot.style.background=c.detail;
+      dot.style.boxShadow=`0 0 12px ${c.detail}`;
+      ring.style.borderColor=c.stroke;
     }
+
     // Auto-reset si no da 2do toque en 4s
-    setTimeout(()=>{
-      if(!eggRunning){ resetEggVisuals(); }
-    },4000);
+    setTimeout(()=>{if(!eggRunning)resetEggVisuals();},4000);
     return;
   }
 
-  // Segundo toque — explosión
+  // SEGUNDO TOQUE — disparar el egg
   eggRunning=true;
-  const eggAudio=new Audio('audio/explosion-sound.mp3');
-  eggAudio.volume=0.7;
-  eggAudio.play().catch(()=>{});
   const trigger=document.getElementById('eggTrigger');
   trigger.style.transition='opacity .3s';
   trigger.style.opacity='0';
   trigger.style.pointerEvents='none';
-  runExplosion();
+
+  if(selectedEgg==='snake'){
+    resetEggVisuals();
+    runSnake();
+  } else if(selectedEgg==='terminal'){
+    resetEggVisuals();
+    runTerminal();
+  } else {
+    // Explosión
+    const eggAudio=new Audio('audio/explosion-sound.mp3');
+    eggAudio.volume=0.7;
+    eggAudio.play().catch(()=>{});
+    runExplosion();
+  }
 }
 
 function runExplosion(){
