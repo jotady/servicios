@@ -3114,7 +3114,10 @@ if (backHome) {
 }
 
 function vortexOutSimple(url) {
+  // Limpiar canvas previos
+  document.querySelectorAll('canvas.vortex-canvas').forEach(c=>c.remove());
   const vc = document.createElement('canvas');
+  vc.className = 'vortex-canvas'; // ← clase para poder limpiarlo en bfcache
   vc.style.cssText = 'position:fixed;inset:0;z-index:8000;pointer-events:all;';
   vc.width = window.innerWidth;
   vc.height = window.innerHeight;
@@ -3150,22 +3153,28 @@ function vortexOutSimple(url) {
   })();
 }
 
-// Entrada con vórtice
-// Fix bfcache: usar pageshow en lugar de load
-// pageshow se dispara tanto en carga normal como al navegar con "atrás"
+// Fix bfcache — pageshow se dispara en carga normal Y al volver con "atrás"
 window.addEventListener('pageshow', (e) => {
-  // Limpiar cualquier canvas o overlay residual
+  // Limpiar TODOS los canvas con clase vortex-canvas (salida y entrada)
   document.querySelectorAll('canvas.vortex-canvas').forEach(c => c.remove());
+  // Limpiar catOverlay residual
   const overlay = document.getElementById('catOverlay');
-  if (overlay) {
-    overlay.style.transform = 'scaleY(0)';
-    overlay.style.animation = 'none';
+  if (overlay) { overlay.style.transform='scaleY(0)'; overlay.style.animation='none'; }
+  // Restaurar visibilidad del contenido
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+
+  if (e.persisted) {
+    // Viene del bfcache — page restaurada, no animar entrada
+    // Solo asegurarse que el contenido es visible
+    document.querySelectorAll('.container, header, .hero, .stats-bar').forEach(el=>{
+      el.style.opacity='1';
+      el.style.visibility='visible';
+    });
+    return;
   }
 
-  // Si viene del bfcache (persisted=true), limpiar y no animar
-  if (e.persisted) return;
-
-  // Animación de entrada normal
+  // Carga normal — animar entrada con vórtice
   const vc = document.createElement('canvas');
   vc.className = 'vortex-canvas';
   vc.style.cssText = 'position:fixed;inset:0;z-index:8000;pointer-events:none;';

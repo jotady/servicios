@@ -436,8 +436,19 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
 // Entrada
 window.addEventListener('pageshow',(e)=>{
   vortexRunning=false;
+  // Limpiar TODOS los canvas residuales — tanto de entrada como de salida
   document.querySelectorAll('canvas.vortex-canvas').forEach(c=>c.remove());
-  if(e.persisted)return; // bfcache: no animar, solo limpiar
+  // Limpiar cualquier estilo residual en el body/scene
+  document.body.style.overflow='';
+  const sceneEl=document.getElementById('scene');
+  if(sceneEl){sceneEl.style.opacity='1';}
+
+  if(e.persisted){
+    // Viene del bfcache — la página se restaura tal como estaba
+    // Solo asegurar que no haya nada tapando el contenido
+    return;
+  }
+  // Carga normal — animar entrada con vórtice
   const vc=document.createElement('canvas');
   vc.className='vortex-canvas';
   vc.style.cssText='position:fixed;inset:0;z-index:7000;pointer-events:none;';

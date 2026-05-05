@@ -782,8 +782,21 @@ document.querySelectorAll('a[href$=".html"]').forEach(a=>{
 
 // Entrada
 window.addEventListener('pageshow',(e)=>{
+  // Limpiar canvas residuales de salida Y entrada
   document.querySelectorAll('canvas.vortex-canvas').forEach(c=>c.remove());
-  if(e.persisted)return;
+  // Limpiar canvas de transición de microapps (colored vortex)
+  document.querySelectorAll('canvas[style*="z-index: 9000"], canvas[style*="z-index:9000"]').forEach(c=>c.remove());
+  // Restaurar body
+  document.body.style.overflow='';
+  document.documentElement.style.overflow='';
+
+  if(e.persisted){
+    // bfcache — restaurar visibilidad, no animar
+    navigating=false;
+    return;
+  }
+
+  // Carga normal — vórtice de entrada
   const vc=document.createElement('canvas');
   vc.className='vortex-canvas';
   vc.style.cssText='position:fixed;inset:0;z-index:8000;pointer-events:none;';
