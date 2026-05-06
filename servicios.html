@@ -760,6 +760,35 @@ header {
   flex-shrink: 0;
 }
 
+.card-price-clp {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  margin-top: 1px;
+  text-shadow: none;
+}
+
+.pack-promo-clp {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
+.featured-price-clp {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+
 .card-price.evaluation {
   font-size: 11px;
   font-weight: 500;
@@ -962,7 +991,7 @@ header {
   position: fixed;
   top: 0;
   right: 0;
-  width: 420px;
+  width: 500px;
   max-width: 100vw;
   height: 100vh;
   background: #130024;
@@ -973,6 +1002,7 @@ header {
   display: flex;
   flex-direction: column;
   box-shadow: -16px 0 64px rgba(0,0,0,0.5);
+  overflow-x: hidden;
 }
 
 .cart-panel.open { transform: translateX(0); }
@@ -1050,7 +1080,10 @@ header {
 .cart-items {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 16px 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .cart-items::-webkit-scrollbar { width: 4px; }
@@ -1125,9 +1158,209 @@ header {
 
 /* CART FOOTER */
 .cart-footer {
-  padding: 20px 24px 28px;
+  padding: 16px 24px 28px;
   border-top: 1px solid rgba(139,0,255,0.15);
   flex-shrink: 0;
+}
+
+/* CART TOTAL */
+.cart-total {
+  background: rgba(139,0,255,0.06);
+  border: 1px solid rgba(139,0,255,0.15);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cart-total-label {
+  font-size: 11px;
+  color: var(--gray-mid);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cart-total-usd {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--purple-vivid);
+  font-variation-settings: 'wdth' 125, 'wght' 800;
+}
+
+.cart-total-clp {
+  font-size: 11px;
+  color: rgba(255,255,255,0.38);
+  margin-top: 3px;
+  text-align: right;
+}
+
+.cart-total-disclaimer {
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  margin-top: 6px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* QUANTITY CONTROLS en cart item */
+.cart-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  width: 100%;
+  min-width: 0;
+}
+
+.cart-item:last-child { border-bottom: none; }
+
+.cart-item-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.cart-item-info {
+  flex: 1;
+  min-width: 0; /* clave para que el texto no desborde */
+}
+
+.cart-item-name {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.35;
+  margin-bottom: 3px;
+  white-space: normal;   /* permite wrap */
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.cart-item-cat {
+  font-size: 11px;
+  color: var(--gray-mid);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item-prices {
+  text-align: right;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.cart-item-price {
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple-vivid);
+  white-space: nowrap;
+}
+
+.cart-item-price-clp {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+.cart-item-remove {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  color: var(--gray-mid);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cart-item-remove:hover { border-color: rgba(255,80,80,0.5); color: #ff8888; background: rgba(255,80,80,0.08); }
+
+/* Fila de cantidad */
+.cart-item-qty-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.cart-qty-label {
+  font-size: 10px;
+  color: var(--gray-mid);
+  letter-spacing: 0.04em;
+  margin-right: auto;
+}
+
+.cart-qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid rgba(139,0,255,0.25);
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cart-qty-btn {
+  width: 28px; height: 26px;
+  background: rgba(139,0,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  transition: background .15s, color .15s;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.cart-qty-btn:hover { background: rgba(139,0,255,0.22); color: white; }
+
+.cart-qty-input {
+  width: 44px; height: 26px;
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(139,0,255,0.2);
+  border-right: 1px solid rgba(139,0,255,0.2);
+  color: var(--white);
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.cart-qty-input::-webkit-inner-spin-button,
+.cart-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.cart-qty-input:focus { background: rgba(139,0,255,0.1); }
+
+/* MOBILE cart */
+@media(max-width: 600px) {
+  .cart-item-name { font-size: 12px; }
+  .cart-item-qty-row { padding-top: 4px; border-top: 1px solid rgba(255,255,255,0.04); }
+  .cart-qty-btn { width: 32px; height: 30px; font-size: 16px; }
+  .cart-qty-input { width: 44px; height: 30px; font-size: 13px; }
 }
 
 .cart-note {
@@ -1795,7 +2028,15 @@ body.is-touch{cursor:auto!important;}
     </div>
   </div>
   <div class="cart-footer">
-    <p class="cart-note">Te enviaré una cotización personalizada en base a los servicios seleccionados. Los precios mostrados son referenciales.</p>
+    <div class="cart-total" id="cartTotal" style="display:none">
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total estimado</span>
+        <span class="cart-total-usd" id="cartTotalUSD">$0</span>
+      </div>
+      <div class="cart-total-clp" id="cartTotalCLP"></div>
+      <div class="cart-total-disclaimer">* Precios referenciales. Cotización final según evaluación.</div>
+    </div>
+    <p class="cart-note">Te enviaré una cotización personalizada. Los precios con ">" son mínimos estimados.</p>
     <button class="cart-send-btn" onclick="sendWhatsApp()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Enviar solicitud por WhatsApp
@@ -1882,9 +2123,10 @@ body.is-touch{cursor:auto!important;}
           <div class="featured-name">Diseño de identidad visual</div>
           <div class="featured-desc">Sistema visual completo para tu marca: logo, paleta, tipografía y normas de uso. La base sobre la que se construye todo.</div>
           <div class="featured-meta">
-            <span class="featured-price">&gt;$200</span>
+            <span class="featured-price">&gt;$250</span>
             <span class="featured-time"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>1–2 semanas</span>
           </div>
+          <div class="featured-price-clp" id="featured-clp-identidad" style="display:none"></div>
         </div>
         <div class="featured-actions">
           <button class="featured-cart-btn" id="fcb-identidad" onclick="toggleFeaturedCart('Diseño de identidad visual', 'fcb-identidad')">
@@ -1908,6 +2150,7 @@ body.is-touch{cursor:auto!important;}
             <span class="featured-price">$100</span>
             <span class="featured-time"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>3–5 días</span>
           </div>
+          <div class="featured-price-clp" id="featured-clp-naming" style="display:none"></div>
         </div>
         <div class="featured-actions">
           <button class="featured-cart-btn" id="fcb-naming" onclick="toggleFeaturedCart('Naming', 'fcb-naming')">
@@ -1931,6 +2174,7 @@ body.is-touch{cursor:auto!important;}
             <span class="featured-price">&gt;$120</span>
             <span class="featured-time"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Sujeto a evaluación</span>
           </div>
+          <div class="featured-price-clp" id="featured-clp-brochure" style="display:none"></div>
         </div>
         <div class="featured-actions">
           <button class="featured-cart-btn" id="fcb-brochure" onclick="toggleFeaturedCart('Diseño de Brochure', 'fcb-brochure')">
@@ -2008,6 +2252,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$208</span><span class="pack-discount">−15%</span>
             <div class="pack-promo">$177</div>
+            <div class="pack-promo-clp" id="pack-clp-esencial-basico" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2028,6 +2273,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$416</span><span class="pack-discount">−30%</span>
             <div class="pack-promo">$291</div>
+            <div class="pack-promo-clp" id="pack-clp-esencial-pro" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2048,6 +2294,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$958</span><span class="pack-discount">−48%</span>
             <div class="pack-promo">$498</div>
+            <div class="pack-promo-clp" id="pack-clp-esencial-full" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2081,6 +2328,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$184</span><span class="pack-discount">−15%</span>
             <div class="pack-promo">$156</div>
+            <div class="pack-promo-clp" id="pack-clp-digital-basico" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2105,6 +2353,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$420</span><span class="pack-discount">−30%</span>
             <div class="pack-promo">$294</div>
+            <div class="pack-promo-clp" id="pack-clp-digital-pro" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2129,6 +2378,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$674</span><span class="pack-discount">−45%</span>
             <div class="pack-promo">$371</div>
+            <div class="pack-promo-clp" id="pack-clp-digital-full" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2169,6 +2419,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$220</span><span class="pack-discount">−15%</span>
             <div class="pack-promo">$187</div>
+            <div class="pack-promo-clp" id="pack-clp-editorial-basico" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2191,6 +2442,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$368</span><span class="pack-discount">−30%</span>
             <div class="pack-promo">$258</div>
+            <div class="pack-promo-clp" id="pack-clp-editorial-pro" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2215,6 +2467,7 @@ body.is-touch{cursor:auto!important;}
           <div class="pack-pricing">
             <span class="pack-original">$648</span><span class="pack-discount">−40%</span>
             <div class="pack-promo">$389</div>
+            <div class="pack-promo-clp" id="pack-clp-editorial-full" style="display:none"></div>
           </div>
           <div class="pack-includes">
             <div class="pack-includes-title">Incluye</div>
@@ -2275,7 +2528,7 @@ const SERVICES = [
   {name:"Vectorización de logotipo (texto)",cat:"Identidad de marca",time:"2–3 días aprox.",costs:"",price:"$100",priceNum:100},
   {name:"Vectorización de imagotipo (símbolo + texto)",cat:"Identidad de marca",time:"3–4 días aprox.",costs:"",price:"$120",priceNum:120},
   {name:"Vectorización de isologo (símbolo+texto fusión)",cat:"Identidad de marca",time:"3–4 días aprox.",costs:"",price:"$120",priceNum:120},
-  {name:"Diseño de identidad visual",cat:"Identidad de marca",time:"1–2 semanas",costs:"Licencias tipográficas, mockups",price:">$200",priceNum:200},
+  {name:"Diseño de identidad visual",cat:"Identidad de marca",time:"1–2 semanas",costs:"Licencias tipográficas, mockups",price:">$250",priceNum:250},
   {name:"Refrescamiento de logo",cat:"Identidad de marca",time:"5–7 días aprox.",costs:"Licencias tipográficas, mockups, imágenes especiales",price:">$120",priceNum:120},
   {name:"Rediseño de logo",cat:"Identidad de marca",time:"1–2 semanas",costs:"Licencias tipográficas, mockups, imágenes especiales",price:">$150",priceNum:150},
   {name:"Diseño de packing",cat:"Identidad de marca",time:"1–2 semanas",costs:"Patrón, imágenes especiales",price:">$350",priceNum:350},
@@ -2419,6 +2672,13 @@ const CAT_CLASS = {
 let currentCat = 'all';
 let currentSearch = '';
 let currentSort = 'default';
+let dolarCLP = null; // valor del dólar observado — se llena tras fetch
+
+function clpText(priceNum) {
+  if (!dolarCLP || !priceNum) return '';
+  const total = Math.round(priceNum * dolarCLP);
+  return '≈ $' + total.toLocaleString('es-CL') + ' CLP';
+}
 
 // Carrito persistente con localStorage
 function loadCart() {
@@ -2521,7 +2781,10 @@ function renderServices() {
     return `<div class="service-card">
       <div class="card-top">
         <div class="card-name">${s.name}</div>
-        <div class="card-price">${s.price}</div>
+        <div>
+          <div class="card-price">${s.price}</div>
+          ${dolarCLP && s.priceNum ? `<div class="card-price-clp">${clpText(s.priceNum)}</div>` : ''}
+        </div>
       </div>
       <div class="card-meta">
         <span class="cat-badge ${catClass}">${s.cat}</span>
@@ -2552,7 +2815,7 @@ function toggleCart(name) {
   if (!s) return;
   const idx = cart.findIndex(c => c.name === name);
   if (idx >= 0) cart.splice(idx, 1);
-  else cart.push(s);
+  else cart.push({...s, qty: 1});
   saveCart();
   updateCartUI();
   renderServices();
@@ -2561,7 +2824,7 @@ function toggleCart(name) {
 function togglePackCart(name, price, time, btnId) {
   const idx = cart.findIndex(c => c.name === name);
   if (idx >= 0) cart.splice(idx, 1);
-  else cart.push({ name, price, cat: 'Pack', time });
+  else cart.push({ name, price, cat: 'Pack', time, qty: 1 });
   saveCart();
   updateCartUI();
   const btn = document.getElementById(btnId);
@@ -2571,6 +2834,24 @@ function togglePackCart(name, price, time, btnId) {
   btn.innerHTML = inCart
     ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Agregado`
     : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Agregar a solicitud`;
+}
+
+function changeQty(idx, delta) {
+  if (!cart[idx]) return;
+  const current = cart[idx].qty || 1;
+  const next = Math.max(1, Math.min(99, current + delta));
+  cart[idx].qty = next;
+  saveCart();
+  updateCartUI();
+}
+
+function setQty(idx, val) {
+  if (!cart[idx]) return;
+  const n = parseInt(val);
+  if (isNaN(n) || n < 1) return;
+  cart[idx].qty = Math.min(99, n);
+  saveCart();
+  updateCartUI();
 }
 
 function removeFromCart(name) {
@@ -2596,26 +2877,87 @@ function clearCart() {
 }
 
 function updateCartUI() {
-  const count = cart.length;
-  document.getElementById('cartBadge').textContent = count;
-  document.getElementById('stickyCart').classList.toggle('visible', count > 0);
+  const count = cart.reduce((sum, s) => sum + (s.qty||1), 0);
+  document.getElementById('cartBadge').textContent = cart.length;
+  document.getElementById('stickyCart').classList.toggle('visible', cart.length > 0);
 
   const itemsEl = document.getElementById('cartItems');
-  if (count === 0) {
+  const totalEl = document.getElementById('cartTotal');
+  const totalUSD = document.getElementById('cartTotalUSD');
+  const totalCLP = document.getElementById('cartTotalCLP');
+
+  if (cart.length === 0) {
     itemsEl.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Aún no has agregado servicios.<br>Explora el catálogo y presiona<br>"Agregar a solicitud".</p></div>`;
+    totalEl.style.display = 'none';
     return;
   }
 
-  itemsEl.innerHTML = cart.map(s => `
+  // Calcular totales
+  let totalNum = 0;
+  let hasApprox = false;
+  cart.forEach(s => {
+    const qty = s.qty || 1;
+    if (s.priceNum) {
+      totalNum += s.priceNum * qty;
+      if (s.price && s.price.includes('>')) hasApprox = true;
+    }
+  });
+
+  // Mostrar total
+  totalEl.style.display = 'block';
+  const prefix = hasApprox ? '>' : '';
+  totalUSD.textContent = `${prefix}$${totalNum.toLocaleString('en-US')} USD`;
+  if (dolarCLP && totalNum) {
+    const clpTotal = Math.round(totalNum * dolarCLP);
+    totalCLP.textContent = `≈ $${clpTotal.toLocaleString('es-CL')} CLP`;
+    totalCLP.style.display = 'block';
+  } else {
+    totalCLP.style.display = 'none';
+  }
+
+  // Renderizar items con controles de cantidad
+  itemsEl.innerHTML = cart.map((s, i) => {
+    const qty = s.qty || 1;
+    const unitPrice = s.priceNum || 0;
+    const totalItemNum = unitPrice * qty;
+    const prefix = s.price && s.price.includes('>') ? '>' : '';
+    const displayPrice = qty > 1 && unitPrice
+      ? `${prefix}$${totalItemNum.toLocaleString('en-US')}`
+      : s.price;
+    const clpItem = dolarCLP && unitPrice
+      ? `≈ $${Math.round(totalItemNum * dolarCLP).toLocaleString('es-CL')} CLP`
+      : '';
+
+    return `
     <div class="cart-item">
-      <div class="cart-item-info">
-        <div class="cart-item-name">${s.name}</div>
-        <div class="cart-item-cat">${s.cat} · ${s.time}</div>
+      <div class="cart-item-top">
+        <div class="cart-item-info">
+          <div class="cart-item-name" title="${s.name}">${s.name}</div>
+          <div class="cart-item-cat">${s.cat} · ${s.time}</div>
+        </div>
+        <div class="cart-item-prices">
+          <div class="cart-item-price">${displayPrice}</div>
+          ${clpItem ? `<div class="cart-item-price-clp">${clpItem}</div>` : ''}
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart('${s.name.replace(/'/g,"\\'")}')">×</button>
       </div>
-      <div class="cart-item-price">${s.price}</div>
-      <button class="cart-item-remove" onclick="removeFromCart('${s.name.replace(/'/g,"\\'")}')">×</button>
-    </div>
-  `).join('');
+      <div class="cart-item-qty-row">
+        <span class="cart-qty-label">Cantidad</span>
+        <div class="cart-qty-controls">
+          <button class="cart-qty-btn" onclick="changeQty(${i}, -1)">−</button>
+          <input
+            class="cart-qty-input"
+            type="number"
+            min="1"
+            max="99"
+            value="${qty}"
+            onchange="setQty(${i}, this.value)"
+          >
+          <button class="cart-qty-btn" onclick="changeQty(${i}, 1)">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function openCart() {
@@ -2632,8 +2974,21 @@ function sendWhatsApp() {
   if (cart.length === 0) return;
   const name = document.getElementById('clientName').value.trim();
   const greeting = name ? `Hola Jotady, soy *${name}*.` : 'Hola Jotady,';
-  const list = cart.map((s, i) => `${i+1}. *${s.name}* — ${s.price} (${s.time})`).join('\n');
-  const msg = `${greeting} Vi tu catálogo de servicios y me gustaría cotizar lo siguiente:\n\n${list}\n\n¿Podemos coordinar?`;
+  const list = cart.map((s, i) => {
+    const qty = s.qty || 1;
+    const qtyStr = qty > 1 ? ` ×${qty}` : '';
+    const clp = s.priceNum && dolarCLP
+      ? ` (≈ ${clpText(s.priceNum * qty)})`
+      : '';
+    return `${i+1}. *${s.name}*${qtyStr} — ${s.price}${clp} · ${s.time}`;
+  }).join('\n');
+  // Total
+  let totalNum = 0;
+  cart.forEach(s => { if(s.priceNum) totalNum += s.priceNum * (s.qty||1); });
+  const totalStr = totalNum > 0
+    ? `\n\n*Total estimado: >$${totalNum.toLocaleString('en-US')} USD${dolarCLP ? ` (≈ $${Math.round(totalNum*dolarCLP).toLocaleString('es-CL')} CLP)` : ''}*`
+    : '';
+  const msg = `${greeting} Vi tu catálogo y me gustaría cotizar:\n\n${list}${totalStr}\n\n¿Podemos coordinar?`;
   window.open(`https://wa.me/56934881823?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -2722,7 +3077,7 @@ function toggleFeaturedCart(name, btnId) {
   if (!s) return;
   const idx = cart.findIndex(c => c.name === name);
   if (idx >= 0) cart.splice(idx, 1);
-  else cart.push(s);
+  else cart.push({...s, qty: 1});
   saveCart();
   updateCartUI();
   renderServices();
@@ -2739,6 +3094,7 @@ function toggleFeaturedCart(name, btnId) {
 // INIT
 // ─────────────────────────────────────────────
 renderServices();
+updateCartUI(); // muestra botón flotante si hay items en localStorage
 </script>
 <!-- PAGE TRANSITION OVERLAY -->
 <div class="page-overlay-cat" id="catOverlay"></div>
@@ -3065,11 +3421,14 @@ setTimeout(observeServiceCards, 150);
 // ─────────────────────────────────────────────
 // DÓLAR OBSERVADO — mindicador.cl
 // ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// DÓLAR OBSERVADO — mindicador.cl
+// ─────────────────────────────────────────────
 (function fetchDolar(){
-  const badge  = document.getElementById('usdBadge');
-  const date   = document.getElementById('usdDate');
-  const dot    = document.getElementById('usdDot');
-  const link   = document.getElementById('usdLink');
+  const badge = document.getElementById('usdBadge');
+  const date  = document.getElementById('usdDate');
+  const dot   = document.getElementById('usdDot');
+  const link  = document.getElementById('usdLink');
 
   function formatDate(isoStr){
     const d = new Date(isoStr);
@@ -3083,33 +3442,60 @@ setTimeout(observeServiceCards, 150);
     link.style.display = 'inline';
   }
 
-  fetch('https://mindicador.cl/api/dolar', {
-    method: 'GET',
-    headers: { 'Accept': 'application/json' }
-  })
-  .then(r => { if(!r.ok) throw new Error('http'); return r.json(); })
-  .then(data => {
+  fetch('https://mindicador.cl/api/dolar',{method:'GET',headers:{'Accept':'application/json'}})
+  .then(r=>{ if(!r.ok) throw new Error('http'); return r.json(); })
+  .then(data=>{
     const serie = data.serie;
-    if(!serie || !serie.length) { showFallback(); return; }
-
-    // Tomar el valor más reciente
+    if(!serie||!serie.length){ showFallback(); return; }
     const latest = serie[0];
-    const valor  = latest.valor;
-    const fecha  = latest.fecha;
+    dolarCLP = latest.valor; // guardar globalmente
 
-    // Formatear: $940,50 CLP
-    const formatted = valor.toLocaleString('es-CL', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-
+    const formatted = dolarCLP.toLocaleString('es-CL',{minimumFractionDigits:2,maximumFractionDigits:2});
     badge.textContent = `USD: $${formatted} CLP`;
-    date.textContent  = `Act. ${formatDate(fecha)}`;
+    date.textContent  = `Act. ${formatDate(latest.fecha)}`;
     dot.style.display = 'block';
     link.style.display = 'none';
+
+    // Re-renderizar con CLP ahora que tenemos el valor
+    renderServices();
+    updatePacksCLP();
+    updateFeaturedCLP();
   })
-  .catch(() => showFallback());
+  .catch(()=>showFallback());
 })();
+
+// Fase 2 — actualizar CLP en packs (HTML estático)
+function updatePacksCLP(){
+  // Mapa: id del elemento pack-promo → priceNum
+  const PACK_PRICES = {
+    'pack-clp-esencial-basico': 177,
+    'pack-clp-esencial-pro':    291,
+    'pack-clp-esencial-full':   498,
+    'pack-clp-digital-basico':  156,
+    'pack-clp-digital-pro':     264,
+    'pack-clp-digital-full':    399,
+    'pack-clp-editorial-basico':138,
+    'pack-clp-editorial-pro':   234,
+    'pack-clp-editorial-full':  380,
+  };
+  Object.entries(PACK_PRICES).forEach(([id, num])=>{
+    const el = document.getElementById(id);
+    if(el){ el.textContent = clpText(num); el.style.display = dolarCLP ? 'block' : 'none'; }
+  });
+}
+
+// Fase 3 — actualizar CLP en featured cards (HTML estático)
+function updateFeaturedCLP(){
+  const FEATURED_PRICES = {
+    'featured-clp-identidad': 250,
+    'featured-clp-naming':    100,
+    'featured-clp-brochure':  80,
+  };
+  Object.entries(FEATURED_PRICES).forEach(([id, num])=>{
+    const el = document.getElementById(id);
+    if(el){ el.textContent = clpText(num); el.style.display = dolarCLP ? 'block' : 'none'; }
+  });
+}
 
 // ─────────────────────────────────────────────
 // PAGE TRANSITION
