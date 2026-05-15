@@ -20,7 +20,6 @@
   --gray:#636363;
   --dur:480ms;
   --ease:cubic-bezier(0.4,0,0.2,1);
-  /* Duración del fade de las barras al mover/alejar mouse */
   --ui-fade:0.4s;
 }
 html{height:100%;overflow:hidden;position:fixed;width:100%}
@@ -37,12 +36,12 @@ body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.4;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
 }
-#bg-glow{
-  position:fixed;top:-20%;left:50%;transform:translateX(-50%);
-  width:min(800px,120vw);height:400px;
-  background:radial-gradient(ellipse,rgba(139,0,255,0.1) 0%,transparent 70%);
-  pointer-events:none;z-index:0;
-}
+#bg-glow{position:fixed;top:-20%;left:50%;transform:translateX(-50%);width:min(800px,120vw);height:400px;background:radial-gradient(ellipse,rgba(139,0,255,0.1) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* ── CURSOR INACTIVO ──
+   body.cursor-hidden oculta el cursor en toda la página ── */
+body.cursor-hidden,
+body.cursor-hidden * { cursor: none !important; }
 
 /* ── LOADER ── */
 #loader{position:fixed;inset:0;background:var(--bg);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity .5s var(--ease)}
@@ -54,21 +53,9 @@ body::before{
 #loader-label{font-size:11px;color:var(--gray);letter-spacing:.14em;text-transform:uppercase}
 
 /* ── WELCOME ── */
-#welcome{
-  position:fixed;inset:0;z-index:400;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bg);
-  transition:opacity .8s var(--ease),filter .8s var(--ease),transform .8s var(--ease);
-}
+#welcome{position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);transition:opacity .8s var(--ease),filter .8s var(--ease),transform .8s var(--ease)}
 #welcome.exit{opacity:0;filter:blur(20px);transform:scale(1.06);pointer-events:none}
-#welcome-glow{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-55%);
-  width:min(600px,90vw);height:min(600px,90vw);
-  background:radial-gradient(ellipse,rgba(139,0,255,0.18) 0%,transparent 65%);
-  pointer-events:none;
-  animation:glowPulse 4s ease-in-out infinite;
-}
+#welcome-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);width:min(600px,90vw);height:min(600px,90vw);background:radial-gradient(ellipse,rgba(139,0,255,0.18) 0%,transparent 65%);pointer-events:none;animation:glowPulse 4s ease-in-out infinite}
 @keyframes glowPulse{0%,100%{opacity:.6;transform:translate(-50%,-55%) scale(1)}50%{opacity:1;transform:translate(-50%,-55%) scale(1.08)}}
 #welcome-line-top{width:1px;height:0;background:linear-gradient(to bottom,transparent,var(--purple));margin-bottom:32px;animation:lineGrow .9s var(--ease) .3s forwards}
 @keyframes lineGrow{to{height:48px}}
@@ -77,29 +64,29 @@ body::before{
 #welcome-for{font-size:clamp(10px,2.2vw,12px);letter-spacing:.22em;color:var(--purple);text-transform:uppercase;font-weight:500;margin-top:20px;opacity:0;animation:fadeUp .7s var(--ease) 1.5s forwards}
 #welcome-for::before,#welcome-for::after{content:'—';opacity:.5;margin:0 10px}
 #welcome-title{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:clamp(36px,9vw,84px);line-height:1.0;letter-spacing:-.03em;text-align:center;max-width:min(720px,90vw);margin-top:16px;font-variation-settings:'wdth' 125,'wght' 800}
-#welcome-title .line{display:block;overflow:hidden}
-#welcome-title .line span{display:block;opacity:0;transform:translateY(100%)}
+#welcome-title .line{display:block;overflow:hidden;padding:.12em 0;margin:-.12em 0}
+#welcome-title .line span{display:block;opacity:0;transform:translateY(105%)}
 #welcome-title .line:nth-child(1) span{animation:lineReveal .75s var(--ease) 2.0s forwards}
 #welcome-title .line:nth-child(2) span{animation:lineReveal .75s var(--ease) 2.25s forwards}
 @keyframes lineReveal{to{opacity:1;transform:translateY(0)}}
 #welcome-title em{font-style:normal;color:transparent;-webkit-text-stroke:clamp(1px,0.18vw,2px) rgba(139,0,255,0.85)}
 #welcome-sub{font-size:clamp(13px,2.5vw,16px);color:var(--gray);max-width:min(400px,85vw);line-height:1.75;font-weight:300;text-align:center;margin-top:28px;opacity:0;animation:fadeUp .8s var(--ease) 3.0s forwards}
-#welcome-cta{
-  margin-top:36px;display:inline-flex;align-items:center;gap:10px;
-  padding:14px 32px;border:1px solid var(--purple);border-radius:99px;
-  background:rgba(139,0,255,0.08);color:var(--white);
-  font-size:clamp(12px,2.5vw,14px);font-weight:500;letter-spacing:.06em;
-  cursor:pointer;font-family:'DM Sans',sans-serif;
-  opacity:0;animation:fadeUp .8s var(--ease) 3.6s forwards;
-  transition:background .3s,box-shadow .3s,border-color .3s,transform .15s;
-  -webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;
-}
+#welcome-cta{margin-top:36px;display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border:1px solid var(--purple);border-radius:99px;background:rgba(139,0,255,0.08);color:var(--white);font-size:clamp(12px,2.5vw,14px);font-weight:500;letter-spacing:.06em;cursor:pointer;font-family:'DM Sans',sans-serif;opacity:0;animation:fadeUp .8s var(--ease) 3.6s forwards;transition:background .3s,box-shadow .3s,border-color .3s,transform .15s;-webkit-tap-highlight-color:transparent;position:relative;overflow:hidden}
 #welcome-cta::before{content:'';position:absolute;inset:-2px;border-radius:99px;animation:ctaPulse 2.5s ease-in-out 4.2s infinite}
 @keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(139,0,255,.5)}60%{box-shadow:0 0 0 10px rgba(139,0,255,0)}100%{box-shadow:0 0 0 0 rgba(139,0,255,0)}}
 #welcome-cta:hover,#welcome-cta:active{background:rgba(139,0,255,0.18);box-shadow:0 0 30px rgba(139,0,255,0.3);border-color:rgba(139,0,255,0.8);transform:scale(1.02)}
 #welcome-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
 #welcome-cta:hover svg{transform:translateX(3px)}
 #welcome-line-bottom{width:1px;height:0;background:linear-gradient(to top,transparent,rgba(139,0,255,.3));margin-top:32px;animation:lineGrow .9s var(--ease) 3.8s forwards}
+/* Botón web sutil esquina bienvenida */
+#welcome-web{position:absolute;bottom:max(24px,env(safe-area-inset-bottom,24px));right:max(24px,env(safe-area-inset-right,24px));width:38px;height:38px;border-radius:50%;background:rgba(139,0,255,.06);border:1px solid rgba(139,0,255,.2);color:rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;text-decoration:none;opacity:0;animation:fadeUp .8s var(--ease) 4.0s forwards;transition:background .25s,border-color .25s,color .25s;-webkit-tap-highlight-color:transparent}
+#welcome-web:hover,#welcome-web:active{background:rgba(139,0,255,.16);border-color:var(--purple);color:var(--white)}
+#welcome-web svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Botones sociales en cierre */
+#closing-socials{display:flex;align-items:center;gap:10px;margin-top:4px}
+.social-btn{width:36px;height:36px;border-radius:50%;background:rgba(139,0,255,.06);border:1px solid rgba(139,0,255,.2);color:rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .25s,border-color .25s,color .25s;-webkit-tap-highlight-color:transparent;flex-shrink:0}
+.social-btn:hover,.social-btn:active{background:rgba(139,0,255,.18);border-color:var(--purple);color:var(--white)}
+.social-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── STAGE ── */
@@ -112,15 +99,13 @@ body::before{
 @keyframes slideIn {0%{opacity:0;filter:blur(12px);transform:scale(.97)}100%{opacity:1;filter:blur(0);transform:scale(1)}}
 .slide img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:var(--bg);-webkit-user-drag:none}
 
-/* ── SLIDE CIERRE ──
-   padding-bottom generoso para que el botón no quede bajo el scrubber en móvil ── */
+/* ── SLIDE CIERRE ── */
 #closing-slide{
   position:absolute;top:0;left:0;width:100%;height:100%;
   display:none;opacity:0;z-index:1;
   flex-direction:column;align-items:center;justify-content:center;
   gap:18px;text-align:center;
-  /* Empujar contenido hacia arriba en móvil dejando espacio para scrubber (~80px) */
-  padding:2rem max(1.5rem,env(safe-area-inset-right)) max(100px,12vh) max(1.5rem,env(safe-area-inset-left));
+  padding:2rem max(1.5rem,env(safe-area-inset-right)) max(130px,14vh) max(1.5rem,env(safe-area-inset-left));
   background:radial-gradient(ellipse at 50% 40%,rgba(139,0,255,.15) 0%,var(--bg) 65%);
 }
 #closing-slide.is-shown{display:flex;opacity:1}
@@ -132,117 +117,72 @@ body::before{
 #closing-title em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(139,0,255,.8)}
 #closing-rule{width:36px;height:1px;background:var(--pdim)}
 #closing-sub{font-size:13px;color:var(--gray);max-width:340px;line-height:1.75;font-weight:300}
-#closing-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:11px 24px;border:1px solid var(--pdim);border-radius:99px;
-  background:rgba(139,0,255,.06);color:rgba(255,255,255,.75);
-  font-size:12px;font-weight:500;letter-spacing:.04em;text-decoration:none;
-  font-family:'DM Sans',sans-serif;
-  transition:border-color .25s,background .25s,color .25s;
-  -webkit-tap-highlight-color:transparent;
-  /* z-index relativo para asegurar que queda sobre el scrubber */
-  position:relative;z-index:10;
-}
+#closing-cta{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border:1px solid var(--pdim);border-radius:99px;background:rgba(139,0,255,.06);color:rgba(255,255,255,.75);font-size:12px;font-weight:500;letter-spacing:.04em;text-decoration:none;font-family:'DM Sans',sans-serif;transition:border-color .25s,background .25s,color .25s;-webkit-tap-highlight-color:transparent;position:relative;z-index:10}
 #closing-cta:hover,#closing-cta:active{border-color:var(--purple);background:rgba(139,0,255,.14);color:var(--white)}
 #closing-cta svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* ══════════════════════════════════════════════════
-   UI OVERLAY
-   Las barras (top/bottom) y sus fondos desaparecen
-   cuando el mouse se aleja, igual que las flechas.
-   En móvil se manejan con la clase .ui-active.
-══════════════════════════════════════════════════ */
-#ui{
-  position:fixed;inset:0;z-index:200;pointer-events:none;
-  transition:opacity .35s var(--ease);
-}
+/* ── UI OVERLAY ──
+   .ui-idle  → mouse inactivo en desktop: ocultar UI + cursor
+   .ui-active → toque móvil: mostrar UI brevemente
+   .immersive → modo inmersivo: ocultar todo
+── */
+#ui{position:fixed;inset:0;z-index:200;pointer-events:none;transition:opacity var(--ui-fade) var(--ease)}
 #ui.immersive{opacity:0;pointer-events:none}
 #ui > *{pointer-events:all}
 
-/* Topbar y bottombar: solo el contenido es siempre visible,
-   el fondo gradiente se oculta cuando no hay hover */
-#topbar{
-  position:absolute;top:0;left:0;right:0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:clamp(12px,3vw,20px) clamp(14px,4vw,28px);
-  /* El gradiente de fondo en propiedad separada para poder animarlo */
-  transition:background var(--ui-fade) var(--ease);
-  background:linear-gradient(to bottom,rgba(14,1,24,.88) 0%,transparent 100%);
-}
-/* Cuando el mouse NO está en la UI, desvanecer el fondo */
-#ui:not(:hover) #topbar{
-  background:linear-gradient(to bottom,rgba(14,1,24,0) 0%,transparent 100%);
-}
-/* En móvil: controlado por clase .ui-active */
-#ui.ui-active #topbar{
-  background:linear-gradient(to bottom,rgba(14,1,24,.88) 0%,transparent 100%);
-}
+/* Elementos que se ocultan/muestran según actividad */
+#topbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:clamp(12px,3vw,20px) clamp(14px,4vw,28px);transition:background var(--ui-fade) var(--ease);background:linear-gradient(to bottom,rgba(14,1,24,.88) 0%,transparent 100%)}
+#ui.ui-idle #topbar{background:linear-gradient(to bottom,rgba(14,1,24,0) 0%,transparent 100%)}
 
-#logo{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:clamp(13px,3.5vw,16px);letter-spacing:.06em;color:var(--white);text-decoration:none;opacity:0;transition:opacity var(--ui-fade) var(--ease);font-variation-settings:'wdth' 125,'wght' 800;-webkit-tap-highlight-color:transparent}
-#ui:hover #logo,
-#ui.ui-active #logo{opacity:.7}
-#logo:hover{opacity:1!important}
+#logo{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:clamp(13px,3.5vw,16px);letter-spacing:.06em;color:var(--white);text-decoration:none;transition:opacity var(--ui-fade) var(--ease);font-variation-settings:'wdth' 125,'wght' 800;-webkit-tap-highlight-color:transparent;opacity:.7}
+#ui.ui-idle #logo{opacity:0}
+#logo:hover{opacity:1}
 #logo em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(139,0,255,.9)}
 
-#slide-counter{font-size:clamp(9px,2.5vw,11px);letter-spacing:.13em;color:var(--gray);text-transform:uppercase;border:1px solid rgba(255,255,255,.08);padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.03);opacity:0;transition:opacity var(--ui-fade) var(--ease)}
-#ui:hover #slide-counter,
-#ui.ui-active #slide-counter{opacity:1}
+#slide-counter{font-size:clamp(9px,2.5vw,11px);letter-spacing:.13em;color:var(--gray);text-transform:uppercase;border:1px solid rgba(255,255,255,.08);padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.03);transition:opacity var(--ui-fade) var(--ease);opacity:1}
+#ui.ui-idle #slide-counter{opacity:0}
 
-#bottombar{
-  position:absolute;bottom:0;left:0;right:0;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:clamp(8px,2vw,14px) clamp(14px,4vw,28px);
-  padding-bottom:max(clamp(8px,2vw,14px),env(safe-area-inset-bottom));
-  transition:background var(--ui-fade) var(--ease);
-  background:linear-gradient(to top,rgba(14,1,24,.88) 0%,rgba(14,1,24,.35) 60%,transparent 100%);
-}
-#ui:not(:hover) #bottombar{
-  background:linear-gradient(to top,rgba(14,1,24,0) 0%,rgba(14,1,24,0) 60%,transparent 100%);
-}
-#ui.ui-active #bottombar{
-  background:linear-gradient(to top,rgba(14,1,24,.88) 0%,rgba(14,1,24,.35) 60%,transparent 100%);
-}
+#bottombar{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:clamp(8px,2vw,14px) clamp(14px,4vw,28px);padding-bottom:max(clamp(8px,2vw,14px),env(safe-area-inset-bottom));transition:background var(--ui-fade) var(--ease);background:linear-gradient(to top,rgba(14,1,24,.88) 0%,rgba(14,1,24,.35) 60%,transparent 100%)}
+#ui.ui-idle #bottombar{background:linear-gradient(to top,rgba(14,1,24,0) 0%,rgba(14,1,24,0) 60%,transparent 100%)}
 
-#client-info{flex-shrink:0;opacity:0;transition:opacity var(--ui-fade) var(--ease)}
-#ui:hover #client-info,
-#ui.ui-active #client-info{opacity:1}
+#client-info{flex-shrink:0;transition:opacity var(--ui-fade) var(--ease);opacity:1}
+#ui.ui-idle #client-info{opacity:0}
 #client-eyebrow{font-size:clamp(8px,2vw,10px);letter-spacing:.16em;color:var(--gray);text-transform:uppercase;font-weight:400}
 #client-name{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:clamp(11px,3vw,14px);letter-spacing:.04em;color:var(--white);margin-top:1px;font-variation-settings:'wdth' 125,'wght' 800}
 
 /* SCRUBBER */
-#scrubber-wrap{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;opacity:0;transition:opacity var(--ui-fade) var(--ease)}
-#ui:hover #scrubber-wrap,
-#ui.ui-active #scrubber-wrap,
-#scrubber-wrap.touching{opacity:1}
+#scrubber-wrap{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;transition:opacity var(--ui-fade) var(--ease);opacity:1}
+#ui.ui-idle #scrubber-wrap{opacity:0}
+/* En móvil solo se muestra al tocar */
 @media(max-width:768px){
   #scrubber-wrap{opacity:0}
-  #scrubber-wrap.touching{opacity:1}
+  #ui.ui-active #scrubber-wrap{opacity:1}
+  #ui.ui-idle #scrubber-wrap{opacity:0}
 }
-#scrubber-track{flex:1;position:relative;height:36px;display:flex;align-items:center;cursor:pointer}
-#scrubber-bg{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,.12);border-radius:2px}
-#scrubber-fill{position:absolute;left:0;height:2px;background:var(--purple);border-radius:2px;width:0%;box-shadow:0 0 6px rgba(139,0,255,.5);transition:width .1s linear;pointer-events:none}
-#scrubber-thumb{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--white);border:2px solid var(--purple);box-shadow:0 0 8px rgba(139,0,255,.5);transform:translate(-50%,-50%);left:0%;transition:left .1s linear,transform .15s,box-shadow .15s;pointer-events:none}
-#scrubber-track:hover #scrubber-thumb,#scrubber-track.dragging #scrubber-thumb{transform:translate(-50%,-50%) scale(1.25);box-shadow:0 0 12px rgba(139,0,255,.7)}
-#scrubber-tip{position:absolute;bottom:calc(100% + 10px);background:rgba(14,1,24,.9);border:1px solid var(--pdim);color:var(--white);font-size:10px;letter-spacing:.1em;padding:3px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;transform:translateX(-50%);left:0%}
+#scrubber-track{
+  flex:1;position:relative;
+  /* Área de toque generosa para móvil */
+  height:44px;
+  display:flex;align-items:center;cursor:pointer;
+  /* Asegurar que eventos touch del scrubber no se propaguen al swipe */
+  touch-action:none;
+}
+#scrubber-bg{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,.12);border-radius:2px;pointer-events:none}
+#scrubber-fill{position:absolute;left:0;height:2px;background:var(--purple);border-radius:2px;width:0%;box-shadow:0 0 6px rgba(139,0,255,.5);pointer-events:none}
+#scrubber-thumb{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--white);border:2px solid var(--purple);box-shadow:0 0 8px rgba(139,0,255,.5);transform:translate(-50%,-50%);left:0%;pointer-events:none;transition:transform .15s,box-shadow .15s}
+#scrubber-track:hover #scrubber-thumb,#scrubber-track.dragging #scrubber-thumb{transform:translate(-50%,-50%) scale(1.3);box-shadow:0 0 14px rgba(139,0,255,.8)}
+#scrubber-tip{position:absolute;bottom:calc(100% + 6px);background:rgba(14,1,24,.9);border:1px solid var(--pdim);color:var(--white);font-size:10px;letter-spacing:.1em;padding:3px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;transform:translateX(-50%);left:0%}
 #scrubber-track.dragging #scrubber-tip,#scrubber-track:hover #scrubber-tip{opacity:1}
 
-#immersive-btn{
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--gray);
-  padding:6px 12px;border-radius:99px;font-size:clamp(9px,2.2vw,10px);letter-spacing:.1em;text-transform:uppercase;
-  cursor:pointer;font-family:'DM Sans',sans-serif;
-  transition:color .2s,border-color .2s,background .2s,opacity var(--ui-fade) var(--ease);
-  display:flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;white-space:nowrap;flex-shrink:0;
-  opacity:0;
-}
-#ui:hover #immersive-btn,
-#ui.ui-active #immersive-btn{opacity:1}
+#immersive-btn{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--gray);padding:6px 12px;border-radius:99px;font-size:clamp(9px,2.2vw,10px);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s,border-color .2s,background .2s,opacity var(--ui-fade) var(--ease);display:flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent;white-space:nowrap;flex-shrink:0;opacity:1}
+#ui.ui-idle #immersive-btn{opacity:0}
 #immersive-btn:hover,#immersive-btn:active{color:var(--white);border-color:var(--pdim);background:rgba(139,0,255,.06)}
 #immersive-btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* NAV ARROWS */
 .nav-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(14,1,24,.5);border:1px solid var(--pdim);color:var(--white);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .2s,border-color .2s,box-shadow .2s,opacity var(--ui-fade) var(--ease),transform .2s;opacity:0;-webkit-tap-highlight-color:transparent}
-#ui:hover .nav-arrow{opacity:1}
-.nav-arrow:hover{background:rgba(139,0,255,.14);border-color:rgba(139,0,255,.5);box-shadow:0 0 16px rgba(139,0,255,.2);transform:translateY(-50%) scale(1.07)}
+#ui:not(.ui-idle) .nav-arrow{opacity:0}
+/* Las flechas solo con hover directo sobre ellas */
+.nav-arrow:hover{background:rgba(139,0,255,.14);border-color:rgba(139,0,255,.5);box-shadow:0 0 16px rgba(139,0,255,.2);transform:translateY(-50%) scale(1.07);opacity:1!important}
 .nav-arrow:active{transform:translateY(-50%) scale(.95)}
 .nav-arrow:disabled{opacity:0!important;pointer-events:none}
 .nav-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -252,28 +192,12 @@ body::before{
 #progress-wrap{position:absolute;bottom:0;left:0;right:0;height:2px;background:rgba(139,0,255,.08)}
 #progress-bar{height:100%;background:var(--purple);width:0%;transition:width var(--dur) var(--ease);box-shadow:0 0 8px rgba(139,0,255,.4)}
 
-#hint{position:absolute;bottom:58px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--gray);letter-spacing:.14em;text-transform:uppercase;pointer-events:none;transition:opacity 1.2s;white-space:nowrap}
+#hint{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--gray);letter-spacing:.14em;text-transform:uppercase;pointer-events:none;transition:opacity 1.2s;white-space:nowrap}
 #hint.hidden{opacity:0}
 
-/* EXIT IMMERSIVE */
-#exit-immersive{
-  position:fixed;
-  top:max(16px,env(safe-area-inset-top,16px));
-  right:max(16px,env(safe-area-inset-right,16px));
-  z-index:300;width:36px;height:36px;border-radius:50%;
-  background:rgba(14,1,24,.6);border:1px solid rgba(139,0,255,.25);
-  color:rgba(255,255,255,.5);display:none;align-items:center;justify-content:center;
-  cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  transition:background .2s,border-color .2s,color .2s,opacity var(--ui-fade);
-  -webkit-tap-highlight-color:transparent;
-  /* Siempre visible pero muy sutil en inmersivo */
-  opacity:0.4;
-}
+#exit-immersive{position:fixed;top:max(16px,env(safe-area-inset-top,16px));right:max(16px,env(safe-area-inset-right,16px));z-index:300;width:36px;height:36px;border-radius:50%;background:rgba(14,1,24,.6);border:1px solid rgba(139,0,255,.25);color:rgba(255,255,255,.5);display:none;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .2s,border-color .2s,color .2s;-webkit-tap-highlight-color:transparent;opacity:0.4}
 #exit-immersive.visible{display:flex}
-#exit-immersive:hover,#exit-immersive:active{
-  background:rgba(139,0,255,.2);border-color:var(--purple);
-  color:var(--white);opacity:1;
-}
+#exit-immersive:hover,#exit-immersive:active{background:rgba(139,0,255,.2);border-color:var(--purple);color:var(--white);opacity:1}
 #exit-immersive svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 #tz-prev,#tz-next{position:absolute;top:10%;bottom:10%;width:18%;cursor:pointer}
@@ -305,6 +229,9 @@ body::before{
     <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
   </button>
   <div id="welcome-line-bottom"></div>
+  <a href="https://jotady.cl" id="welcome-web" target="_blank" rel="noopener" title="Visitar jotady.cl">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  </a>
 </div>
 
 <div id="stage">
@@ -317,6 +244,17 @@ body::before{
       Visitar jotady.cl
       <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
     </a>
+    <div id="closing-socials">
+      <a href="https://instagram.com/jotady" class="social-btn" target="_blank" rel="noopener" title="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/jotady" class="social-btn" target="_blank" rel="noopener" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://www.behance.net/gallery/228837681/Portfolio-20XX" class="social-btn" target="_blank" rel="noopener" title="Behance">
+        <svg viewBox="0 0 24 24"><path d="M4 4h7a4 4 0 0 1 0 8H4z"/><path d="M4 12h8a4 4 0 0 1 0 8H4z"/><line x1="14" y1="7" x2="20" y2="7"/><path d="M14 12h6a3 3 0 1 1-3 5"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -364,6 +302,8 @@ var TOTAL = 28;
 var BASE  = 'https://raw.githubusercontent.com/jotady/servicios/main/ulalawadi/slides/';
 var LAST  = TOTAL;
 var DUR   = 500;
+/* Segundos de inactividad del mouse antes de ocultar UI + cursor */
+var IDLE_DELAY = 3000;
 
 var current      = 0;
 var busy         = false;
@@ -398,6 +338,34 @@ function setState(el, state){
   if(state) el.classList.add(state);
 }
 
+/* ════════════════════════════════════════
+   INACTIVIDAD DE MOUSE (desktop)
+   Tras IDLE_DELAY ms sin mover el mouse →
+   ocultar UI y cursor.
+   Al mover → todo reaparece.
+════════════════════════════════════════ */
+var idleTimer = null;
+var isIdle    = false;
+
+function resetIdle(){
+  if(welcomeShown || immersive) return;
+  if(isIdle){
+    isIdle = false;
+    uiEl.classList.remove('ui-idle');
+    document.body.classList.remove('cursor-hidden');
+  }
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(function(){
+    isIdle = true;
+    uiEl.classList.add('ui-idle');
+    document.body.classList.add('cursor-hidden');
+  }, IDLE_DELAY);
+}
+
+document.addEventListener('mousemove', resetIdle);
+/* Click también reactiva */
+document.addEventListener('mousedown', resetIdle);
+
 /* ── WELCOME ── */
 uiEl.style.display = 'none';
 
@@ -407,11 +375,13 @@ function enterPresentation(){
     if(welcomeEl.parentNode) welcomeEl.parentNode.removeChild(welcomeEl);
     welcomeShown = false;
     uiEl.style.display = '';
+    /* Arrancar timer de inactividad */
+    resetIdle();
     setTimeout(function(){ hintEl.classList.add('hidden'); }, 4000);
   }, 850);
 }
 
-/* ── MOBILE UI ACTIVE (muestra barras al tocar) ── */
+/* ── MOBILE UI ACTIVE ── */
 var uiActiveTimer = null;
 function triggerUiActive(){
   uiEl.classList.add('ui-active');
@@ -421,51 +391,98 @@ function triggerUiActive(){
   }, 2800);
 }
 
-/* ── SCRUBBER ── */
-var scrubDragging = false;
+/* ════════════════════════════════════════
+   SCRUBBER
+   Fix móvil: usar touch-action:none en el
+   track y manejar los eventos de touch del
+   scrubber completamente separados del swipe.
+   La variable scrubDragging bloquea el swipe
+   mientras el scrubber está activo.
+════════════════════════════════════════ */
+var scrubDragging  = false;
+var scrubStartIdx  = 0; /* índice al inicio del drag */
 
-function updateScrubber(idx, tipOnly){
-  var pct = LAST > 0 ? (idx / LAST) * 100 : 0;
-  if(!tipOnly){
-    scrubberFill.style.width = pct + '%';
-    scrubberThumb.style.left = pct + '%';
-  }
-  scrubberTip.style.left = pct + '%';
-  scrubberTip.textContent = (idx === LAST ? pad(LAST+1) : pad(idx+1)) + ' / ' + pad(LAST+1);
-}
-
-function idxFromEvent(e){
+function pctFromTouch(touch){
   var rect = scrubberTrack.getBoundingClientRect();
-  var clientX = e.touches ? e.touches[0].clientX : (e.changedTouches ? e.changedTouches[0].clientX : e.clientX);
-  return Math.round(Math.max(0, Math.min(1, (clientX - rect.left) / rect.width)) * LAST);
+  return Math.max(0, Math.min(1, (touch.clientX - rect.left) / rect.width));
 }
 
+function updateScrubberVisual(pct){
+  var idx = Math.round(pct * LAST);
+  var p   = (idx / LAST) * 100;
+  scrubberFill.style.width = p + '%';
+  scrubberThumb.style.left = p + '%';
+  scrubberTip.style.left   = p + '%';
+  scrubberTip.textContent  = (idx === LAST ? pad(LAST+1) : pad(idx+1)) + ' / ' + pad(LAST+1);
+}
+
+function updateScrubber(idx){
+  var pct = LAST > 0 ? idx / LAST : 0;
+  var p   = pct * 100;
+  scrubberFill.style.width = p + '%';
+  scrubberThumb.style.left = p + '%';
+  scrubberTip.style.left   = p + '%';
+  scrubberTip.textContent  = (idx === LAST ? pad(LAST+1) : pad(idx+1)) + ' / ' + pad(LAST+1);
+}
+
+/* Touch en el scrubber — completamente aislado */
+scrubberTrack.addEventListener('touchstart', function(e){
+  e.stopPropagation(); /* no llegar al handler de swipe */
+  scrubDragging = true;
+  scrubberTrack.classList.add('dragging');
+  var touch = e.touches[0];
+  scrubStartIdx = Math.round(pctFromTouch(touch) * LAST);
+  updateScrubberVisual(pctFromTouch(touch));
+  triggerUiActive();
+}, {passive:true});
+
+scrubberTrack.addEventListener('touchmove', function(e){
+  if(!scrubDragging) return;
+  e.stopPropagation();
+  updateScrubberVisual(pctFromTouch(e.touches[0]));
+}, {passive:true});
+
+scrubberTrack.addEventListener('touchend', function(e){
+  if(!scrubDragging) return;
+  e.stopPropagation();
+  scrubDragging = false;
+  scrubberTrack.classList.remove('dragging');
+  var idx = Math.round(pctFromTouch(e.changedTouches[0]) * LAST);
+  goTo(idx);
+  setTimeout(function(){ triggerUiActive(); }, 100);
+}, {passive:true});
+
+/* Mouse en el scrubber */
 scrubberTrack.addEventListener('mousedown', function(e){
   scrubDragging = true;
   scrubberTrack.classList.add('dragging');
-  scrubberWrap.classList.add('touching');
-  updateScrubber(idxFromEvent(e), false);
+  updateScrubberVisual((e.clientX - scrubberTrack.getBoundingClientRect().left) / scrubberTrack.getBoundingClientRect().width);
   e.preventDefault();
 });
-scrubberTrack.addEventListener('touchstart', function(e){
-  scrubDragging = true;
-  scrubberTrack.classList.add('dragging');
-  scrubberWrap.classList.add('touching');
-  updateScrubber(idxFromEvent(e), false);
-}, {passive:true});
-document.addEventListener('mousemove', function(e){ if(scrubDragging) updateScrubber(idxFromEvent(e), false); });
-document.addEventListener('touchmove', function(e){ if(scrubDragging) updateScrubber(idxFromEvent(e), false); }, {passive:true});
-function endScrub(e){
+document.addEventListener('mousemove', function(e){
+  if(!scrubDragging) return;
+  var rect = scrubberTrack.getBoundingClientRect();
+  updateScrubberVisual((e.clientX - rect.left) / rect.width);
+});
+document.addEventListener('mouseup', function(e){
   if(!scrubDragging) return;
   scrubDragging = false;
   scrubberTrack.classList.remove('dragging');
-  setTimeout(function(){ scrubberWrap.classList.remove('touching'); }, 1000);
-  goTo(idxFromEvent(e));
-}
-document.addEventListener('mouseup',  endScrub);
-document.addEventListener('touchend', endScrub, {passive:true});
-scrubberTrack.addEventListener('mousemove', function(e){ if(!scrubDragging) updateScrubber(idxFromEvent(e), true); });
-scrubberTrack.addEventListener('click', function(e){ goTo(idxFromEvent(e)); });
+  var rect = scrubberTrack.getBoundingClientRect();
+  goTo(Math.round(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * LAST));
+});
+scrubberTrack.addEventListener('mousemove', function(e){
+  if(scrubDragging) return;
+  var rect = scrubberTrack.getBoundingClientRect();
+  var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  var idx = Math.round(pct * LAST);
+  scrubberTip.style.left  = (pct*100) + '%';
+  scrubberTip.textContent = (idx === LAST ? pad(LAST+1) : pad(idx+1)) + ' / ' + pad(LAST+1);
+});
+scrubberTrack.addEventListener('click', function(e){
+  var rect = scrubberTrack.getBoundingClientRect();
+  goTo(Math.round(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)) * LAST));
+});
 
 /* ── SLIDES ── */
 function buildSlides(){
@@ -510,7 +527,7 @@ function showFirst(){
 
 function goTo(idx){
   if(idx < 0 || idx > LAST) return;
-  if(idx === current){ updateScrubber(current, false); return; }
+  if(idx === current){ updateScrubber(current); return; }
   if(busy){
     if(cleanupTimer !== null){ clearTimeout(cleanupTimer); cleanupTimer = null; }
     for(var k = 0; k <= LAST; k++) setState(getEl(k), k === current ? 'is-shown' : '');
@@ -530,19 +547,30 @@ function goTo(idx){
 function go(dir){ goTo(current + dir); }
 
 function updateUI(){
-  var c = current === LAST;
-  counterEl.textContent = pad(c ? LAST+1 : current+1) + ' / ' + pad(LAST+1);
+  counterEl.textContent = pad(current === LAST ? LAST+1 : current+1) + ' / ' + pad(LAST+1);
   progressEl.style.width = ((current / LAST) * 100) + '%';
   prevBtn.disabled = current === 0;
   nextBtn.disabled = current === LAST;
-  updateScrubber(current, false);
+  updateScrubber(current);
 }
 
 /* ── MODO INMERSIVO ── */
 function setImmersive(on){
   immersive = on;
-  if(on){ uiEl.classList.add('immersive'); exitBtn.classList.add('visible'); window.scrollTo(0,1); }
-  else  { uiEl.classList.remove('immersive'); exitBtn.classList.remove('visible'); }
+  if(on){
+    uiEl.classList.add('immersive');
+    exitBtn.classList.add('visible');
+    /* En inmersivo cancelar el timer de inactividad */
+    clearTimeout(idleTimer);
+    isIdle = false;
+    uiEl.classList.remove('ui-idle');
+    document.body.classList.remove('cursor-hidden');
+    window.scrollTo(0,1);
+  } else {
+    uiEl.classList.remove('immersive');
+    exitBtn.classList.remove('visible');
+    resetIdle();
+  }
 }
 function toggleNativeFS(){
   if(!document.fullscreenElement && !document.webkitFullscreenElement){
@@ -564,20 +592,26 @@ document.getElementById('immersive-btn').addEventListener('click', function(){
   });
 });
 
-/* ── TOUCH ── */
+/* ── SWIPE (móvil) ──
+   Solo se activa si scrubDragging es false ── */
 var touchStartX = 0, touchStartY = 0, touchMoved = false;
 document.addEventListener('touchstart', function(e){
+  if(e.target.closest('#scrubber-track')) return; /* scrubber maneja sus propios toques */
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
   touchMoved  = false;
   if(!welcomeShown) triggerUiActive();
 }, {passive:true});
-document.addEventListener('touchmove', function(){ touchMoved = true; }, {passive:true});
+document.addEventListener('touchmove', function(e){
+  if(e.target.closest('#scrubber-track')) return;
+  touchMoved = true;
+}, {passive:true});
 document.addEventListener('touchend', function(e){
-  if(!touchMoved || welcomeShown) return;
+  if(e.target.closest('#scrubber-track')) return;
+  if(!touchMoved || welcomeShown || scrubDragging) return;
   var dx = e.changedTouches[0].clientX - touchStartX;
   var dy = e.changedTouches[0].clientY - touchStartY;
-  if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44 && !scrubDragging) go(dx < 0 ? 1 : -1);
+  if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) go(dx < 0 ? 1 : -1);
 }, {passive:true});
 
 /* Doble tap inmersivo */
@@ -592,15 +626,21 @@ document.addEventListener('touchend', function(e){
 /* ── TECLADO ── */
 document.addEventListener('keydown', function(e){
   if(welcomeShown){ if(e.key==='Enter'||e.key===' ') enterPresentation(); return; }
+  /* Navegación: NO reactiva la UI — el usuario quiere ver solo las diapos */
   if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
   if(e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
   if(e.key==='Home') goTo(0);
   if(e.key==='End')  goTo(LAST);
+  /* F y Escape sí reactivan la UI porque implican interacción con los controles */
   if(e.key==='f'||e.key==='F'){
+    resetIdle();
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     if(isIOS){ setImmersive(!immersive); } else { toggleNativeFS(); }
   }
-  if(e.key==='Escape' && immersive) setImmersive(false);
+  if(e.key==='Escape'){
+    resetIdle();
+    if(immersive) setImmersive(false);
+  }
 });
 
 buildSlides();
