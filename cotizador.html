@@ -2,133 +2,266 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wdth,wght@125,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#8B00FF">
+<title>Cotizador — Jotady</title>
+<link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wdth,wght@125,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--pv:#8B00FF;--pm:#6A00CC;--pb:#D4B8FF;--pl:#F8F2FF;--bg:#fff;--sf:#FAFBFF;--sf2:#F3ECFF;--t1:#1A0A2E;--t2:#5A4A72;--tm:#9B8BB8;--br:#E2D4F5;--rd:#C0392B;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);font-size:15px;line-height:1.6;}
-.wrap{max-width:900px;margin:0 auto;padding:24px 20px 48px;}
-.app-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1.5px solid var(--pb);margin-bottom:28px;flex-wrap:wrap;gap:10px;}
-.logo-wrap{display:flex;align-items:center;gap:12px;}
-.logo-icon{width:36px;height:36px;border-radius:8px;background:var(--pv);display:flex;align-items:center;justify-content:center;}
-.logo-icon svg{width:20px;height:20px;fill:none;stroke:white;stroke-width:2;}
-.logo-text{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:18px;letter-spacing:.05em;color:var(--t1);}
-.logo-sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tm);margin-top:1px;}
-.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:var(--sf2);color:var(--pm);border:1px solid var(--pb);}
-.sec{margin-bottom:24px;}
-.sec-title{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--pm);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.sec-title::after{content:'';flex:1;height:1px;background:var(--pb);}
-.dgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
-.field{display:flex;flex-direction:column;gap:5px;}
-.field label{font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--t2);}
-.field input,.field textarea{font-family:'DM Sans',sans-serif;font-size:14px;padding:9px 12px;border-radius:8px;border:1.5px solid var(--br);background:var(--sf);color:var(--t1);transition:border-color .2s,background .2s;outline:none;width:100%;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --pv:#8B00FF;--pm:#6A00CC;--pb:#D4B8FF;--pl:#F8F2FF;
+  --bg:#F4F0FB;--card:#fff;--sf:#FAFBFF;--sf2:#F3ECFF;
+  --t1:#1A0A2E;--t2:#5A4A72;--tm:#9B8BB8;--br:#E2D4F5;--rd:#C0392B;
+  --touch:52px;
+}
+html{overflow-x:hidden;}
+body{
+  font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);
+  font-size:16px;line-height:1.6;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* APP BAR */
+.app-bar{
+  position:sticky;top:0;z-index:100;background:var(--pv);
+  padding:0 16px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 2px 12px rgba(139,0,255,.3);
+}
+.app-bar-brand{display:flex;align-items:center;gap:10px;}
+.app-bar-icon{width:32px;height:32px;background:rgba(255,255,255,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.app-bar-icon svg{width:18px;height:18px;fill:none;stroke:white;stroke-width:2;}
+.app-bar-title{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:.04em;color:white;}
+.app-bar-sub{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65);}
+.app-bar-badge{background:rgba(255,255,255,.18);color:white;font-size:11px;font-weight:600;padding:4px 10px;border-radius:99px;letter-spacing:.04em;white-space:nowrap;}
+
+/* CONTENT */
+.content{padding:12px 12px 110px;}
+
+/* CARDS */
+.card{background:var(--card);border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:0 1px 4px rgba(26,10,46,.06);}
+.card-header{padding:14px 16px 4px;display:flex;align-items:center;gap:8px;}
+.card-title{font-family:'Encode Sans',sans-serif;font-weight:800;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--pm);}
+.card-body{padding:10px 16px 16px;}
+
+/* CAMPOS */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.field:last-child{margin-bottom:0;}
+.field label{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--t2);text-transform:uppercase;}
+.field input,.field textarea{
+  font-family:'DM Sans',sans-serif;font-size:16px;
+  padding:13px 14px;border-radius:12px;
+  border:1.5px solid var(--br);background:var(--sf);color:var(--t1);
+  outline:none;width:100%;min-height:var(--touch);
+  -webkit-appearance:none;appearance:none;
+  transition:border-color .18s,background .18s;
+}
 .field input:focus,.field textarea:focus{border-color:var(--pv);background:var(--pl);}
-.ret-card{background:var(--sf2);border:1.5px solid var(--pb);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.ret-note{font-size:11px;color:var(--tm);margin-top:4px;}
-.logic-chip{display:inline-flex;align-items:center;gap:6px;background:#E8F8F0;color:#0A7C4B;border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:500;border:1px solid #b7e4cf;margin-top:8px;width:100%;}
-.ret-iw{display:flex;align-items:center;gap:6px;margin-top:2px;}
-.ret-iw input{width:86px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:7px 10px;border-radius:7px;border:1.5px solid var(--pb);background:white;color:var(--t1);text-align:center;outline:none;}
-.ret-iw input:focus{border-color:var(--pv);}
-.ret-iw span{font-size:14px;color:var(--t2);}
-.tbl-wrap{border:1.5px solid var(--br);border-radius:10px;overflow:hidden;}
-table.items{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed;}
-table.items thead tr{background:var(--sf2);}
-table.items th{padding:10px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);border-bottom:1.5px solid var(--br);}
-table.items th.r,table.items td.r{text-align:right;}
-table.items th.c,table.items td.c{text-align:center;}
-table.items tbody tr{border-bottom:1px solid var(--br);}
-table.items tbody tr:last-child{border-bottom:none;}
-table.items td{padding:6px;vertical-align:top;}
-.col-num{width:34px;}.col-price{width:130px;}.col-qty{width:58px;}.col-total{width:110px;}.col-del{width:36px;}
-.item-num{width:24px;height:24px;border-radius:50%;background:var(--sf2);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--pm);margin-top:4px;}
-textarea.idesc{font-family:'DM Sans',sans-serif;font-size:13.5px;width:100%;padding:6px 8px;border-radius:6px;border:1.5px solid transparent;background:transparent;color:var(--t1);outline:none;resize:none;overflow:hidden;min-height:34px;line-height:1.45;transition:border-color .18s,background .18s;display:block;}
-textarea.idesc:focus{border-color:var(--pb);background:var(--pl);}
-input.iprice{font-family:'DM Sans',sans-serif;font-size:13.5px;width:100%;padding:6px 8px;border-radius:6px;border:1.5px solid transparent;background:transparent;color:var(--t1);outline:none;text-align:right;transition:border-color .18s,background .18s;}
-input.iprice:focus{border-color:var(--pb);background:var(--pl);}
-input.iqty{font-family:'DM Sans',sans-serif;font-size:13.5px;width:100%;padding:6px 4px;border-radius:6px;border:1.5px solid transparent;background:transparent;color:var(--t1);outline:none;text-align:center;transition:border-color .18s,background .18s;}
-input.iqty:focus{border-color:var(--pb);background:var(--pl);}
-.td-total{font-weight:500;color:var(--t1);padding-top:10px;white-space:nowrap;}
-.btn-del{background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;color:var(--tm);font-size:18px;transition:color .18s,background .18s;line-height:1;margin-top:2px;}
-.btn-del:hover{color:var(--rd);background:#FDECEA;}
-.add-row td{padding:8px 10px;}
-.btn-add{display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px dashed var(--pb);cursor:pointer;padding:7px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--pm);transition:all .2s;font-weight:500;}
-.btn-add:hover{background:var(--pl);border-color:var(--pv);color:var(--pv);}
-.totals{background:var(--sf);border:1.5px solid var(--br);border-radius:10px;overflow:hidden;margin-top:16px;}
-.trow{display:flex;justify-content:space-between;align-items:center;padding:11px 20px;border-bottom:1px solid var(--br);font-size:14px;}
+.field textarea{min-height:90px;resize:none;line-height:1.5;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+
+/* RETENCIÓN */
+.ret-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.ret-info{flex:1;}
+.ret-info p{font-size:13.5px;color:var(--t2);margin:0;}
+.ret-input-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.ret-input-wrap input{
+  width:88px;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:600;
+  padding:10px 12px;border-radius:10px;border:1.5px solid var(--pb);
+  background:white;color:var(--t1);text-align:center;
+  min-height:var(--touch);outline:none;-webkit-appearance:none;
+  transition:border-color .18s;
+}
+.ret-input-wrap input:focus{border-color:var(--pv);}
+.ret-input-wrap span{font-size:18px;color:var(--t2);font-weight:600;}
+.ret-chip{display:flex;align-items:flex-start;gap:8px;background:#E8F8F0;color:#0A7C4B;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:500;border:1px solid #b7e4cf;margin-top:10px;line-height:1.4;}
+.ret-chip svg{flex-shrink:0;margin-top:1px;}
+
+/* ITEM CARDS */
+.item-card{background:var(--sf);border:1.5px solid var(--br);border-radius:14px;padding:12px;margin-bottom:10px;}
+.item-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.item-badge{width:30px;height:30px;border-radius:50%;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--pm);flex-shrink:0;}
+.btn-del{width:40px;height:40px;background:none;border:1.5px solid var(--br);cursor:pointer;border-radius:10px;color:var(--tm);font-size:22px;display:flex;align-items:center;justify-content:center;transition:all .18s;line-height:1;}
+.btn-del:active,.btn-del:hover{color:var(--rd);background:#FDECEA;border-color:var(--rd);}
+.item-desc{
+  font-family:'DM Sans',sans-serif;font-size:16px;width:100%;
+  padding:12px 14px;border-radius:10px;border:1.5px solid var(--br);
+  background:white;color:var(--t1);outline:none;
+  resize:none;overflow:hidden;min-height:50px;line-height:1.4;
+  -webkit-appearance:none;display:block;transition:border-color .18s;margin-bottom:10px;
+}
+.item-desc:focus{border-color:var(--pv);}
+.item-nums{display:grid;grid-template-columns:1fr 72px 1fr;gap:8px;align-items:end;}
+.item-num-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tm);display:block;margin-bottom:5px;}
+.item-num-lbl.center{text-align:center;}
+.item-num-lbl.right{text-align:right;}
+.item-num-input{
+  font-family:'DM Sans',sans-serif;font-size:16px;width:100%;
+  padding:11px 10px;border-radius:10px;border:1.5px solid var(--br);
+  background:white;color:var(--t1);outline:none;text-align:right;
+  min-height:48px;-webkit-appearance:none;transition:border-color .18s;
+}
+.item-num-input.center{text-align:center;}
+.item-num-input:focus{border-color:var(--pv);}
+.item-total-box{
+  font-size:15px;font-weight:700;color:var(--pm);
+  padding:11px 10px;background:var(--sf2);border-radius:10px;
+  text-align:right;min-height:48px;display:flex;align-items:center;justify-content:flex-end;
+}
+
+.btn-add{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:none;border:2px dashed var(--pb);cursor:pointer;
+  padding:16px;border-radius:12px;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;color:var(--pm);
+  transition:all .2s;min-height:var(--touch);-webkit-appearance:none;
+}
+.btn-add:active,.btn-add:hover{background:var(--pl);border-color:var(--pv);color:var(--pv);}
+
+/* TOTALES */
+.totals-card{background:var(--card);border-radius:16px;overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(26,10,46,.06);}
+.trow{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--br);}
 .trow:last-child{border-bottom:none;}
-.trow-boleta{background:white;}
-.tl-boleta{color:var(--tm);font-size:13px;}
-.tv-boleta{color:var(--tm);font-size:13px;font-weight:500;}
-.trow.fin{background:var(--pv);padding:14px 20px;}
-.trow.fin .tl,.trow.fin .tv{color:white;font-family:'Encode Sans',sans-serif;font-weight:800;font-size:18px;letter-spacing:.02em;}
-textarea.notes{font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;border-radius:8px;border:1.5px solid var(--br);background:var(--sf);color:var(--t1);width:100%;min-height:80px;resize:vertical;outline:none;transition:border-color .2s;}
-textarea.notes:focus{border-color:var(--pv);}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;}
-.btn-p{display:inline-flex;align-items:center;gap:8px;background:var(--pv);color:white;border:none;cursor:pointer;padding:11px 22px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:background .2s,transform .15s;}
-.btn-p:hover{background:var(--pm);transform:translateY(-1px);}
-.btn-s{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--pm);border:1.5px solid var(--pb);cursor:pointer;padding:11px 22px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:all .2s;}
-.btn-s:hover{background:var(--pl);border-color:var(--pv);}
+.tl-muted{color:var(--tm);font-size:13.5px;}
+.tv-muted{color:var(--tm);font-size:13.5px;font-weight:600;}
+.trow-fin{background:var(--pv);padding:18px 16px;}
+.tl-fin{color:white;font-family:'Encode Sans',sans-serif;font-weight:800;font-size:17px;}
+.tv-fin{color:white;font-family:'Encode Sans',sans-serif;font-weight:800;font-size:20px;}
+
+/* FAB BAR */
+.fab-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:white;border-top:1px solid var(--br);
+  padding:10px 12px;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+  display:flex;gap:8px;
+}
+.btn-export{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--pv);color:white;border:none;cursor:pointer;
+  padding:14px 20px;border-radius:12px;
+  font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;
+  min-height:var(--touch);transition:background .18s;-webkit-appearance:none;
+}
+.btn-export:active,.btn-export:hover{background:var(--pm);}
+.btn-new{
+  width:52px;height:52px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:white;color:var(--pm);border:1.5px solid var(--pb);
+  cursor:pointer;border-radius:12px;transition:all .18s;-webkit-appearance:none;
+}
+.btn-new:active,.btn-new:hover{background:var(--pl);border-color:var(--pv);}
+
+/* DESKTOP */
+@media(min-width:640px){
+  .content{padding:20px 20px 90px;max-width:700px;margin:0 auto;}
+  .card-body{padding:12px 20px 20px;}
+  .fab-bar{padding:12px 20px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));justify-content:center;}
+  .fab-bar .btn-export{max-width:320px;}
+  .fab-bar .btn-new{margin-right:auto;}
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="app-header">
-  <div class="logo-wrap">
-    <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-    <div><div class="logo-text">JOTADY</div><div class="logo-sub">Cotizador de Servicios</div></div>
-  </div>
-  <span class="badge">Diseñador Visual</span>
-</div>
-<div class="sec">
-  <div class="sec-title">Configuración tributaria</div>
-  <div class="ret-card">
-    <div style="flex:1;">
-      <div style="font-size:13px;color:var(--t2);"><strong style="color:var(--t1);">Tasa de retención</strong></div>
-      <div class="ret-note">Modificable cuando el SII actualice la tasa anual.</div>
-      <div class="logic-chip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Los valores que ingresas son <strong style="margin:0 3px;">líquidos</strong> — lo que quieres recibir. La boleta se calcula automáticamente.</div>
+
+<div class="app-bar">
+  <div class="app-bar-brand">
+    <div class="app-bar-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     </div>
-    <div class="ret-iw"><input type="number" id="ret-pct" value="15.25" step="0.01" min="0" max="100"><span>%</span></div>
+    <div>
+      <div class="app-bar-title">JOTADY</div>
+      <div class="app-bar-sub">Cotizador</div>
+    </div>
   </div>
+  <span class="app-bar-badge">Diseñador Visual</span>
 </div>
-<div class="sec">
-  <div class="sec-title">Datos de la cotización</div>
-  <div class="dgrid3">
-    <div class="field"><label>Nombre cliente</label><input type="text" id="cli-nombre" placeholder="Ej: María González"></div>
-    <div class="field"><label>Empresa / Proyecto</label><input type="text" id="cli-empresa" placeholder="Ej: Oh Coffee"></div>
-    <div class="field"><label>N° de cotización</label><input type="text" id="cot-num" placeholder="Ej: COT-2025-001"></div>
-    <div class="field"><label>Fecha de emisión</label><input type="date" id="cot-fecha"></div>
-    <div class="field"><label>Vigencia</label><input type="text" id="cot-vigencia" placeholder="Ej: 30 días"></div>
-    <div class="field"><label>Forma de pago</label><input type="text" id="cot-pago" placeholder="Ej: Transferencia bancaria"></div>
+
+<div class="content">
+
+  <!-- RETENCIÓN -->
+  <div class="card">
+    <div class="card-header"><span class="card-title">Configuración tributaria</span></div>
+    <div class="card-body">
+      <div class="ret-row">
+        <div class="ret-info"><p>Tasa de retención SII<br><small style="color:var(--tm);font-size:12px;">Modificable cuando cambie la tasa anual</small></p></div>
+        <div class="ret-input-wrap">
+          <input type="number" id="ret-pct" value="15.25" step="0.01" min="0" max="100" inputmode="decimal">
+          <span>%</span>
+        </div>
+      </div>
+      <div class="ret-chip">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Ingresa valores <strong style="margin:0 3px;">líquidos</strong> — lo que quieres recibir. La boleta se calcula sola.
+      </div>
+    </div>
   </div>
-</div>
-<div class="sec">
-  <div class="sec-title">Ítems</div>
-  <div class="tbl-wrap">
-    <table class="items">
-      <thead><tr>
-        <th class="col-num">#</th><th>Descripción</th>
-        <th class="r col-price">Precio unitario</th>
-        <th class="c col-qty">Cant.</th>
-        <th class="r col-total">Total</th>
-        <th class="col-del"></th>
-      </tr></thead>
-      <tbody id="items-body"></tbody>
-      <tfoot><tr class="add-row"><td colspan="6"><button class="btn-add" onclick="addItem()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Agregar ítem</button></td></tr></tfoot>
-    </table>
+
+  <!-- DATOS -->
+  <div class="card">
+    <div class="card-header"><span class="card-title">Datos de la cotización</span></div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="field"><label>Cliente</label><input type="text" id="cli-nombre" placeholder="Nombre completo" autocomplete="name"></div>
+        <div class="field"><label>Empresa / Proyecto</label><input type="text" id="cli-empresa" placeholder="Opcional"></div>
+      </div>
+      <div class="field-row3">
+        <div class="field"><label>N° cotización</label><input type="text" id="cot-num" placeholder="COT-001"></div>
+        <div class="field"><label>Fecha</label><input type="date" id="cot-fecha"></div>
+        <div class="field"><label>Vigencia</label><input type="text" id="cot-vigencia" placeholder="30 días"></div>
+      </div>
+      <div class="field"><label>Forma de pago</label><input type="text" id="cot-pago" placeholder="Ej: Transferencia bancaria"></div>
+    </div>
   </div>
-  <div class="totals">
-    <div class="trow trow-boleta"><span class="tl-boleta" id="t-boleta-lbl">Total boleta (15,25% retención)</span><span class="tv-boleta" id="t-boleta">$0</span></div>
-    <div class="trow fin"><span class="tl">Total a pagar</span><span class="tv" id="t-total">$0</span></div>
+
+  <!-- ITEMS -->
+  <div class="card">
+    <div class="card-header"><span class="card-title">Ítems</span></div>
+    <div class="card-body">
+      <div id="items-list"></div>
+      <button class="btn-add" onclick="addItem()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Agregar ítem
+      </button>
+    </div>
   </div>
+
+  <!-- TOTALES -->
+  <div class="totals-card">
+    <div class="trow">
+      <span class="tl-muted" id="t-boleta-lbl">Total boleta (15,25% retención)</span>
+      <span class="tv-muted" id="t-boleta">$0</span>
+    </div>
+    <div class="trow trow-fin">
+      <span class="tl-fin">Total a pagar</span>
+      <span class="tv-fin" id="t-total">$0</span>
+    </div>
+  </div>
+
+  <!-- NOTAS -->
+  <div class="card">
+    <div class="card-header"><span class="card-title">Notas y condiciones</span></div>
+    <div class="card-body">
+      <div class="field">
+        <textarea id="notas" placeholder="Ej: Incluye 2 rondas de ajustes. Archivos finales en PDF dentro de 5 días hábiles..."></textarea>
+      </div>
+    </div>
+  </div>
+
 </div>
-<div class="sec">
-  <div class="sec-title">Notas y condiciones</div>
-  <textarea class="notes" id="notas" placeholder="Ej: Incluye 2 rondas de ajustes. Archivos finales en PDF y formatos editables dentro de 5 días hábiles..."></textarea>
-</div>
-<div class="actions">
-  <button class="btn-p" onclick="exportPDF()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar PDF</button>
-  <button class="btn-s" onclick="limpiar()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Nueva cotización</button>
-</div>
+
+<!-- FAB BAR -->
+<div class="fab-bar">
+  <button class="btn-new" onclick="limpiar()" title="Nueva cotización">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+  </button>
+  <button class="btn-export" onclick="exportPDF()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Exportar PDF
+  </button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -153,36 +286,82 @@ function formatPrecioInput(el){
   el.value=parseInt(raw,10).toLocaleString('es-CL');
 }
 
-function calcularBoleta(liq,pct){const t=pct/100;const b=t<1?liq/(1-t):0;return{boleta:b,retencion:b*t};}
-function autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
+function calcularBoleta(liq,pct){const t=pct/100;const b=t<1?liq/(1-t):0;return{boleta:b};}
+
+function autoResize(el){
+  el.style.height='auto';
+  el.style.height=Math.max(50,el.scrollHeight)+'px';
+}
+
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 function addItem(desc='',pr=0,cant=1){
   ctr++;const id='i'+ctr;
   items.push({id,desc,precioStr:pr?parseInt(pr).toLocaleString('es-CL'):'',cant:cant||1});
   renderItems();calcTotals();
-  setTimeout(()=>{const t=document.querySelector('textarea[data-id="'+id+'"]');if(t){t.focus();autoResize(t);}},30);
+  setTimeout(()=>{
+    const el=document.querySelector('.item-desc[data-id="'+id+'"]');
+    if(el){el.focus();autoResize(el);}
+  },50);
 }
+
 function removeItem(id){items=items.filter(i=>i.id!==id);renderItems();calcTotals();}
 
 function renderItems(){
-  const tbody=document.getElementById('items-body');tbody.innerHTML='';
+  const list=document.getElementById('items-list');
+  list.innerHTML='';
   items.forEach((item,idx)=>{
     const p=parsePrecio(item.precioStr),c=parseInt(item.cant)||0;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td class="col-num" style="padding-top:10px;"><span class="item-num">${idx+1}</span></td>
-    <td><textarea class="idesc" data-id="${item.id}" rows="1" placeholder="Descripción del servicio">${esc(item.desc)}</textarea></td>
-    <td class="r col-price"><input class="iprice" data-id="${item.id}" type="text" inputmode="numeric" placeholder="0" value="${esc(item.precioStr)}" autocomplete="off"></td>
-    <td class="c col-qty"><input class="iqty" data-id="${item.id}" type="number" min="1" value="${item.cant||1}"></td>
-    <td class="r col-total td-total">${fmtCLP(p*c)}</td>
-    <td class="col-del"><button class="btn-del" onclick="removeItem('${item.id}')" title="Eliminar">×</button></td>`;
-    tbody.appendChild(tr);
-    const ta=tr.querySelector('textarea.idesc');autoResize(ta);
-    ta.addEventListener('input',function(){const it=items.find(i=>i.id===this.dataset.id);if(it)it.desc=this.value;autoResize(this);});
-    const pi=tr.querySelector('input.iprice');
-    pi.addEventListener('input',function(){formatPrecioInput(this);const it=items.find(i=>i.id===this.dataset.id);if(it)it.precioStr=this.value;calcTotals();const td=tr.querySelector('.td-total');if(td)td.textContent=fmtCLP(parsePrecio(it.precioStr)*(parseInt(it.cant)||0));});
-    const qi=tr.querySelector('input.iqty');
-    qi.addEventListener('input',function(){const it=items.find(i=>i.id===this.dataset.id);if(it)it.cant=parseInt(this.value)||1;calcTotals();const td=tr.querySelector('.td-total');if(td)td.textContent=fmtCLP(parsePrecio(it.precioStr)*(parseInt(it.cant)||0));});
+    const div=document.createElement('div');
+    div.className='item-card';
+    div.innerHTML=`
+      <div class="item-card-top">
+        <span class="item-badge">${idx+1}</span>
+        <button class="btn-del" onclick="removeItem('${item.id}')" aria-label="Eliminar ítem">×</button>
+      </div>
+      <textarea class="item-desc" data-id="${item.id}" rows="1" placeholder="Descripción del servicio o ítem">${esc(item.desc)}</textarea>
+      <div class="item-nums">
+        <div>
+          <span class="item-num-lbl">Precio unit.</span>
+          <input class="item-num-input iprice" type="text" inputmode="numeric" data-id="${item.id}" placeholder="0" value="${esc(item.precioStr)}" autocomplete="off">
+        </div>
+        <div>
+          <span class="item-num-lbl center">Cant.</span>
+          <input class="item-num-input center iqty" type="number" inputmode="numeric" data-id="${item.id}" min="1" value="${item.cant||1}">
+        </div>
+        <div>
+          <span class="item-num-lbl right">Total</span>
+          <div class="item-total-box" data-total="${item.id}">${fmtCLP(p*c)}</div>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+
+    const ta=div.querySelector('textarea.item-desc');
+    autoResize(ta);
+    ta.addEventListener('input',function(){
+      const it=items.find(i=>i.id===this.dataset.id);
+      if(it)it.desc=this.value;autoResize(this);
+    });
+
+    const pi=div.querySelector('input.iprice');
+    pi.addEventListener('input',function(){
+      formatPrecioInput(this);
+      const it=items.find(i=>i.id===this.dataset.id);
+      if(it)it.precioStr=this.value;
+      calcTotals();
+      const td=div.querySelector('[data-total="'+item.id+'"]');
+      if(td)td.textContent=fmtCLP(parsePrecio(it.precioStr)*(parseInt(it.cant)||0));
+    });
+
+    const qi=div.querySelector('input.iqty');
+    qi.addEventListener('input',function(){
+      const it=items.find(i=>i.id===this.dataset.id);
+      if(it)it.cant=parseInt(this.value)||1;
+      calcTotals();
+      const td=div.querySelector('[data-total="'+item.id+'"]');
+      if(td)td.textContent=fmtCLP(parsePrecio(it.precioStr)*(parseInt(it.cant)||0));
+    });
   });
 }
 
@@ -199,33 +378,23 @@ document.getElementById('ret-pct').addEventListener('input',calcTotals);
 
 function limpiar(){
   if(!confirm('¿Limpiar todos los datos?'))return;
-  items=[];ctr=0;document.getElementById('items-body').innerHTML='';
+  items=[];ctr=0;
+  document.getElementById('items-list').innerHTML='';
   ['cli-nombre','cli-empresa','cot-num','cot-fecha','cot-vigencia','cot-pago','notas'].forEach(id=>document.getElementById(id).value='');
   calcTotals();
 }
 
-/* ══════════════════════════════════════════
-   PDF — jsPDF + autoTable
-   Footer SIEMPRE anclado al pie (didDrawPage)
-   ══════════════════════════════════════════ */
+/* ══ PDF ══ */
 function exportPDF(){
   if(typeof window.jspdf==='undefined'){alert('jsPDF no cargó. Recarga la página.');return;}
   const {jsPDF}=window.jspdf;
-
-  const FOOTER_H=30; // altura reservada para el footer en mm
-  const ML=16, MR=16, MT=20;
-  const PW=210, PH=297;
-  const CW=PW-ML-MR;
-
+  const FOOTER_H=30,ML=16,MR=16,MT=20,PW=210,PH=297,CW=PW-ML-MR;
   const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
 
-  /* Paleta */
-  const PRP=[139,0,255], PRPM=[106,0,204], PRPL=[240,230,255], PRPS=[243,236,255];
-  const PRPB=[226,212,245], SURF=[250,251,255], WHITE=[255,255,255];
-  const TXT=[26,10,46], TXT2=[90,74,114], MUTED=[155,139,184];
-  const ALT=[251,248,255], RED=[192,57,43];
+  const PRP=[139,0,255],PRPM=[106,0,204],PRPL=[240,230,255],PRPS=[243,236,255];
+  const PRPB=[226,212,245],SURF=[250,251,255],WHITE=[255,255,255];
+  const TXT=[26,10,46],TXT2=[90,74,114],MUTED=[155,139,184],ALT=[251,248,255];
 
-  /* ── Leer datos ── */
   const retPct=parseFloat(document.getElementById('ret-pct').value)||0;
   const liq=items.reduce((s,i)=>s+parsePrecio(i.precioStr)*(parseInt(i.cant)||0),0);
   const {boleta}=calcularBoleta(liq,retPct);
@@ -239,57 +408,42 @@ function exportPDF(){
   const pago=document.getElementById('cot-pago').value.trim();
   const notas=document.getElementById('notas').value.trim();
 
-  /* ── Footer dibujado en CADA página — anclado al pie ── */
   function drawFooter(){
     const fy=PH-FOOTER_H;
-    doc.setFillColor(...PRP);
-    doc.rect(0,fy,PW,FOOTER_H,'F');
-
-    /* Separador superior */
-    doc.setDrawColor(180,140,255);doc.setLineWidth(0.4);
-    doc.line(0,fy,PW,fy);
-
-    /* Columna izquierda: datos de pago */
-    doc.setTextColor(...WHITE);
-    doc.setFont('helvetica','bold');doc.setFontSize(8);
+    doc.setFillColor(...PRP);doc.rect(0,fy,PW,FOOTER_H,'F');
+    doc.setDrawColor(180,140,255);doc.setLineWidth(0.4);doc.line(0,fy,PW,fy);
+    // Datos de pago
+    doc.setTextColor(...WHITE);doc.setFont('helvetica','bold');doc.setFontSize(8);
     doc.text('Datos de pago',ML,fy+7);
-    doc.setFont('helvetica','bold');doc.setFontSize(9.5);
+    doc.setFontSize(9.5);
     doc.text('José Daniel Pérez Montilla  •  RUT: 26.537.346-1',ML,fy+14);
     doc.setFontSize(9);
     doc.text('Cta. Corriente 19995837735  •  Banco Falabella',ML,fy+20);
-
-    /* Columna derecha: contacto con hipervínculos */
+    // Contacto
     doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(200,170,255);
     doc.text('Contacto',PW-MR,fy+7,{align:'right'});
-
     doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(...WHITE);
-
-    /* jotady.cl */
+    // jotady.cl
     doc.text('jotady.cl',PW-MR,fy+14,{align:'right'});
     const wW=doc.getTextWidth('jotady.cl');
     doc.link(PW-MR-wW,fy+10,wW,5,{url:'https://jotady.cl'});
-    doc.setDrawColor(...WHITE);doc.setLineWidth(0.25);
-    doc.line(PW-MR-wW,fy+15,PW-MR,fy+15);
-
-    /* correo */
+    doc.setDrawColor(...WHITE);doc.setLineWidth(0.25);doc.line(PW-MR-wW,fy+15,PW-MR,fy+15);
+    // email
     doc.setFontSize(8.5);
     doc.text('jdpcomunicadorvisual@gmail.com',PW-MR,fy+21,{align:'right'});
     const mW=doc.getTextWidth('jdpcomunicadorvisual@gmail.com');
     doc.link(PW-MR-mW,fy+17,mW,5,{url:'mailto:jdpcomunicadorvisual@gmail.com'});
     doc.line(PW-MR-mW,fy+22,PW-MR,fy+22);
-
-    /* whatsapp */
+    // WhatsApp
     doc.text('+56 9 3488 1823',PW-MR,fy+27,{align:'right'});
     const waW=doc.getTextWidth('+56 9 3488 1823');
     doc.link(PW-MR-waW,fy+23,waW,5,{url:'https://wa.me/56934881823'});
     doc.line(PW-MR-waW,fy+28,PW-MR,fy+28);
   }
 
-  /* ── HEADER ── */
-  doc.setFillColor(...PRP);
-  doc.rect(0,0,PW,16,'F');
-  doc.setTextColor(...WHITE);
-  doc.setFont('helvetica','bold');doc.setFontSize(13);
+  // Header
+  doc.setFillColor(...PRP);doc.rect(0,0,PW,16,'F');
+  doc.setTextColor(...WHITE);doc.setFont('helvetica','bold');doc.setFontSize(13);
   doc.text('Jotady — Diseñador Visual',ML,10.5);
   if(cotNum){
     doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(220,190,255);
@@ -300,16 +454,12 @@ function exportPDF(){
     doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(200,170,255);
     doc.text('COTIZACIÓN DE SERVICIOS',PW-MR,10,{align:'right'});
   }
-
   let y=MT+4;
 
-  /* ── TARJETAS CLIENTE + META ── */
+  // Tarjeta cliente
   const hasMetaRows=fechaFmt||vigencia||pago;
   const clientW=hasMetaRows?CW*0.55:CW;
-  const metaX=ML+CW*0.58, metaW=CW*0.42;
-  const CARD_H=26;
-
-  /* Tarjeta cliente */
+  const metaX=ML+CW*0.58,metaW=CW*0.42,CARD_H=26;
   doc.setFillColor(...SURF);doc.setDrawColor(...PRPB);doc.setLineWidth(0.3);
   doc.roundedRect(ML,y,clientW,CARD_H,3,3,'FD');
   doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...MUTED);
@@ -317,16 +467,13 @@ function exportPDF(){
   doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(...TXT);
   doc.text(doc.splitTextToSize(cliNombre||'—',clientW-10)[0],ML+5,y+15);
   if(cliEmpresa){doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...TXT2);doc.text(cliEmpresa,ML+5,y+22);}
-
-  /* Tarjeta meta */
   if(hasMetaRows){
     doc.setFillColor(...SURF);doc.setDrawColor(...PRPB);doc.setLineWidth(0.3);
     doc.roundedRect(metaX,y,metaW,CARD_H,3,3,'FD');
     let my=y+9;
     const drawMeta=(label,val)=>{
       if(!val)return;
-      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(...MUTED);
-      doc.text(label,metaX+5,my);
+      doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(...MUTED);doc.text(label,metaX+5,my);
       doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...TXT);
       doc.text(val,metaX+metaW-5,my,{align:'right',maxWidth:metaW*0.65});
       my+=7.5;
@@ -335,29 +482,19 @@ function exportPDF(){
   }
   y+=CARD_H+8;
 
-  /* ── TABLA con autoTable ── */
+  // Tabla
   const tableRows=items.map((item,idx)=>{
     const p=parsePrecio(item.precioStr),c=parseInt(item.cant)||0;
     return[String(idx+1),item.desc||'(sin descripción)',fmtCLP(p),String(c),fmtCLP(p*c)];
   });
-
   doc.autoTable({
     startY:y,
     head:[['#','Descripción','Precio unit.','Cant.','Total']],
     body:tableRows,
     margin:{left:ML,right:MR,bottom:FOOTER_H+4},
     tableWidth:CW,
-    styles:{
-      font:'helvetica',fontSize:9.5,
-      cellPadding:{top:5,bottom:5,left:5,right:5},
-      textColor:TXT,lineColor:PRPB,lineWidth:0.3,
-      overflow:'linebreak',
-    },
-    headStyles:{
-      fillColor:PRPS,textColor:PRPM,
-      fontStyle:'bold',fontSize:8,halign:'left',
-      cellPadding:{top:6,bottom:6,left:5,right:5},
-    },
+    styles:{font:'helvetica',fontSize:9.5,cellPadding:{top:5,bottom:5,left:5,right:5},textColor:TXT,lineColor:PRPB,lineWidth:0.3,overflow:'linebreak'},
+    headStyles:{fillColor:PRPS,textColor:PRPM,fontStyle:'bold',fontSize:8,cellPadding:{top:6,bottom:6,left:5,right:5}},
     columnStyles:{
       0:{cellWidth:12,halign:'center',textColor:MUTED,fontStyle:'normal'},
       1:{cellWidth:'auto',halign:'left'},
@@ -367,44 +504,28 @@ function exportPDF(){
     },
     alternateRowStyles:{fillColor:ALT},
     rowPageBreak:'auto',
-    didDrawPage:function(){drawFooter();}
+    didDrawPage:()=>drawFooter()
   });
 
   let ty=doc.lastAutoTable.finalY+6;
-
-  /* ── Verificar si totales + notas caben antes del footer ── */
-  const totH=28;
   doc.setFont('helvetica','normal');doc.setFontSize(9);
   const notasLines=notas?doc.splitTextToSize(notas,CW-12):[];
   const notasH=notas?notasLines.length*5+18:0;
-  const needed=totH+notasH+6;
+  const tw=96,tx=ML+CW-tw;
+  if(ty+28+notasH+6>PH-FOOTER_H-6){doc.addPage();drawFooter();ty=MT;}
 
-  if(ty+needed>PH-FOOTER_H-6){
-    doc.addPage();
-    drawFooter();
-    ty=MT;
-  }
-
-  /* ── PANEL TOTALES ── */
-  const tw=96, tx=ML+CW-tw;
-
-  /* Fila boleta — discreta */
   doc.setFillColor(...SURF);doc.setDrawColor(...PRPB);doc.setLineWidth(0.3);
   doc.roundedRect(tx,ty,tw,13,2,2,'FD');
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...MUTED);
   doc.text('Total boleta ('+pctStr+'% retención)',tx+5,ty+8.5);
   doc.text(fmtCLP(boleta),tx+tw-5,ty+8.5,{align:'right'});
   ty+=15;
-
-  /* Fila total a pagar — protagonista */
-  doc.setFillColor(...PRP);
-  doc.roundedRect(tx,ty,tw,13,2,2,'F');
+  doc.setFillColor(...PRP);doc.roundedRect(tx,ty,tw,13,2,2,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(...WHITE);
   doc.text('Total a pagar',tx+5,ty+9);
   doc.text(fmtCLP(liq),tx+tw-5,ty+9,{align:'right'});
   ty+=19;
 
-  /* ── NOTAS ── */
   if(notas){
     doc.setFillColor(...PRPL);doc.setDrawColor(...PRPB);doc.setLineWidth(0.3);
     doc.roundedRect(ML,ty,CW,notasH,3,3,'FD');
@@ -417,7 +538,6 @@ function exportPDF(){
   doc.save('Cotizacion_Jotady_'+(cotNum||'borrador').replace(/[^a-zA-Z0-9_-]/g,'_')+'.pdf');
 }
 
-/* INIT */
 (function(){
   document.getElementById('cot-fecha').value=new Date().toISOString().split('T')[0];
   addItem('',0,1);calcTotals();
