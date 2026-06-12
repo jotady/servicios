@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jotady — El Umbral</title>
+<meta name="description" content="Jotady — Diseño que construye marcas. Identidad visual, contenido digital, web y multimedia.">
+<meta property="og:title" content="Jotady — Diseño que construye marcas">
+<meta property="og:description" content="Atraviesa el umbral. Diseño gráfico profesional: identidad, RRSS, editorial, web y más.">
+<meta property="og:url" content="https://jotady.cl">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wdth,wght@125,700..800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E0118;
+  --white:#FAFAFA;
+  --gray:#8a8696;
+  --p-servicios:#8B00FF;
+  --p-microapps:#55EFC4;
+  --p-portafolio:#FF6B9D;
+  --p-contacto:#25D366;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'DM Sans',sans-serif;
+  overflow-x:hidden;
+}
+/* Altura del viaje: 6 pantallas de recorrido */
+.scroll-track{height:600vh;position:relative;z-index:0}
+
+canvas#world{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:1;display:block;
+}
+
+/* grano sutil encima de todo */
+body::after{
+  content:'';position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* ───────── OVERLAY: ESTACIONES ───────── */
+.station{
+  position:fixed;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 24px;
+  opacity:0;pointer-events:none;
+  will-change:opacity,transform;
+}
+.station .eyebrow{
+  font-size:11px;font-weight:500;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--accent,var(--gray));margin-bottom:18px;
+  display:flex;align-items:center;gap:14px;
+}
+.eyebrow::before,.eyebrow::after{content:'';width:32px;height:1px;background:currentColor;opacity:.45}
+.station h2{
+  font-family:'Encode Sans',sans-serif;
+  font-variation-settings:'wdth' 125,'wght' 800;
+  font-size:clamp(44px,8vw,92px);
+  line-height:.95;letter-spacing:-.02em;
+  margin-bottom:22px;
+  text-shadow:0 0 60px color-mix(in srgb, var(--accent,#8B00FF) 55%, transparent);
+}
+.station p{
+  max-width:460px;font-size:15.5px;font-weight:300;line-height:1.7;
+  color:rgba(250,250,250,.72);margin-bottom:36px;
+}
+.station .go{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Encode Sans',sans-serif;font-variation-settings:'wdth' 112,'wght' 700;
+  font-size:13px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;
+  color:var(--white);
+  padding:16px 32px;border-radius:99px;
+  border:1.5px solid var(--accent,#8B00FF);
+  background:color-mix(in srgb, var(--accent,#8B00FF) 16%, transparent);
+  box-shadow:0 0 36px color-mix(in srgb, var(--accent,#8B00FF) 35%, transparent), inset 0 0 18px color-mix(in srgb, var(--accent,#8B00FF) 18%, transparent);
+  transition:transform .25s cubic-bezier(.2,.9,.3,1.4), box-shadow .25s, background .25s;
+}
+.station .go:hover{
+  transform:translateY(-2px) scale(1.03);
+  background:color-mix(in srgb, var(--accent,#8B00FF) 30%, transparent);
+  box-shadow:0 0 64px color-mix(in srgb, var(--accent,#8B00FF) 60%, transparent), inset 0 0 24px color-mix(in srgb, var(--accent,#8B00FF) 28%, transparent);
+}
+.station .go:focus-visible{outline:2px solid var(--white);outline-offset:4px}
+.station .num{
+  position:absolute;
+  font-family:'Encode Sans',sans-serif;font-variation-settings:'wdth' 125,'wght' 800;
+  font-size:clamp(140px,30vw,360px);
+  color:transparent;
+  -webkit-text-stroke:1px color-mix(in srgb, var(--accent,#8B00FF) 22%, transparent);
+  z-index:-1;user-select:none;
+}
+
+/* HERO (estación 0) */
+#st-hero .logo{width:74px;height:74px;margin-bottom:30px;filter:drop-shadow(0 0 26px rgba(139,0,255,.6))}
+#st-hero h1{
+  font-family:'Encode Sans',sans-serif;font-variation-settings:'wdth' 125,'wght' 800;
+  font-size:clamp(56px,11vw,120px);letter-spacing:-.02em;line-height:.95;
+  text-shadow:0 0 80px rgba(139,0,255,.55);
+}
+#st-hero .tag{
+  margin-top:14px;font-size:12.5px;font-weight:400;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--gray);
+}
+#st-hero .hint{
+  position:absolute;bottom:46px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,250,250,.45);
+}
+.hint .wheel{
+  width:22px;height:36px;border:1.5px solid rgba(250,250,250,.35);border-radius:12px;
+  display:flex;justify-content:center;padding-top:6px;
+}
+.wheel i{width:3px;height:7px;border-radius:2px;background:var(--p-servicios);animation:drop 1.6s ease-in-out infinite}
+@keyframes drop{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+
+/* FINAL: contacto extiende con sociales */
+#st-contacto .socials{display:flex;gap:14px;margin-top:30px}
+#st-contacto .socials a{
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gray);transition:color .2s,border-color .2s,background .2s,transform .2s;
+}
+#st-contacto .socials a:hover{color:#fff;border-color:var(--p-contacto);background:rgba(37,211,102,.1);transform:translateY(-2px)}
+#st-contacto .socials a:focus-visible{outline:2px solid var(--white);outline-offset:3px}
+
+/* ───────── HUD: ruta de viaje ───────── */
+.route{
+  position:fixed;right:26px;top:50%;transform:translateY(-50%);
+  z-index:5;display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.route .leg{width:1px;height:34px;background:rgba(255,255,255,.12)}
+.route .leg .fill{display:block;width:100%;height:0%;background:var(--white);opacity:.6;transition:height .15s linear}
+.route button{
+  width:30px;height:30px;border-radius:50%;border:none;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;padding:0;
+}
+.route button i{
+  width:8px;height:8px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.35);background:transparent;
+  transition:all .3s;display:block;
+}
+.route button.active i{background:var(--dot,#8B00FF);border-color:var(--dot,#8B00FF);box-shadow:0 0 14px var(--dot,#8B00FF);transform:scale(1.25)}
+.route button:focus-visible{outline:2px solid var(--white);outline-offset:2px;border-radius:50%}
+.route .lbl{
+  position:absolute;right:40px;white-space:nowrap;
+  font-size:9.5px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.0);
+  transition:color .25s;pointer-events:none;
+}
+.route button.active .lbl, .route button:hover .lbl{color:rgba(255,255,255,.65)}
+
+/* velocímetro de profundidad */
+.depth{
+  position:fixed;left:28px;bottom:26px;z-index:5;
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35);
+  font-variant-numeric:tabular-nums;
+}
+.depth b{color:rgba(255,255,255,.8);font-weight:500}
+
+/* flash al cruzar un portal */
+.flash{
+  position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at 50% 50%, var(--fc,#8B00FF) 0%, transparent 62%);
+}
+
+/* loader */
+.boot{
+  position:fixed;inset:0;z-index:9;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transition:opacity .7s ease, visibility .7s;
+}
+.boot.done{opacity:0;visibility:hidden}
+.boot .ring{
+  width:54px;height:54px;border-radius:50%;
+  border:2px solid rgba(139,0,255,.15);border-top-color:var(--p-servicios);
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.boot span{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gray)}
+
+/* ───────── REDUCED MOTION / FALLBACK ───────── */
+.static-mode{display:none}
+@media (prefers-reduced-motion: reduce){
+  .scroll-track,canvas#world,.route,.depth,.flash,.boot,.station .hint{display:none!important}
+  .station{position:static;opacity:1!important;pointer-events:auto!important;transform:none!important;min-height:72vh;padding:80px 24px}
+  .static-mode{display:block}
+  body{overflow-y:auto}
+}
+@media (max-width:640px){
+  .route{right:14px}
+  .route .lbl{display:none}
+  .depth{left:18px;bottom:18px}
+  .station p{font-size:14.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="boot" id="boot">
+  <div class="ring"></div>
+  <span>Abriendo el umbral</span>
+</div>
+
+<div class="scroll-track" aria-hidden="true"></div>
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="flash" id="flash"></div>
+
+<!-- ─── ESTACIÓN 0 · HERO ─── -->
+<section class="station" id="st-hero" style="--accent:#8B00FF">
+  <svg class="logo" viewBox="0 0 48.84 48.84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo Jotady">
+    <path fill="#8B00FF" fill-rule="evenodd" d="M27.72,6.6v14.52h7.26c1.99,0,3.81-.82,5.13-2.14h.01c1.31-1.31,2.12-3.12,2.12-5.13v-7.26h-14.52ZM27.72,27.72v7.26c0,3.81-1.56,7.28-4.07,9.79-2.51,2.51-5.98,4.07-9.79,4.07H0V13.86C0,10.06,1.56,6.59,4.08,4.08,6.59,1.56,10.06,0,13.86,0h34.98v13.86c0,3.8-1.56,7.27-4.08,9.78h0c-2.51,2.52-5.98,4.08-9.79,4.08h-7.26ZM6.6,21.12h14.52V6.6h-7.36c-1.96.03-3.74.84-5.03,2.13h-.01c-1.31,1.31-2.12,3.12-2.12,5.13v7.26ZM21.12,27.72H6.6v14.52h7.26c1.99,0,3.81-.82,5.13-2.13,1.32-1.32,2.14-3.13,2.14-5.13v-7.26Z"/>
+  </svg>
+  <h1>JOTADY</h1>
+  <p class="tag">Diseño que construye marcas</p>
+  <div class="hint" aria-hidden="true">
+    <div class="wheel"><i></i></div>
+    Desliza para entrar
+  </div>
+</section>
+
+<!-- ─── ESTACIÓN 1 · SERVICIOS ─── -->
+<section class="station" id="st-servicios" style="--accent:#8B00FF">
+  <span class="num" aria-hidden="true">01</span>
+  <span class="eyebrow">Primer portal</span>
+  <h2>Servicios</h2>
+  <p>Identidad visual, contenido para redes, editorial, papelería y web. Todo lo que tu marca necesita para existir con intención — organizado por categorías y con precios claros.</p>
+  <a class="go" href="servicios.html">Explorar el catálogo
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</section>
+
+<!-- ─── ESTACIÓN 2 · MICROAPPS ─── -->
+<section class="station" id="st-microapps" style="--accent:#55EFC4">
+  <span class="num" aria-hidden="true">02</span>
+  <span class="eyebrow">Segundo portal</span>
+  <h2>MicroApps</h2>
+  <p>Lo que nace de la curiosidad y no de un encargo: juegos, herramientas y experimentos digitales construidos para responder un «¿y si…?».</p>
+  <a class="go" href="microapps.html">Entrar a la biblioteca
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</section>
+
+<!-- ─── ESTACIÓN 3 · PORTAFOLIO ─── -->
+<section class="station" id="st-portafolio" style="--accent:#FF6B9D">
+  <span class="num" aria-hidden="true">03</span>
+  <span class="eyebrow">Tercer portal</span>
+  <h2>Portafolio</h2>
+  <p>Marcas, publicaciones y proyectos reales. El trabajo habla mejor que cualquier descripción.</p>
+  <a class="go" href="https://www.behance.net/gallery/228837681/Portfolio-20XX" target="_blank" rel="noopener noreferrer">Ver en Behance ↗</a>
+</section>
+
+<!-- ─── ESTACIÓN 4 · CONTACTO ─── -->
+<section class="station" id="st-contacto" style="--accent:#25D366">
+  <span class="num" aria-hidden="true">04</span>
+  <span class="eyebrow">Destino final</span>
+  <h2>Hablemos</h2>
+  <p>Si llegaste hasta aquí, ya atravesaste cuatro dimensiones. Crucemos una más: la de tu proyecto.</p>
+  <a class="go" href="https://wa.me/56934881823?text=Hola%20Jotady%2C%20acabo%20de%20atravesar%20tu%20umbral%20y%20quiero%20cotizar." target="_blank" rel="noopener noreferrer">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Háblame por WhatsApp
+  </a>
+  <div class="socials">
+    <a href="https://instagram.com/jotady" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="https://linkedin.com/in/jotady" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- HUD: ruta -->
+<nav class="route" id="route" aria-label="Ruta del viaje">
+  <button data-i="0" style="--dot:#8B00FF" class="active"><i></i><span class="lbl">Inicio</span></button>
+  <span class="leg"><span class="fill"></span></span>
+  <button data-i="1" style="--dot:#8B00FF"><i></i><span class="lbl">Servicios</span></button>
+  <span class="leg"><span class="fill"></span></span>
+  <button data-i="2" style="--dot:#55EFC4"><i></i><span class="lbl">MicroApps</span></button>
+  <span class="leg"><span class="fill"></span></span>
+  <button data-i="3" style="--dot:#FF6B9D"><i></i><span class="lbl">Portafolio</span></button>
+  <span class="leg"><span class="fill"></span></span>
+  <button data-i="4" style="--dot:#25D366"><i></i><span class="lbl">Contacto</span></button>
+</nav>
+
+<div class="depth" id="depth">Profundidad <b>0000</b> · UMBRAL 0/4</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(function(){
+'use strict';
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduced){ document.getElementById('boot').classList.add('done'); return; }
+
+/* ───────────────────────── CONFIG ───────────────────────── */
+const PORTALS = [
+  {id:'st-servicios', color:0x8B00FF, css:'#8B00FF', z:-34},
+  {id:'st-microapps', color:0x55EFC4, css:'#55EFC4', z:-72},
+  {id:'st-portafolio',color:0xFF6B9D, css:'#FF6B9D', z:-110},
+  {id:'st-contacto',  color:0x25D366, css:'#25D366', z:-148},
+];
+const CAM_START = 8, CAM_END = -160;
+const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints>0;
+
+/* ───────────────────────── THREE ───────────────────────── */
+const canvas = document.getElementById('world');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch?1.5:2));
+renderer.setSize(innerWidth, innerHeight);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0E0118);
+scene.fog = new THREE.FogExp2(0x0E0118, 0.028);
+const camera = new THREE.PerspectiveCamera(70, innerWidth/innerHeight, .1, 400);
+camera.position.set(0,0,CAM_START);
+
+/* textura radial generada (glow) */
+function glowTexture(hex){
+  const c=document.createElement('canvas'); c.width=c.height=128;
+  const x=c.getContext('2d');
+  const g=x.createRadialGradient(64,64,0,64,64,64);
+  g.addColorStop(0, hex+'ff'); g.addColorStop(.35, hex+'66'); g.addColorStop(1, hex+'00');
+  x.fillStyle=g; x.fillRect(0,0,128,128);
+  const t=new THREE.CanvasTexture(c); return t;
+}
+function hexCss(n){ return '#'+n.toString(16).padStart(6,'0'); }
+
+/* ── Campo de estrellas (3 capas de profundidad) ── */
+function starLayer(count, spread, size, opacity){
+  const geo=new THREE.BufferGeometry();
+  const pos=new Float32Array(count*3);
+  for(let i=0;i<count;i++){
+    const a=Math.random()*Math.PI*2;
+    const r=3+Math.random()*spread;          // hueco central = túnel
+    pos[i*3]  =Math.cos(a)*r;
+    pos[i*3+1]=Math.sin(a)*r;
+    pos[i*3+2]=CAM_START+20-Math.random()*220;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  const mat=new THREE.PointsMaterial({
+    color:0xCFAAFF, size, sizeAttenuation:true,
+    transparent:true, opacity, blending:THREE.AdditiveBlending, depthWrite:false
+  });
+  const pts=new THREE.Points(geo,mat); scene.add(pts); return pts;
+}
+starLayer(900, 26, .10, .85);
+starLayer(700, 40, .16, .5);
+const dust = starLayer(400, 14, .06, .9);
+
+/* ── Anillos guía del túnel (respiración) ── */
+const guideRings=[];
+const guideMat = new THREE.MeshBasicMaterial({color:0x8B00FF, transparent:true, opacity:.10, blending:THREE.AdditiveBlending});
+for(let z=CAM_START-8; z>CAM_END-10; z-=7){
+  const isPortalZone = PORTALS.some(p=>Math.abs(p.z-z)<5);
+  if(isPortalZone) continue;
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(7.5,.018,8,72), guideMat.clone());
+  ring.position.z=z;
+  ring.rotation.z=Math.random()*Math.PI;
+  scene.add(ring); guideRings.push(ring);
+}
+
+/* ── Portales ── */
+const portalMeshes=[];
+PORTALS.forEach((p,idx)=>{
+  const grp=new THREE.Group(); grp.position.z=p.z;
+
+  const torus=new THREE.Mesh(
+    new THREE.TorusGeometry(4.6,.10,16,100),
+    new THREE.MeshBasicMaterial({color:p.color, transparent:true, opacity:.95})
+  );
+  const torus2=new THREE.Mesh(
+    new THREE.TorusGeometry(5.1,.03,8,100),
+    new THREE.MeshBasicMaterial({color:p.color, transparent:true, opacity:.4, blending:THREE.AdditiveBlending})
+  );
+  const halo=new THREE.Sprite(new THREE.SpriteMaterial({
+    map:glowTexture(hexCss(p.color)), transparent:true, opacity:.55,
+    blending:THREE.AdditiveBlending, depthWrite:false
+  }));
+  halo.scale.set(16,16,1);
+
+  // partículas orbitando el portal
+  const oc=130, og=new THREE.BufferGeometry(), op=new Float32Array(oc*3);
+  for(let i=0;i<oc;i++){
+    const a=Math.random()*Math.PI*2, r=4.6+(Math.random()-.5)*1.6;
+    op[i*3]=Math.cos(a)*r; op[i*3+1]=Math.sin(a)*r; op[i*3+2]=(Math.random()-.5)*1.2;
+  }
+  og.setAttribute('position',new THREE.BufferAttribute(op,3));
+  const orb=new THREE.Points(og,new THREE.PointsMaterial({
+    color:p.color,size:.09,transparent:true,opacity:.9,
+    blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true
+  }));
+
+  grp.add(halo,torus,torus2,orb);
+  scene.add(grp);
+  portalMeshes.push({grp,torus,torus2,orb,halo,data:p,crossed:false,dir:idx%2?1:-1});
+});
+
+/* ── Estrías de hiperespacio (aparecen con velocidad) ── */
+const STREAKS=180;
+const sGeo=new THREE.BufferGeometry();
+const sPos=new Float32Array(STREAKS*2*3);
+const sMeta=[];
+for(let i=0;i<STREAKS;i++){
+  const a=Math.random()*Math.PI*2, r=2.5+Math.random()*9;
+  const x=Math.cos(a)*r, y=Math.sin(a)*r, z=CAM_START-Math.random()*180;
+  sPos.set([x,y,z, x,y,z-0.001], i*6);
+  sMeta.push({x,y,z});
+}
+sGeo.setAttribute('position',new THREE.BufferAttribute(sPos,3));
+const sMat=new THREE.LineBasicMaterial({color:0xB668FF,transparent:true,opacity:0,blending:THREE.AdditiveBlending});
+scene.add(new THREE.LineSegments(sGeo,sMat));
+
+/* ───────────────────────── ESTADO DE VIAJE ───────────────────────── */
+const stations=[document.getElementById('st-hero'),...PORTALS.map(p=>document.getElementById(p.id))];
+const stationProg=[0,.22,.47,.72,.97];          // posición de cada estación en el timeline
+const routeBtns=[...document.querySelectorAll('.route button')];
+const legFills=[...document.querySelectorAll('.route .fill')];
+const depthEl=document.querySelector('#depth b');
+const depthWrap=document.getElementById('depth');
+const flash=document.getElementById('flash');
+
+let target=0, smooth=0, vel=0, mx=0, my=0, smx=0, smy=0;
+let maxScroll=1;
+function measure(){ maxScroll=document.querySelector('.scroll-track').offsetHeight-innerHeight; }
+measure();
+
+addEventListener('scroll',()=>{ target=Math.min(1,Math.max(0,scrollY/maxScroll)); },{passive:true});
+addEventListener('mousemove',e=>{
+  mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2;
+},{passive:true});
+addEventListener('resize',()=>{
+  measure();
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+routeBtns.forEach(b=>b.addEventListener('click',()=>{
+  const i=+b.dataset.i;
+  scrollTo({top:stationProg[i]*maxScroll, behavior:'smooth'});
+}));
+
+function doFlash(color){
+  flash.style.setProperty('--fc',color);
+  flash.style.transition='none'; flash.style.opacity=.55;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    flash.style.transition='opacity .8s ease'; flash.style.opacity=0;
+  }));
+}
+
+/* ───────────────────────── LOOP ───────────────────────── */
+let raf=null, lastT=performance.now(), idleT=0;
+const clock=new THREE.Clock();
+
+function frame(now){
+  raf=requestAnimationFrame(frame);
+  const t=clock.getElapsedTime();
+  const prev=smooth;
+  smooth+=(target-smooth)*.065;                 // ← el "Lenis casero": inercia
+  vel=(smooth-prev);
+  smx+=(mx-smx)*.05; smy+=(my-smy)*.05;
+
+  // cámara: avance + parallax de mouse
+  const camZ=CAM_START+(CAM_END-CAM_START)*smooth;
+  camera.position.z=camZ;
+  camera.position.x=smx*1.4;
+  camera.position.y=-smy*.9;
+  camera.rotation.z=smx*-.045;
+  camera.lookAt(smx*.6,-smy*.4,camZ-10);
+
+  // warp FOV según velocidad
+  const speed=Math.min(1,Math.abs(vel)*260);
+  camera.fov=70+speed*26;
+  camera.updateProjectionMatrix();
+  sMat.opacity=speed*.85;
+  // estirar estrías con la velocidad
+  const pa=sGeo.attributes.position.array;
+  const stretch=.02+speed*9;
+  for(let i=0;i<STREAKS;i++){
+    const m=sMeta[i];
+    pa[i*6+5]=m.z-stretch*Math.sign(vel||1);
+  }
+  sGeo.attributes.position.needsUpdate=true;
+
+  // anillos guía: respiración
+  guideRings.forEach((r,i)=>{
+    r.rotation.z+=.0008*(i%2?1:-1);
+    const d=Math.abs(r.position.z-camZ);
+    r.material.opacity=Math.max(0,.16-d*.004)+speed*.08;
+  });
+
+  // portales: rotación, órbitas, cruce
+  portalMeshes.forEach((pm,i)=>{
+    pm.torus.rotation.z+=.003*pm.dir;
+    pm.torus2.rotation.z-=.005*pm.dir;
+    pm.orb.rotation.z+=.004*pm.dir;
+    const pulse=1+Math.sin(t*1.6+i)*0.02;
+    pm.torus.scale.set(pulse,pulse,1);
+    // cruce de umbral
+    const passed=camZ<pm.data.z;
+    if(passed&&!pm.crossed){ pm.crossed=true; doFlash(pm.data.css); }
+    if(!passed&&pm.crossed&&camZ>pm.data.z+1){ pm.crossed=false; }
+  });
+
+  dust.rotation.z+=.0004;
+
+  // estaciones HTML: opacidad/escala por cercanía en el timeline
+  let active=0,best=1;
+  stations.forEach((el,i)=>{
+    const d=Math.abs(smooth-stationProg[i]);
+    const w=i===0?.10:.105;
+    const vis=Math.max(0,1-d/w);
+    const ease=vis*vis*(3-2*vis);
+    el.style.opacity=ease;
+    const dirn=smooth>stationProg[i]?1:-1;
+    el.style.transform=`scale(${.92+ease*.08+(1-ease)*(dirn>0?.25:0)}) translateY(${(1-ease)*dirn*-30}px)`;
+    el.style.pointerEvents=ease>.5?'auto':'none';
+    if(d<best){best=d;active=i;}
+  });
+  routeBtns.forEach((b,i)=>b.classList.toggle('active',i===active));
+  legFills.forEach((f,i)=>{
+    const a=stationProg[i],b2=stationProg[i+1];
+    f.style.height=Math.min(1,Math.max(0,(smooth-a)/(b2-a)))*100+'%';
+  });
+  depthEl.textContent=String(Math.round(smooth*1480)).padStart(4,'0');
+  depthWrap.childNodes[2].textContent=` · UMBRAL ${active}/4`;
+
+  renderer.render(scene,camera);
+
+  // ahorro de batería: si no pasa nada por 4s, pausar
+  if(Math.abs(target-smooth)<.0004 && speed<.01 && Math.abs(mx-smx)<.002){
+    idleT+=now-lastT;
+    if(idleT>4000){ cancelAnimationFrame(raf); raf=null; }
+  } else idleT=0;
+  lastT=now;
+}
+function wake(){ if(!raf){ idleT=0; lastT=performance.now(); raf=requestAnimationFrame(frame);} }
+['scroll','mousemove','touchstart','keydown'].forEach(ev=>addEventListener(ev,wake,{passive:true}));
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden&&raf){cancelAnimationFrame(raf);raf=null;}
+  else wake();
+});
+
+raf=requestAnimationFrame(frame);
+requestAnimationFrame(()=>document.getElementById('boot').classList.add('done'));
+})();
+</script>
+</body>
+</html>
